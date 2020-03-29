@@ -1,4 +1,4 @@
-package com.huy.fitsu.data
+package com.huy.fitsu.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
