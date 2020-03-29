@@ -50,4 +50,7 @@ dependencies {
 
     // Timber logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    // Mockito
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 }
