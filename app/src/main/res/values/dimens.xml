@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Margin specifics  -->
+    <dimen name="layout_margin_large">16dp</dimen>
+    <dimen name="layout_margin_extra_large">32dp</dimen>
+
+    <!--  Icons  -->
+    <dimen name="icon_size">24dp</dimen>
+
+</resources>
