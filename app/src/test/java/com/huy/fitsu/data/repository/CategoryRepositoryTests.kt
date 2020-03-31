@@ -1,4 +1,4 @@
-package com.huy.fitsu.repository
+package com.huy.fitsu.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.huy.fitsu.data.local.CategoryDao

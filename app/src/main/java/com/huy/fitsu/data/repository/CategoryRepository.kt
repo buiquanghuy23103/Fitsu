@@ -1,4 +1,4 @@
-package com.huy.fitsu.repository
+package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.model.Category
