@@ -9,10 +9,10 @@
             type="com.huy.fitsu.categories.CategoriesViewModel" />
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categories_list"
@@ -21,5 +21,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/category_item"/>
 
-    </LinearLayout>
+    </ScrollView>
 </layout>
