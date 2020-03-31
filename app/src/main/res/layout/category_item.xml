@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="category"
+            type="com.huy.fitsu.data.model.Category" />
+
+        <variable
+            name="viewModel"
+            type="com.huy.fitsu.categories.CategoriesViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/layout_margin_large">
+
+        <TextView
+            android:id="@+id/category_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{category.title}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            tools:text="Transportation" />
+
+        <TextView
+            android:id="@+id/category_item_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{category.budgetDuration.name()}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            tools:text="Weekly" />
+
+    </LinearLayout>
+</layout>
