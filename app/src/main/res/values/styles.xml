@@ -9,6 +9,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:windowBackground">@drawable/background</item>
+        <item name="divider">@color/less_white</item>
     </style>
 
 </resources>
