@@ -10,7 +10,13 @@ data class Category(
     @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "description") var description: String = "",
-    @ColumnInfo(name = "weekBudgetIncluded") var weekBudgetIncluded: Boolean = false,
-    @ColumnInfo(name = "monthBudgetIncluded") var monthBudgetIncluded: Boolean = false,
+    @ColumnInfo(name = "budgetDuration") var budgetDuration: BudgetDuration = BudgetDuration.WEEKLY,
     @ColumnInfo(name = "isIncome") var isIncome: Boolean = false
 )
+
+enum class BudgetDuration {
+    WEEKLY,
+    MONTHLY,
+    ANNUAL,
+    NONE
+}
