@@ -3,8 +3,9 @@ package com.huy.fitsu.categories
 import androidx.lifecycle.ViewModel
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.repository.CategoryRepository
+import javax.inject.Inject
 
-class CategoriesViewModel(
+class CategoriesViewModel @Inject constructor(
     private val repository: CategoryRepository
 ): ViewModel() {
 

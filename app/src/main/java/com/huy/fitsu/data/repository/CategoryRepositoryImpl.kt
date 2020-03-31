@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.local.CategoryDao
 import com.huy.fitsu.data.model.Category
 import io.reactivex.Completable
+import javax.inject.Inject
 
-class CategoryRepositoryImpl(
+class CategoryRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao
 ): CategoryRepository {
 
