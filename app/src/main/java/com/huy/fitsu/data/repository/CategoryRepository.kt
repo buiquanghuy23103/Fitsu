@@ -10,4 +10,8 @@ interface CategoryRepository {
 
     fun addCategory(category: Category): Completable
 
+    fun findCategoryById(id: String): LiveData<Category>
+
+    fun updateCategory(category: Category): Completable
+
 }

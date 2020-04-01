@@ -45,4 +45,22 @@ class CategoryRepositoryTests {
         verify(categoryDao).getAll()
     }
 
+    @Test
+    fun findCategoryById_shouldDelegateToCategoryDao() {
+        val id = "id"
+
+        repository.findCategoryById(id)
+
+        verify(categoryDao).findById(eq(id))
+    }
+
+    @Test
+    fun updateCategory_shouldDelegateToCategoryDao() {
+        val newCategory = Category()
+
+        repository.updateCategory(newCategory)
+
+        verify(categoryDao).update(newCategory)
+    }
+
 }
