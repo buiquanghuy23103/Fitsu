@@ -9,7 +9,7 @@
     android:focusable="false"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
 
-    </FrameLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -34,6 +34,7 @@
         app:contentInsetStart="0dp"
         app:contentInsetStartWithNavigation="0dp"
         app:fabAlignmentMode="center"
+        app:hideOnScroll="true"
         app:layout_behavior="com.google.android.material.bottomappbar.BottomAppBar$Behavior">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
