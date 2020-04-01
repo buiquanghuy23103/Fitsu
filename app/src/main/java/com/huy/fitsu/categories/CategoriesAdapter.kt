@@ -30,6 +30,9 @@ class CategoriesAdapter(
             binding.category = category
             binding.viewModel = viewModel
             binding.categoryIcon.backgroundTintList = ColorStateList.valueOf(category.color)
+            binding.root.setOnClickListener {
+                viewModel.editCategoryWithId(category.id)
+            }
         }
 
         companion object {
