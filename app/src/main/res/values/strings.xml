@@ -5,4 +5,7 @@
     <string name="bottom_nav_menu_dashboard">Dashboard</string>
     <string name="bottom_nav_menu_add_transactions">Add transactions</string>
     <string name="bottom_nav_menu_categories">Categories</string>
+
+    <!--  Add/Edit category   -->
+    <string name="category_edit_text_hint">Category title</string>
 </resources>
