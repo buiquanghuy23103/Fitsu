@@ -9,8 +9,9 @@ import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.scheduler.FitsuScheduler
 import io.reactivex.CompletableObserver
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
-class AddEditCategoryViewModel(
+class AddEditCategoryViewModel @Inject constructor(
     private val repository: CategoryRepository,
     private val scheduler: FitsuScheduler
 ): ViewModel() {
