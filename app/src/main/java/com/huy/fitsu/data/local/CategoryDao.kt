@@ -10,6 +10,10 @@ import io.reactivex.Completable
 
 @Dao
 interface CategoryDao {
+
+    @Query("SELECT * FROM categories WHERE id = :id")
+    fun findById(id: String): LiveData<Category>
+
     @Query("SELECT * FROM categories")
     fun getAll(): LiveData<List<Category>>
 
