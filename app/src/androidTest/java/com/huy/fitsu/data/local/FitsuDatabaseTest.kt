@@ -7,7 +7,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.data.model.Category
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -58,5 +59,18 @@ class FitsuDatabaseTest {
         val category = LiveDataTestUtil.getValue(categoryLiveData)
 
         assertEquals(category, sampleCategory)
+    }
+
+    @Test
+    fun updateCategory() {
+        categoryDao.insert(sampleCategory).subscribe()
+
+        val newCategory = sampleCategory.copy(title = "New")
+        categoryDao.update(newCategory).subscribe()
+
+        val categoryLiveData = categoryDao.findById(sampleCategory.id)
+        val categoryFromDb = LiveDataTestUtil.getValue(categoryLiveData)
+
+        assertEquals(newCategory.title, categoryFromDb.title)
     }
 }

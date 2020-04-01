@@ -1,10 +1,7 @@
 package com.huy.fitsu.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.huy.fitsu.data.model.Category
 import io.reactivex.Completable
 
@@ -19,5 +16,8 @@ interface CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(category: Category): Completable
+
+    @Update
+    fun update(category: Category): Completable
 
 }
