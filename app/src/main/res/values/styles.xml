@@ -35,4 +35,11 @@
         <item name="rippleColor">@color/white</item>
     </style>
 
+    <style name="AppTheme.ColorBadge"
+        parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="elevation">@dimen/elevation_none</item>
+    </style>
+
 </resources>

@@ -8,4 +8,7 @@
     <!--  Icons  -->
     <dimen name="icon_size">24dp</dimen>
 
+    <!--  Elevation  -->
+    <dimen name="elevation_none">0dp</dimen>
+
 </resources>
