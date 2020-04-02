@@ -7,5 +7,9 @@
     <string name="bottom_nav_menu_categories">Categories</string>
 
     <!--  Add/Edit category   -->
-    <string name="category_edit_text_hint">Category title</string>
+    <string name="category_title_edit_text_hint">Category title</string>
+    <string name="category_budget_duration_hint">Budget duration</string>
+    <string name="category_change_color_button_label">Change color</string>
+    <string name="category_color_reset_button_label">Reset color</string>
+
 </resources>

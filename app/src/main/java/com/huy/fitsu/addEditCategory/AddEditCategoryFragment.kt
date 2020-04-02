@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.divyanshu.colorseekbar.ColorSeekBar
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.BudgetDuration
@@ -61,10 +62,19 @@ class AddEditCategoryFragment: Fragment() {
 
     private fun loadCategoryInfo() {
         viewModel.getCategory().observe(viewLifecycleOwner, Observer {
-            it?.let { category -> binding.category = category }
+            it?.let { category ->
+                binding.category = category
+                binding.categoryChangeColorButton.setBackgroundColor(category.color)
+                binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
+                binding.categoryResetColorButton.setOnClickListener {
+                    binding.categoryColorSeekBar.visibility = View.GONE
+                    binding.categoryChangeColorButton.setBackgroundColor(category.color)
+                }
+            }
         })
 
         setupDropDownMenu()
+        setupColorSelector()
     }
 
     private fun setupDropDownMenu() {
@@ -74,6 +84,19 @@ class AddEditCategoryFragment: Fragment() {
             BudgetDuration.values()
         )
         binding.categoryBudgetDurationEditText.setAdapter(adapter)
+    }
+
+    private fun setupColorSelector() {
+        binding.categoryChangeColorButton.setOnClickListener {
+            binding.categoryColorSeekBar.visibility = View.VISIBLE
+        }
+        binding.categoryColorSeekBar.setOnColorChangeListener(
+            object : ColorSeekBar.OnColorChangeListener {
+                override fun onColorChangeListener(color: Int) {
+                    binding.categoryChangeColorButton.setBackgroundColor(color)
+                }
+            }
+        )
     }
 
 }
