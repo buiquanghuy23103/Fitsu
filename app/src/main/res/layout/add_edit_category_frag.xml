@@ -18,8 +18,8 @@
             android:layout_margin="@dimen/layout_margin_large">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/outlinedTextField"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:id="@+id/category_title_text_input_layout"
+                style="@style/AppTheme.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/category_edit_text_hint"
@@ -30,6 +30,24 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/category_title_edit_text"
                     android:text="@{category.title}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/category_budget_duration_text_input_layout"
+                style="@style/AppTheme.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_edit_text_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/category_title_text_input_layout"
+                android:layout_marginTop="@dimen/layout_margin_large">
+
+                <AutoCompleteTextView
+                    android:id="@+id/category_budget_duration_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
