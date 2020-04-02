@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.huy.fitsu.categories.CategoriesFragment"
-        android:label="CategoriesFragment" >
+        android:label="Categories" >
         <action
             android:id="@+id/to_addEditCategoryFragment"
             app:destination="@id/addEditCategoryFragment" />
@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/addEditCategoryFragment"
         android:name="com.huy.fitsu.addEditCategory.AddEditCategoryFragment"
-        android:label="AddEditCategoryFragment" >
+        android:label="Edit category" >
         <argument
             android:name="categoryId"
             app:argType="string"
