@@ -49,7 +49,11 @@
 
     <style name="AppTheme.OutlineButton"
         parent="Widget.MaterialComponents.Button.OutlinedButton">
+    </style>
 
+    <style name="AppTheme.ImageButton"
+        parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundColor">@android:color/transparent</item>
     </style>
 
 </resources>
