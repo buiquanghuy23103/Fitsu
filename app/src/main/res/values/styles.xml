@@ -14,7 +14,6 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnPrimarySurface">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="android:windowBackground">@drawable/background</item>
         <item name="divider">@color/less_white</item>
     </style>
 
