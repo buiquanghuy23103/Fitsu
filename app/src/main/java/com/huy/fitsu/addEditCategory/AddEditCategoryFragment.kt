@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.divyanshu.colorseekbar.ColorSeekBar
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
+import kotlinx.android.synthetic.main.add_edit_category_frag.*
 import javax.inject.Inject
 
 class AddEditCategoryFragment: Fragment() {
@@ -53,6 +55,10 @@ class AddEditCategoryFragment: Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         setCategoryId()
         loadCategoryInfo()
+        setupUpdateCategoryButton()
+        viewModel.navigateBackLiveData().observe(viewLifecycleOwner, Observer {
+            findNavController().navigateUp()
+        })
     }
 
     private fun setCategoryId() {
@@ -97,6 +103,19 @@ class AddEditCategoryFragment: Fragment() {
                 }
             }
         )
+    }
+
+    private fun setupUpdateCategoryButton() {
+        binding.categoryUpdateButton.setOnClickListener {
+            val title = category_title_edit_text.text.toString()
+            val budgetDuration = category_budget_duration_edit_text.text.toString()
+            val color = category_color_seek_bar.getColor()
+            viewModel.updateCategory(
+                title = title,
+                budgetDuration = BudgetDuration.valueOf(budgetDuration),
+                color = color
+            )
+        }
     }
 
 }

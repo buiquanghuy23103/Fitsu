@@ -10,118 +10,130 @@
             type="com.huy.fitsu.data.model.Category" />
     </data>
 
-        <ScrollView
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin_large">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+
+            <ImageView
+                android:id="@+id/category_title_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_title"
+                app:layout_constraintBottom_toBottomOf="@id/category_title_text_input_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category_title_text_input_layout" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/category_title_text_input_layout"
+                style="@style/AppTheme.TextInputLayout"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/layout_margin_large">
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
+                android:hint="@string/category_title_edit_text_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/category_title_icon"
+                app:layout_constraintTop_toTopOf="parent">
 
-
-                <ImageView
-                    android:id="@+id/category_title_icon"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:src="@drawable/ic_title"
-                    app:layout_constraintBottom_toBottomOf="@id/category_title_text_input_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/category_title_text_input_layout" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/category_title_text_input_layout"
-                    style="@style/AppTheme.TextInputLayout"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/category_title_edit_text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_extra_large"
-                    android:hint="@string/category_title_edit_text_hint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/category_title_icon"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:inputType="text"
+                    android:text="@{category.title}" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/category_title_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:text="@{category.title}" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                <ImageView
-                    android:id="@+id/category_budget_duration_icon"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:src="@drawable/ic_calendar"
-                    app:layout_constraintBottom_toBottomOf="@id/category_budget_duration_text_input_layout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/category_budget_duration_text_input_layout" />
+            <ImageView
+                android:id="@+id/category_budget_duration_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="@id/category_budget_duration_text_input_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category_budget_duration_text_input_layout" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/category_budget_duration_text_input_layout"
-                    style="@style/AppTheme.ExposedDropdownMenu"
-                    android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/category_budget_duration_text_input_layout"
+                style="@style/AppTheme.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                android:hint="@string/category_budget_duration_hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/category_budget_duration_icon"
+                app:layout_constraintTop_toBottomOf="@id/category_title_text_input_layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/category_budget_duration_edit_text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_extra_large"
-                    android:layout_marginTop="@dimen/layout_margin_large"
-                    android:hint="@string/category_budget_duration_hint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/category_budget_duration_icon"
-                    app:layout_constraintTop_toBottomOf="@id/category_title_text_input_layout">
+                    android:inputType="none" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/category_budget_duration_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/category_color_icon"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:src="@drawable/ic_color_lens"
+                app:layout_constraintBottom_toBottomOf="@id/category_change_color_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
 
-                <ImageView
-                    android:id="@+id/category_color_icon"
-                    android:layout_width="@dimen/icon_size"
-                    android:layout_height="@dimen/icon_size"
-                    android:src="@drawable/ic_color_lens"
-                    app:layout_constraintBottom_toBottomOf="@id/category_change_color_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
+            <Button
+                android:id="@+id/category_change_color_button"
+                style="@style/AppTheme.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_extra_large"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                android:text="@string/category_change_color_button_label"
+                app:layout_constraintStart_toEndOf="@id/category_color_icon"
+                app:layout_constraintTop_toBottomOf="@id/category_budget_duration_text_input_layout" />
 
-                <Button
-                    android:id="@+id/category_change_color_button"
-                    style="@style/AppTheme.Button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_extra_large"
-                    android:layout_marginTop="@dimen/layout_margin_large"
-                    android:text="@string/category_change_color_button_label"
-                    app:layout_constraintStart_toEndOf="@id/category_color_icon"
-                    app:layout_constraintTop_toBottomOf="@id/category_budget_duration_text_input_layout" />
+            <Button
+                android:id="@+id/category_reset_color_button"
+                style="@style/AppTheme.OutlineButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_large"
+                android:text="@string/category_color_reset_button_label"
+                app:layout_constraintStart_toEndOf="@id/category_change_color_button"
+                app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
 
-                <Button
-                    android:id="@+id/category_reset_color_button"
-                    style="@style/AppTheme.OutlineButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_large"
-                    android:text="@string/category_color_reset_button_label"
-                    app:layout_constraintStart_toEndOf="@id/category_change_color_button"
-                    app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
+            <com.divyanshu.colorseekbar.ColorSeekBar
+                android:id="@+id/category_color_seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/category_change_color_button"
+                app:layout_constraintTop_toBottomOf="@id/category_change_color_button"
+                tools:visibility="visible" />
 
-                <com.divyanshu.colorseekbar.ColorSeekBar
-                    android:id="@+id/category_color_seek_bar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/layout_margin_large"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@id/category_change_color_button"
-                    app:layout_constraintTop_toBottomOf="@id/category_change_color_button"
-                    tools:visibility="visible" />
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/category_update_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin_large"
+                android:text="@string/update_category_button_label"
+                app:icon="@drawable/ic_tick"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+    </ScrollView>
 </layout>
