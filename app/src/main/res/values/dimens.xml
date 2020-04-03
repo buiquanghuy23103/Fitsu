@@ -2,8 +2,25 @@
 <resources>
 
     <!--  Margin specifics  -->
+    <dimen name="layout_margin_extra_small">2dp</dimen>
+    <dimen name="layout_margin_small">6dp</dimen>
+    <dimen name="layout_margin_medium">8dp</dimen>
+    <dimen name="layout_margin_moderate">10dp</dimen>
     <dimen name="layout_margin_large">16dp</dimen>
     <dimen name="layout_margin_extra_large">32dp</dimen>
+    <dimen name="layout_margin_extreme_large">56dp</dimen>
+    <dimen name="layout_margin_none">0dp</dimen>
+
+    <!--  Drawer  -->
+    <dimen name="drawer_header_height">192dp</dimen>
+    <dimen name="drawer_header_image_width">100dp</dimen>
+
+    <!--  Padding specifics  -->
+    <dimen name="padding_extra_small">2dp</dimen>
+    <dimen name="padding_small">6dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_extra_large">32dp</dimen>
 
     <!--  Icons  -->
     <dimen name="icon_size">24dp</dimen>

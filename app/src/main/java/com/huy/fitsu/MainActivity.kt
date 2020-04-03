@@ -10,6 +10,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.main_act.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,13 +19,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_act)
+        setupNavigationDrawer()
 
         setSupportActionBar(toolbar)
 
-        setupBottomNavigation()
+        setupNavigation()
 
-        showHideBottomNavigation()
+    }
+
+    private fun setupNavigationDrawer() {
+        drawer_layout.setStatusBarBackground(R.color.colorPrimaryDark)
+    }
+
+    private fun setupNavigation() {
+        navController = findNavController(R.id.nav_host_fragment)
+        appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.categoriesFragment
+        )
+            .setOpenableLayout(drawer_layout)
+            .build()
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
     }
 
     private fun setupBottomNavigation() {
@@ -58,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
+        return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
 }
