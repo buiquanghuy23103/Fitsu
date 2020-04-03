@@ -1,5 +1,6 @@
 package com.huy.fitsu.categories
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -28,6 +29,10 @@ class CategoriesAdapter(
         fun bind(viewModel: CategoriesViewModel, category: Category) {
             binding.category = category
             binding.viewModel = viewModel
+            binding.categoryIcon.backgroundTintList = ColorStateList.valueOf(category.color)
+            binding.root.setOnClickListener {
+                viewModel.editCategoryWithId(category.id)
+            }
         }
 
         companion object {

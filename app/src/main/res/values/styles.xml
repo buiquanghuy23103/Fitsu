@@ -1,15 +1,58 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorPrimaryDark">#1B5E20</item>
+        <item name="colorPrimary">#FF5722</item>
+        <item name="colorPrimaryDark">#E64A19</item>
         <item name="colorAccent">#FF9800</item>
+        <item name="colorSecondary">#FF9800</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:windowBackground">@drawable/background</item>
+        <item name="subtitleTextColor">@color/less_white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimarySurface">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="divider">@color/less_white</item>
+    </style>
+
+    <style name="AppTheme.TextInputLayout"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    </style>
+
+    <style name="AppTheme.ExposedDropdownMenu"
+        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+    </style>
+
+    <style name="AppTheme.BottomNavigationView"
+        parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+    </style>
+
+    <style name="AppTheme.FloatingActionButton"
+        parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="rippleColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme.ColorBadge"
+        parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="elevation">@dimen/elevation_none</item>
+    </style>
+
+    <style name="AppTheme.Button"
+        parent="Widget.MaterialComponents.Button">
+        <item name="background">?attr/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.OutlineButton"
+        parent="Widget.MaterialComponents.Button.OutlinedButton">
+    </style>
+
+    <style name="AppTheme.ImageButton"
+        parent="Widget.AppCompat.ImageButton">
+        <item name="backgroundColor">@android:color/transparent</item>
     </style>
 
 </resources>

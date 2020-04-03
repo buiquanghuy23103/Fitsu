@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.huy.fitsu.FitsuApplication
+import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.CategoriesFragBinding
 import timber.log.Timber
 import javax.inject.Inject
@@ -48,6 +50,7 @@ class CategoriesFragment: Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         setupListAdapter()
+        setupNavigation()
     }
 
     private fun setupListAdapter() {
@@ -57,6 +60,13 @@ class CategoriesFragment: Fragment() {
         viewModel.getAllCategories().observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) Timber.i("category list is empty")
             it?.let { categories -> listAdapter.submitList(categories) }
+        })
+    }
+
+    private fun setupNavigation() {
+        viewModel.editCategoryEventLiveData().observe(viewLifecycleOwner, EventObserver{
+            val action = CategoriesFragmentDirections.toAddEditCategoryFragment(it)
+            findNavController().navigate(action)
         })
     }
 

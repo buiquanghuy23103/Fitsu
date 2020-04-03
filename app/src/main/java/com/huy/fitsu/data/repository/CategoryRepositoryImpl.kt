@@ -18,4 +18,11 @@ class CategoryRepositoryImpl @Inject constructor(
         return categoryDao.insert(category)
     }
 
+    override fun findCategoryById(id: String): LiveData<Category> {
+        return categoryDao.findById(id)
+    }
+
+    override fun updateCategory(category: Category): Completable {
+        return categoryDao.update(category)
+    }
 }
