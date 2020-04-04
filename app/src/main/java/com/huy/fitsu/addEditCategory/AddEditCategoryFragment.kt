@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -116,9 +117,9 @@ class AddEditCategoryFragment: Fragment() {
             val color = category_color_seek_bar.getColor()
             val newCategory = category.copy(
                 title = title,
-                budgetDuration = BudgetDuration.valueOf(budgetDuration),
-                color = color
+                budgetDuration = BudgetDuration.valueOf(budgetDuration)
             )
+            if (category_color_seek_bar.isVisible) newCategory.color = color
             viewModel.updateCategory(newCategory)
         }
     }
