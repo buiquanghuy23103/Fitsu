@@ -2,16 +2,15 @@ package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.model.Category
-import io.reactivex.Completable
 
 interface CategoryRepository {
 
-    fun getAllCategories(): LiveData<List<Category>>
+    fun getCategories(): LiveData<List<Category>>
 
-    fun addCategory(category: Category): Completable
+    fun getCategory(id: String): LiveData<Category>
 
-    fun findCategoryById(id: String): LiveData<Category>
+    suspend fun insertNewCategory(category: Category)
 
-    fun updateCategory(category: Category): Completable
+    suspend fun updateCategory(category: Category)
 
 }

@@ -3,18 +3,17 @@ package com.huy.fitsu.addEditCategory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.scheduler.FitsuScheduler
-import io.reactivex.CompletableObserver
-import io.reactivex.disposables.Disposable
+import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditCategoryViewModel @Inject constructor(
-    private val repository: CategoryRepository,
-    private val scheduler: FitsuScheduler
-): ViewModel() {
+    private val repository: CategoryRepository
+) : ViewModel() {
 
     private var categoryId: String = ""
     private val navigateBackLiveData = MutableLiveData<Event<Unit>>()
@@ -30,31 +29,25 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     fun getCategory(): LiveData<Category> {
-        return repository.findCategoryById(categoryId)
+        return repository.getCategory(categoryId)
     }
 
     fun updateCategory(category: Category) {
         loadingLiveData.value = true
         errorLiveData.value = ""
-        repository.updateCategory(category)
-            .subscribeOn(scheduler.io())
-            .subscribe(
-            object : CompletableObserver {
 
-                override fun onComplete() {
+        wrapEspressoIdlingResource {
+            viewModelScope.launch {
+                try {
+                    updateCategory(category)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
-                }
-
-                override fun onSubscribe(d: Disposable) {
-
-                }
-
-                override fun onError(e: Throwable) {
+                } catch (e: Exception) {
                     loadingLiveData.postValue(false)
                     errorLiveData.postValue(e.message)
                 }
             }
-        )
+        }
     }
+
 }

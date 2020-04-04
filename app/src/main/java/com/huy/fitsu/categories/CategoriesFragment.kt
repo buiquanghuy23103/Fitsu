@@ -41,7 +41,6 @@ class CategoriesFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = CategoriesFragBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
         return binding.root
     }
 

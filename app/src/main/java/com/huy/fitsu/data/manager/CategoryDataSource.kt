@@ -1,13 +1,13 @@
 package com.huy.fitsu.data.manager
 
+import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.model.Category
-import com.huy.fitsu.data.model.Result
 
 interface CategoryDataSource {
 
-    suspend fun getCategory(id: String): Result<Category>
+    fun getCategory(id: String): LiveData<Category>
 
-    suspend fun getCategories(): Result<List<Category>>
+    fun getCategories(): LiveData<List<Category>>
 
     suspend fun insertNewCategory(category: Category)
 
