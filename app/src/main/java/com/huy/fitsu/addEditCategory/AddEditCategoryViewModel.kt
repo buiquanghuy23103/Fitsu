@@ -1,10 +1,8 @@
 package com.huy.fitsu.addEditCategory
 
-import androidx.annotation.ColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
@@ -35,17 +33,7 @@ class AddEditCategoryViewModel @Inject constructor(
         return repository.findCategoryById(categoryId)
     }
 
-    fun updateCategory(
-        title: String,
-        budgetDuration: BudgetDuration,
-        @ColorInt color: Int
-    ) {
-        val category = Category(
-            id = categoryId,
-            title = title,
-            budgetDuration = budgetDuration,
-            color = color
-        )
+    fun updateCategory(category: Category) {
         loadingLiveData.value = true
         errorLiveData.value = ""
         repository.updateCategory(category)
