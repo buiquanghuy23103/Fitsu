@@ -4,6 +4,7 @@ import com.huy.fitsu.data.manager.CategoryLocalDataSource
 import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Result
+import com.huy.fitsu.util.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class CategoryRepositoryUpgradeImpl @Inject constructor(
@@ -12,18 +13,26 @@ class CategoryRepositoryUpgradeImpl @Inject constructor(
 ) : CategoryRepositoryUpgrade {
 
     override suspend fun getCategories(): Result<List<Category>> {
-        return categoryLocalDataSource.getCategories()
+        return wrapEspressoIdlingResource {
+            categoryLocalDataSource.getCategories()
+        }
     }
 
     override suspend fun getCategory(id: String): Result<Category> {
-        return categoryLocalDataSource.getCategory(id)
+        return wrapEspressoIdlingResource {
+            categoryLocalDataSource.getCategory(id)
+        }
     }
 
     override suspend fun insertNewCategory(category: Category) {
-        categoryLocalDataSource.insertNewCategory(category)
+        wrapEspressoIdlingResource {
+            categoryLocalDataSource.insertNewCategory(category)
+        }
     }
 
     override suspend fun updateCategory(category: Category) {
-        categoryLocalDataSource.updateCategory(category)
+        wrapEspressoIdlingResource {
+            categoryLocalDataSource.updateCategory(category)
+        }
     }
 }
