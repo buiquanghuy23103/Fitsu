@@ -3,8 +3,10 @@ package com.huy.fitsu.categories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class CategoriesViewModel @Inject constructor(
@@ -15,13 +17,13 @@ class CategoriesViewModel @Inject constructor(
 
     fun editCategoryEventLiveData(): LiveData<Event<String>> = editCategoryEventLiveData
 
-    init {
-//        val food = Category(title = "Food")
-//        val houseRent = Category(title = "House rent")
-//        repository.addCategory(food)
-//            .andThen(repository.addCategory(houseRent))
-//            .subscribeOn(Schedulers.io())
-//            .subscribe()
+    fun createDummyCategories() {
+        val food = Category(title = "Food")
+        val houseRent = Category(title = "House rent")
+        repository.addCategory(food)
+            .andThen(repository.addCategory(houseRent))
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     fun getAllCategories() = repository.getAllCategories()
