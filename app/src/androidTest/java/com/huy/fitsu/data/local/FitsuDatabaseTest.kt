@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.data.model.Category
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -42,8 +43,8 @@ class FitsuDatabaseTest {
     }
 
     @Test
-    fun getAllCategories() {
-        categoryDao.insert(sampleCategory).subscribe()
+    fun getAllCategories() = runBlocking {
+        categoryDao.insertNewCategory(sampleCategory)
 
         val categoriesLiveData = categoryDao.getAll()
         val categories = LiveDataTestUtil.getValue(categoriesLiveData)
@@ -52,8 +53,8 @@ class FitsuDatabaseTest {
     }
 
     @Test
-    fun getCategoryById() {
-        categoryDao.insert(sampleCategory).subscribe()
+    fun getCategoryById() = runBlocking {
+        categoryDao.insertNewCategory(sampleCategory)
 
         val categoryLiveData = categoryDao.findById(sampleCategory.id)
         val category = LiveDataTestUtil.getValue(categoryLiveData)
@@ -62,11 +63,11 @@ class FitsuDatabaseTest {
     }
 
     @Test
-    fun updateCategory() {
-        categoryDao.insert(sampleCategory).subscribe()
+    fun updateCategory() = runBlocking {
+        categoryDao.insertNewCategory(sampleCategory)
 
         val newCategory = sampleCategory.copy(title = "New")
-        categoryDao.update(newCategory).subscribe()
+        categoryDao.updateCategory(newCategory)
 
         val categoryLiveData = categoryDao.findById(sampleCategory.id)
         val categoryFromDb = LiveDataTestUtil.getValue(categoryLiveData)
