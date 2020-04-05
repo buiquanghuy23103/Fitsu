@@ -2,13 +2,17 @@ package com.huy.fitsu.addEditCategory
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.huy.fitsu.FakeFitsuScheduler
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.nhaarman.mockitokotlin2.*
-import io.reactivex.Completable
-import io.reactivex.CompletableObserver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,6 +20,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class AddEditCategoryViewModelTests {
 
@@ -34,34 +39,27 @@ class AddEditCategoryViewModelTests {
     @Mock
     private lateinit var errorObserver: Observer<String>
 
-    @Mock
-    private lateinit var updateCategoryCompletableIO: Completable
-
-    @Mock
-    private lateinit var exception: Exception
-
     private lateinit var viewModel: AddEditCategoryViewModel
 
-    private val scheduler = FakeFitsuScheduler()
+    private val testDispatcher = TestCoroutineDispatcher()
 
     private val errorMessage = "error"
 
     @Before
     fun setup() {
-        val completable = mock<Completable>()
-        whenever(repository.updateCategory(any()))
-            .thenReturn(completable)
-        whenever(completable.subscribeOn(scheduler.io()))
-            .thenReturn(updateCategoryCompletableIO)
-        whenever(exception.message)
-            .thenReturn(errorMessage)
-
-        viewModel = AddEditCategoryViewModel(repository, scheduler)
+        Dispatchers.setMain(testDispatcher)
+        viewModel = AddEditCategoryViewModel(repository, testDispatcher)
 
         viewModel.navigateBackLiveData().observeForever(navigateBackObserver)
         viewModel.loadingLiveData().observeForever(loadingObserver)
         viewModel.errorLiveData().observeForever(errorObserver)
 
+    }
+
+    @After
+    fun cleanUp() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
@@ -71,11 +69,11 @@ class AddEditCategoryViewModelTests {
 
         viewModel.getCategory()
 
-        verify(repository).findCategoryById(eq(id))
+        verify(repository).getCategory(eq(id))
     }
 
     @Test
-    fun updateCategory_shouldDelegateToRepository() {
+    fun updateCategory_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
         val category = Category()
 
         viewModel.updateCategory(category)
@@ -84,9 +82,8 @@ class AddEditCategoryViewModelTests {
     }
 
     @Test
-    fun updateCategory_withSuccess_shouldNavigateBack() {
+    fun updateCategory_withSuccess_shouldNavigateBack() = testDispatcher.runBlockingTest {
         val category = Category()
-        updateCategory_withSuccess()
 
         viewModel.updateCategory(category)
 
@@ -94,23 +91,23 @@ class AddEditCategoryViewModelTests {
     }
 
     @Test
-    fun updateCategory_shouldShowLoading() {
-        viewModel.updateCategory(Category())
+    fun updateCategory_shouldShowLoading() = testDispatcher.runBlockingTest {
+        testDispatcher.pauseDispatcher {
+            viewModel.updateCategory(Category())
 
-        verify(loadingObserver).onChanged(eq(true))
+            verify(loadingObserver).onChanged(eq(true))
+        }
     }
 
     @Test
-    fun updateCategory_withSuccess_shouldHideLoading() {
-        updateCategory_withSuccess()
-
+    fun updateCategory_withSuccess_shouldHideLoading() = testDispatcher.runBlockingTest {
         viewModel.updateCategory(Category())
 
         verify(loadingObserver).onChanged(eq(false))
     }
 
-    @Test
-    fun updateCategory_withError_shouldHideLoading() {
+    @Test(expected = Exception::class)
+    fun updateCategory_withError_shouldHideLoading() = testDispatcher.runBlockingTest {
         updateCategory_withError()
 
         viewModel.updateCategory(Category())
@@ -119,14 +116,14 @@ class AddEditCategoryViewModelTests {
     }
 
     @Test
-    fun updateCategory_shouldHideError() {
+    fun updateCategory_shouldHideError() = testDispatcher.runBlockingTest {
         viewModel.updateCategory(Category())
 
         verify(errorObserver).onChanged(eq(""))
     }
 
-    @Test
-    fun updateCategory_withError_shouldShowError() {
+    @Test(expected = Exception::class)
+    fun updateCategory_withError_shouldShowError() = testDispatcher.runBlockingTest {
         updateCategory_withError()
 
         viewModel.updateCategory(Category())
@@ -134,21 +131,9 @@ class AddEditCategoryViewModelTests {
         verify(errorObserver).onChanged(eq(errorMessage))
     }
 
-    private fun updateCategory_withSuccess() {
-
-        doAnswer {
-            val callback: CompletableObserver = it.getArgument(0)
-            callback.onComplete()
-        }.whenever(updateCategoryCompletableIO)
-            .subscribe(any<CompletableObserver>())
-    }
-
-    private fun updateCategory_withError() {
-        doAnswer {
-            val callback: CompletableObserver = it.getArgument(0)
-            callback.onError(exception)
-        }.whenever(updateCategoryCompletableIO)
-            .subscribe(any<CompletableObserver>())
+    private suspend fun updateCategory_withError() {
+        whenever(repository.updateCategory(any()))
+            .thenThrow(Exception(errorMessage))
     }
 
 }

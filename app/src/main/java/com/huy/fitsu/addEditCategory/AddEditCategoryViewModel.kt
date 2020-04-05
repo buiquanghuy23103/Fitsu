@@ -7,12 +7,16 @@ import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
+import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditCategoryViewModel @Inject constructor(
-    private val repository: CategoryRepository
+    private val repository: CategoryRepository,
+    @DispatcherModule.MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private var categoryId: String = ""
@@ -37,9 +41,9 @@ class AddEditCategoryViewModel @Inject constructor(
         errorLiveData.value = ""
 
         wrapEspressoIdlingResource {
-            viewModelScope.launch {
+            viewModelScope.launch(mainDispatcher) {
                 try {
-                    updateCategory(category)
+                    repository.updateCategory(category)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
                 } catch (e: Exception) {

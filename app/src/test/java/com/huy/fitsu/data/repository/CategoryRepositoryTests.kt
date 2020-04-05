@@ -1,9 +1,10 @@
 package com.huy.fitsu.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.huy.fitsu.data.local.CategoryDao
+import com.huy.fitsu.data.manager.CategoryDataSource
 import com.huy.fitsu.data.model.Category
 import com.nhaarman.mockitokotlin2.eq
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -18,49 +19,47 @@ class CategoryRepositoryTests {
     @get:Rule
     val taskRuleExecutor = InstantTaskExecutorRule()
 
-    private lateinit var repository: CategoryRepository
-
     @Mock
-    private lateinit var categoryDao: CategoryDao
+    private lateinit var localDataSource: CategoryDataSource
+
+    private lateinit var repository: CategoryRepository
 
     @Before
     fun setup() {
-        repository = CategoryRepositoryImpl(categoryDao)
+        repository = CategoryRepositoryImpl(localDataSource)
     }
 
     @Test
-    fun addCategory_shouldDelegateToCategoryDao() {
-        val category = Category()
+    fun insertNewCategory_shouldDelegateTo_localDataSource() = runBlocking {
+        val newCategory = Category()
+        repository.insertNewCategory(newCategory)
 
-        repository.addCategory(category)
-
-        verify(categoryDao).insert(eq(category))
-
+        verify(localDataSource).insertNewCategory(eq(newCategory))
     }
 
     @Test
-    fun getAllCategories_shouldDelegateToCategoryDao() {
-        repository.getAllCategories()
+    fun getAllCategories_shouldDelegateTo_localDataSource() {
+        repository.getCategories()
 
-        verify(categoryDao).getAll()
+        verify(localDataSource).getCategories()
     }
 
     @Test
-    fun findCategoryById_shouldDelegateToCategoryDao() {
+    fun findCategoryById_shouldDelegateTo_localDataSource() {
         val id = "id"
 
-        repository.findCategoryById(id)
+        repository.getCategory(id)
 
-        verify(categoryDao).findById(eq(id))
+        verify(localDataSource).getCategory(eq(id))
     }
 
     @Test
-    fun updateCategory_shouldDelegateToCategoryDao() {
-        val newCategory = Category()
+    fun updateCategory() = runBlocking {
+        val updatedCategory = Category()
 
-        repository.updateCategory(newCategory)
+        repository.updateCategory(updatedCategory)
 
-        verify(categoryDao).update(newCategory)
+        verify(localDataSource).updateCategory(updatedCategory)
     }
 
 }

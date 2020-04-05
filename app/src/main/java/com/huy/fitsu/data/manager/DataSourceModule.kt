@@ -1,6 +1,7 @@
 package com.huy.fitsu.data.manager
 
 import com.huy.fitsu.data.local.FitsuDatabase
+import com.huy.fitsu.di.DispatcherModule
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,7 +21,7 @@ object DataSourceModule {
     @Provides
     fun localDataSource(
         database: FitsuDatabase,
-        ioDispatcher: CoroutineDispatcher
+        @DispatcherModule.IoDispatcher ioDispatcher: CoroutineDispatcher
     ) : CategoryDataSource {
         return CategoryLocalDataSource(
             database.categoryDao(),
