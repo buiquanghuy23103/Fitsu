@@ -4,9 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.huy.fitsu.data.model.Category
-import com.huy.fitsu.data.model.Transactions
+import com.huy.fitsu.data.model.Transaction
 
-@Database(entities = [Category::class, Transactions::class], version = 1, exportSchema = false)
+@Database(entities = [Category::class, Transaction::class], version = 1, exportSchema = false)
 @TypeConverters(DatabaseTypeConverters::class)
 abstract class FitsuDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao

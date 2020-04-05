@@ -6,13 +6,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.data.model.Category
+import com.huy.fitsu.data.model.Transaction
 import kotlinx.coroutines.runBlocking
-import org.junit.After
+import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
@@ -24,6 +22,7 @@ class FitsuDatabaseTest {
 
     private lateinit var db: FitsuDatabase
     private lateinit var categoryDao: CategoryDao
+    private lateinit var transactionDao: TransactionDao
     private val sampleCategory = Category()
 
     @Before
@@ -33,7 +32,7 @@ class FitsuDatabaseTest {
             appContext, FitsuDatabase::class.java
         ).build()
         categoryDao = db.categoryDao()
-
+        transactionDao = db.transactionDao()
     }
 
     @After
@@ -73,5 +72,18 @@ class FitsuDatabaseTest {
         val categoryFromDb = LiveDataTestUtil.getValue(categoryLiveData)
 
         assertEquals(newCategory.title, categoryFromDb.title)
+    }
+
+    @Test
+    fun getTransactionById() = runBlocking {
+        val transaction = Transaction(categoryId = "categoryId")
+
+        transactionDao.insertNewTransaction(transaction)
+
+        val transactionLiveData = transactionDao.getTransaction(transaction.id)
+        val dbTransaction = LiveDataTestUtil.getValue(transactionLiveData)
+        Assert.assertNotNull(dbTransaction)
+        assertEquals("Date should match", transaction.date, dbTransaction.date)
+        assertEquals("categoryId should match", transaction.categoryId, dbTransaction.categoryId)
     }
 }

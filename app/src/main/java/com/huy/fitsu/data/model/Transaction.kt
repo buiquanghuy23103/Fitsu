@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(tableName = "transactions")
-data class Transactions(
+data class Transaction(
     @PrimaryKey @ColumnInfo(name = "id") val id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "date") val date: Date = Date(),
     @ColumnInfo(name = "categoryId") val categoryId: String
