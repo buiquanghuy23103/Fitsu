@@ -9,9 +9,6 @@
             name="category"
             type="com.huy.fitsu.data.model.Category" />
 
-        <variable
-            name="viewModel"
-            type="com.huy.fitsu.categories.CategoriesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

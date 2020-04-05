@@ -1,22 +1,23 @@
 package com.huy.fitsu.addEditCategory
 
-import androidx.annotation.ColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.huy.fitsu.data.model.BudgetDuration
+import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.scheduler.FitsuScheduler
-import io.reactivex.CompletableObserver
-import io.reactivex.disposables.Disposable
+import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditCategoryViewModel @Inject constructor(
     private val repository: CategoryRepository,
-    private val scheduler: FitsuScheduler
-): ViewModel() {
+    @DispatcherModule.MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
     private var categoryId: String = ""
     private val navigateBackLiveData = MutableLiveData<Event<Unit>>()
@@ -32,41 +33,25 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     fun getCategory(): LiveData<Category> {
-        return repository.findCategoryById(categoryId)
+        return repository.getCategory(categoryId)
     }
 
-    fun updateCategory(
-        title: String,
-        budgetDuration: BudgetDuration,
-        @ColorInt color: Int
-    ) {
-        val category = Category(
-            id = categoryId,
-            title = title,
-            budgetDuration = budgetDuration,
-            color = color
-        )
+    fun updateCategory(category: Category) {
         loadingLiveData.value = true
         errorLiveData.value = ""
-        repository.updateCategory(category)
-            .subscribeOn(scheduler.io())
-            .subscribe(
-            object : CompletableObserver {
 
-                override fun onComplete() {
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                try {
+                    repository.updateCategory(category)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
-                }
-
-                override fun onSubscribe(d: Disposable) {
-
-                }
-
-                override fun onError(e: Throwable) {
+                } catch (e: Exception) {
                     loadingLiveData.postValue(false)
                     errorLiveData.postValue(e.message)
                 }
             }
-        )
+        }
     }
+
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import com.divyanshu.colorseekbar.ColorSeekBar
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.BudgetDuration
+import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
 import kotlinx.android.synthetic.main.add_edit_category_frag.*
 import javax.inject.Inject
@@ -53,9 +55,11 @@ class AddEditCategoryFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.lifecycleOwner = this.viewLifecycleOwner
+
         setCategoryId()
-        loadCategoryInfo()
-        setupUpdateCategoryButton()
+
+        loadView()
+
         viewModel.navigateBackLiveData().observe(viewLifecycleOwner, Observer {
             findNavController().navigateUp()
         })
@@ -66,7 +70,7 @@ class AddEditCategoryFragment: Fragment() {
         viewModel.setCategoryId(categoryId)
     }
 
-    private fun loadCategoryInfo() {
+    private fun loadView() {
         viewModel.getCategory().observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
@@ -76,6 +80,7 @@ class AddEditCategoryFragment: Fragment() {
                     binding.categoryColorSeekBar.visibility = View.GONE
                     binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 }
+                setupUpdateCategoryButton(it)
             }
         })
 
@@ -105,16 +110,17 @@ class AddEditCategoryFragment: Fragment() {
         )
     }
 
-    private fun setupUpdateCategoryButton() {
+    private fun setupUpdateCategoryButton(category: Category) {
         binding.categoryUpdateButton.setOnClickListener {
             val title = category_title_edit_text.text.toString()
             val budgetDuration = category_budget_duration_edit_text.text.toString()
             val color = category_color_seek_bar.getColor()
-            viewModel.updateCategory(
+            val newCategory = category.copy(
                 title = title,
-                budgetDuration = BudgetDuration.valueOf(budgetDuration),
-                color = color
+                budgetDuration = BudgetDuration.valueOf(budgetDuration)
             )
+            if (category_color_seek_bar.isVisible) newCategory.color = color
+            viewModel.updateCategory(newCategory)
         }
     }
 

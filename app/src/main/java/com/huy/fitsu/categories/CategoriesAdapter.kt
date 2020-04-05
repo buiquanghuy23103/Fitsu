@@ -28,7 +28,6 @@ class CategoriesAdapter(
 
         fun bind(viewModel: CategoriesViewModel, category: Category) {
             binding.category = category
-            binding.viewModel = viewModel
             binding.categoryIcon.backgroundTintList = ColorStateList.valueOf(category.color)
             binding.root.setOnClickListener {
                 viewModel.editCategoryWithId(category.id)

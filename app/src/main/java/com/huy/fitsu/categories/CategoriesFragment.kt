@@ -41,7 +41,6 @@ class CategoriesFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = CategoriesFragBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -49,6 +48,7 @@ class CategoriesFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.lifecycleOwner = this.viewLifecycleOwner
+        viewModel.createDummyCategories()
         setupListAdapter()
         setupNavigation()
     }
