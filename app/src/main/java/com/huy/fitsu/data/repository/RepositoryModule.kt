@@ -9,4 +9,7 @@ abstract class RepositoryModule {
     @Binds
     abstract fun categoriesRepository(repository: CategoryRepositoryImpl): CategoryRepository
 
+    @Binds
+    abstract fun transactionsRepository(repo: TransactionRepositoryImpl): TransactionRepository
+
 }
