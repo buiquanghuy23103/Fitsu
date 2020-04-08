@@ -2,6 +2,7 @@ package com.huy.fitsu.di
 
 import android.content.Context
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
+import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.manager.DataSourceModule
@@ -35,6 +36,7 @@ interface AppComponent {
     fun categoriesComponent(): CategoriesComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
     fun dashboardComponent(): DashboardComponent.Factory
+    fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
 
 }
 
