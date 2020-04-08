@@ -5,6 +5,7 @@ import androidx.paging.DataSource
 import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.manager.TransactionDataSource
 import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.model.TransactionDetail
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -16,11 +17,11 @@ class TransactionRepositoryImpl @Inject constructor(
         transactionLocalDataSource.insertNewTransaction(transaction)
     }
 
-    override fun getTransactions(): DataSource.Factory<Int, Transaction> {
-        return transactionLocalDataSource.getTransactions()
+    override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
+        return transactionLocalDataSource.getTransactionDetails()
     }
 
     override fun getTransaction(id: String): LiveData<Transaction> {
-        TODO("Not yet implemented")
+        return transactionLocalDataSource.getTransaction(id)
     }
 }

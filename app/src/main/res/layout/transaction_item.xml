@@ -6,7 +6,7 @@
     <data>
         <variable
             name="transaction"
-            type="com.huy.fitsu.data.model.Transaction" />
+            type="com.huy.fitsu.data.model.TransactionDetail" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
                 android:id="@+id/category_item_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{transaction.categoryId}"
+                android:text="@{transaction.categoryTitle}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 tools:text="Outcome -- Week budget" />
         </LinearLayout>

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.data.repository.TransactionRepository
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
@@ -19,12 +20,13 @@ class TransactionsViewModel @Inject constructor(
     private val mainDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
-    val transactions: LiveData<PagedList<Transaction>>
-            = transactionRepository.getTransactions().toLiveData(pageSize = 5)
+    val transactions: LiveData<PagedList<TransactionDetail>>
+            = transactionRepository.getTransactionDetails().toLiveData(pageSize = 5)
 
     fun insertDummyTransactions() {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
+
                 val transaction = Transaction(categoryId = "abcde")
                 for (i in 0..4) {
                     transactionRepository.insertNewTransaction(transaction)

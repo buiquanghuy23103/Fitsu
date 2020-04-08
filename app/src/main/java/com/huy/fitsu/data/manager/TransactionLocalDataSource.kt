@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.huy.fitsu.data.local.TransactionDao
 import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.model.TransactionDetail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -16,8 +17,8 @@ class TransactionLocalDataSource(
         transactionDao.insertNewTransaction(transaction)
     }
 
-    override fun getTransactions(): DataSource.Factory<Int, Transaction> {
-        return transactionDao.getAllTransactionsByDate()
+    override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
+        return transactionDao.getTransactionDetails()
     }
 
     override fun getTransaction(id: String): LiveData<Transaction> {
