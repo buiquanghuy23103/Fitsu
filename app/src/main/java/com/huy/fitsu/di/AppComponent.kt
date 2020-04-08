@@ -3,6 +3,7 @@ package com.huy.fitsu.di
 import android.content.Context
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
+import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.scheduler.SchedulerModule
@@ -33,13 +34,15 @@ interface AppComponent {
 
     fun categoriesComponent(): CategoriesComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
+    fun dashboardComponent(): DashboardComponent.Factory
 
 }
 
 @Module(
     subcomponents = [
         CategoriesComponent::class,
-        AddEditCategoryComponent::class
+        AddEditCategoryComponent::class,
+        DashboardComponent::class
     ]
 )
 object SubComponentModule
