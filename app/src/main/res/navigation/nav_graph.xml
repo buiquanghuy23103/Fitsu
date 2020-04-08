@@ -20,4 +20,8 @@
             app:argType="string"
             android:defaultValue="1" />
     </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.huy.fitsu.dashboard.DashboardFragment"
+        android:label="DashboardFragment" />
 </navigation>
