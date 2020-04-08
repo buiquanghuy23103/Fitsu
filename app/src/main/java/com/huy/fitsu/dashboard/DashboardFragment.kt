@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.databinding.DashboardFragBinding
@@ -36,6 +37,23 @@ class DashboardFragment: Fragment() {
     ): View? {
         binding = DashboardFragBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.insertDummyTransactions()
+        setupListAdapter()
+    }
+
+    private fun setupListAdapter() {
+        val adapter = TransactionsAdapter(viewModel)
+        binding.transactionList.adapter = adapter
+
+        viewModel.transactions.observe(viewLifecycleOwner, Observer {
+            it?.let { list -> adapter.submitList(list) }
+        })
     }
 
 }
