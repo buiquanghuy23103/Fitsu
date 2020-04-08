@@ -27,6 +27,9 @@ class TransactionsAdapter(
 
         fun bind(transaction: TransactionDetail, viewModel: TransactionsViewModel) {
             binding.transaction = transaction
+            binding.root.setOnClickListener {
+                viewModel.editTransaction(transaction.id)
+            }
         }
 
         companion object {

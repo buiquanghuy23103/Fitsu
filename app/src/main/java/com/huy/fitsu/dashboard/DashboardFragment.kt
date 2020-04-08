@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.huy.fitsu.FitsuApplication
+import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.DashboardFragBinding
 import javax.inject.Inject
 
@@ -43,8 +45,14 @@ class DashboardFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.lifecycleOwner = viewLifecycleOwner
+
         viewModel.insertDummyTransactions()
+
         setupListAdapter()
+
+        viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
+            editTransaction(it)
+        })
     }
 
     private fun setupListAdapter() {
@@ -54,6 +62,11 @@ class DashboardFragment: Fragment() {
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
+    }
+
+    private fun editTransaction(transactionId: String) {
+        val action = DashboardFragmentDirections.toAddEditTransactionFragment(transactionId)
+        findNavController().navigate(action)
     }
 
 }

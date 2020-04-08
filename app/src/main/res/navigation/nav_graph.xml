@@ -23,5 +23,17 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.huy.fitsu.dashboard.DashboardFragment"
-        android:label="DashboardFragment" />
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/to_addEditTransactionFragment"
+            app:destination="@id/addEditTransactionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditTransactionFragment"
+        android:name="com.huy.fitsu.addEditTransaction.AddEditTransactionFragment"
+        android:label="AddEditTransactionFragment" >
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
+    </fragment>
 </navigation>
