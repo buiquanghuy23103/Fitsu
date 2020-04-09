@@ -46,8 +46,6 @@ class DashboardFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.insertDummyTransactions()
-
         setupListAdapter()
 
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
