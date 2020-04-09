@@ -4,6 +4,7 @@ import android.content.Context
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.data.manager.DataSourceModule
+import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.scheduler.SchedulerModule
 import dagger.BindsInstance
@@ -33,6 +34,8 @@ interface AppComponent {
 
     fun categoriesComponent(): CategoriesComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
+
+    val categoryRepository : CategoryRepository
 
 }
 

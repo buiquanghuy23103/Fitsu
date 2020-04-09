@@ -10,7 +10,7 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE id = :id")
     fun findById(id: String): LiveData<Category>
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories ORDER BY title")
     fun getAll(): LiveData<List<Category>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -18,5 +18,8 @@ interface CategoryDao {
 
     @Update
     suspend fun updateCategory(category: Category)
+
+    @Query("DELETE FROM categories")
+    suspend fun deleteAllCategories() // Use for testing
 
 }
