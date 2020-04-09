@@ -9,6 +9,8 @@ interface TransactionDataSource {
 
     suspend fun insertNewTransaction(transaction: Transaction)
 
+    suspend fun deleteAllTransactions()
+
     fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
 
     fun getTransaction(id: String): LiveData<Transaction>

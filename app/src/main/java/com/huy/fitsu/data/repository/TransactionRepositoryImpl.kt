@@ -17,6 +17,10 @@ class TransactionRepositoryImpl @Inject constructor(
         transactionLocalDataSource.insertNewTransaction(transaction)
     }
 
+    override suspend fun deleteAllTransactions() {
+        transactionLocalDataSource.deleteAllTransactions()
+    }
+
     override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
         return transactionLocalDataSource.getTransactionDetails()
     }

@@ -17,6 +17,10 @@ class TransactionLocalDataSource(
         transactionDao.insertNewTransaction(transaction)
     }
 
+    override suspend fun deleteAllTransactions() = withContext(ioDispatcher) {
+        transactionDao.deleteAllTransactions()
+    }
+
     override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
         return transactionDao.getTransactionDetails()
     }

@@ -21,4 +21,7 @@ interface TransactionDao {
     @Query("SELECT * FROM TransactionDetail ORDER BY date DESC")
     fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
 
+    @Query("DELETE FROM transactions")
+    suspend fun deleteAllTransactions()
+
 }
