@@ -61,7 +61,6 @@ class CategoriesFragment: Fragment() {
             if (it.isEmpty()) Timber.i("category list is empty")
             it?.let { categories ->
                 listAdapter.submitList(categories)
-                viewModel.addDummyCategories(categories.random())
             }
         })
     }
