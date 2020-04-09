@@ -12,7 +12,7 @@ import com.huy.fitsu.di.DispatcherModule
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class TransactionsViewModel @Inject constructor(
+class DashboardViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     @DispatcherModule.MainDispatcher
     private val mainDispatcher: CoroutineDispatcher

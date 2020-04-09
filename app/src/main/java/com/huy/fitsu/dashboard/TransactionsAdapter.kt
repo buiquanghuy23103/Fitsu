@@ -9,7 +9,7 @@ import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.databinding.TransactionItemBinding
 
 class TransactionsAdapter(
-    private val viewModel: TransactionsViewModel
+    private val viewModel: DashboardViewModel
 ): PagedListAdapter<TransactionDetail, TransactionsAdapter.TransactionItem>(TransactionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionItem {
@@ -25,7 +25,7 @@ class TransactionsAdapter(
         private val binding: TransactionItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: TransactionDetail, viewModel: TransactionsViewModel) {
+        fun bind(transaction: TransactionDetail, viewModel: DashboardViewModel) {
             binding.transaction = transaction
             binding.root.setOnClickListener {
                 viewModel.editTransaction(transaction.id)
