@@ -5,7 +5,7 @@ import com.huy.fitsu.di.AppComponent
 import com.huy.fitsu.di.DaggerAppComponent
 import timber.log.Timber
 
-class FitsuApplication: Application() {
+open class FitsuApplication: Application() {
 
     val appComponent: AppComponent by lazy {
         initAppComponent()
@@ -16,7 +16,7 @@ class FitsuApplication: Application() {
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
     }
 
-    private fun initAppComponent(): AppComponent {
+    open fun initAppComponent(): AppComponent {
         return DaggerAppComponent.factory().create(applicationContext)
     }
 

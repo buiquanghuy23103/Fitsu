@@ -8,15 +8,16 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-object DatabaseModule {
+object FakeDatabaseModule {
 
     @JvmStatic
     @Singleton
     @Provides
-    fun provideDatabase(appContext: Context): FitsuDatabase {
-        return Room.inMemoryDatabaseBuilder(
-            appContext,
-            FitsuDatabase::class.java
+    fun provideDatabase(context: Context): FitsuDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            FitsuDatabase::class.java,
+            "Fitsu.db"
         ).build()
     }
 

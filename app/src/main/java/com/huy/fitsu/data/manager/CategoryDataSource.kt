@@ -13,4 +13,6 @@ interface CategoryDataSource {
 
     suspend fun updateCategory(category: Category)
 
+    suspend fun deleteAllCategories()
+
 }

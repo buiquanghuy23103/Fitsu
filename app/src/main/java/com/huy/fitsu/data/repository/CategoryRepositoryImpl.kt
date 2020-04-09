@@ -31,4 +31,10 @@ class CategoryRepositoryImpl @Inject constructor(
             categoryLocalDataSource.updateCategory(category)
         }
     }
+
+    override suspend fun deleteAllCategories() {
+        wrapEspressoIdlingResource {
+            categoryLocalDataSource.deleteAllCategories()
+        }
+    }
 }

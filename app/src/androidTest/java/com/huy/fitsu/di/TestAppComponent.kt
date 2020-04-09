@@ -1,15 +1,11 @@
 package com.huy.fitsu.di
 
 import android.content.Context
-import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
-import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.data.manager.DataSourceModule
-import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.scheduler.SchedulerModule
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Module
 import javax.inject.Singleton
 
 @Singleton
@@ -25,24 +21,11 @@ import javax.inject.Singleton
         DataSourceModule::class
     ]
 )
-interface AppComponent {
+interface TestAppComponent: AppComponent {
 
     @Component.Factory
     interface Factory {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    fun categoriesComponent(): CategoriesComponent.Factory
-    fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
-
-    val categoryRepository : CategoryRepository
-
 }
-
-@Module(
-    subcomponents = [
-        CategoriesComponent::class,
-        AddEditCategoryComponent::class
-    ]
-)
-object SubComponentModule
