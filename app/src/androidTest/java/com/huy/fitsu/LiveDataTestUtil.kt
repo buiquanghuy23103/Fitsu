@@ -1,4 +1,4 @@
-package com.huy.fitsu.data.local
+package com.huy.fitsu
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

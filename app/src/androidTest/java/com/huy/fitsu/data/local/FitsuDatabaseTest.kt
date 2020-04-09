@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.huy.fitsu.LiveDataTestUtil
 import com.huy.fitsu.data.model.Category
 import kotlinx.coroutines.runBlocking
 import org.junit.After
