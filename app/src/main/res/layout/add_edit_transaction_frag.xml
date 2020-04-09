@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="transaction"
+            type="com.huy.fitsu.data.model.Transaction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Edit Transaction Fragment"
+            android:text="@{transaction.categoryId.toString()}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
