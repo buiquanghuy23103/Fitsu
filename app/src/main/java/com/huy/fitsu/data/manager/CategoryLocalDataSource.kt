@@ -25,4 +25,8 @@ class CategoryLocalDataSource (
     override suspend fun updateCategory(category: Category) = withContext(ioDispatcher) {
         categoryDao.updateCategory(category)
     }
+
+    override suspend fun deleteAllCategories() = withContext(ioDispatcher) {
+        categoryDao.deleteAllCategories()
+    }
 }

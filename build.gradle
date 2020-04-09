@@ -12,6 +12,8 @@ buildscript {
         nav_version = '2.3.0-alpha04'
         espresso_version = '3.2.0'
         paging_version = '2.1.2'
+        fragment_version = '1.2.4'
+        dexMaker_version = '2.25.1'
     }
     repositories {
         google()

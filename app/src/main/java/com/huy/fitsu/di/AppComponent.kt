@@ -6,6 +6,7 @@ import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.manager.DataSourceModule
+import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.scheduler.SchedulerModule
 import dagger.BindsInstance
@@ -37,6 +38,8 @@ interface AppComponent {
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
     fun dashboardComponent(): DashboardComponent.Factory
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
+
+    val categoryRepository : CategoryRepository
 
 }
 
