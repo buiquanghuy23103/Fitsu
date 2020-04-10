@@ -1,7 +1,7 @@
 package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
+import androidx.paging.PagedList
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
 
@@ -11,7 +11,7 @@ interface TransactionRepository {
 
     suspend fun deleteAllTransactions()  // for testing
 
-    fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
+    fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>>
 
     fun getTransaction(id: String): LiveData<Transaction>
 

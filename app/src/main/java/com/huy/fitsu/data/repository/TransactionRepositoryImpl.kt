@@ -1,7 +1,8 @@
 package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.manager.TransactionDataSource
 import com.huy.fitsu.data.model.Transaction
@@ -21,8 +22,9 @@ class TransactionRepositoryImpl @Inject constructor(
         transactionLocalDataSource.deleteAllTransactions()
     }
 
-    override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
-        return transactionLocalDataSource.getTransactionDetails()
+    override fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>> {
+        val factory = transactionLocalDataSource.getTransactionDetails()
+        return factory.toLiveData(pageSize = 5)
     }
 
     override fun getTransaction(id: String): LiveData<Transaction> {

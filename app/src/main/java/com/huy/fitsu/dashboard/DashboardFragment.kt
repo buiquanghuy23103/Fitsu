@@ -47,6 +47,7 @@ class DashboardFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupListAdapter()
+        setupAddTransactionFab()
 
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
             editTransaction(it)
@@ -60,6 +61,12 @@ class DashboardFragment: Fragment() {
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
+    }
+
+    private fun setupAddTransactionFab() {
+        binding.addTransactionFab.setOnClickListener {
+            viewModel.addTransaction()
+        }
     }
 
     private fun editTransaction(transactionId: String) {
