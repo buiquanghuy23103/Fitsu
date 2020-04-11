@@ -81,7 +81,7 @@ class FitsuDatabaseTest {
 
         transactionDao.insertNewTransaction(transaction)
 
-        val transactionLiveData = transactionDao.getTransaction(transaction.id)
+        val transactionLiveData = transactionDao.getTransactionDetail(transaction.id)
         val dbTransaction = LiveDataTestUtil.getValue(transactionLiveData)
         Assert.assertNotNull(dbTransaction)
         assertEquals("Date should match", transaction.date, dbTransaction.date)
