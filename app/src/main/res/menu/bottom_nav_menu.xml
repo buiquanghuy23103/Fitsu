@@ -9,14 +9,6 @@
         android:icon="@drawable/ic_dashboard"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/bottom_menu_add_transactions"
-        android:enabled="false"
-        android:checkable="false"
-        android:checked="false"
-        android:title="@string/bottom_nav_menu_add_transactions"
-        app:showAsAction="never"/>
-
 
     <item
         android:id="@+id/categoriesFragment"
