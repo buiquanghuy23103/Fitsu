@@ -14,11 +14,10 @@ object FakeDatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(context: Context): FitsuDatabase {
-        return Room.databaseBuilder(
+        return Room.inMemoryDatabaseBuilder(
             context.applicationContext,
-            FitsuDatabase::class.java,
-            "Fitsu.db"
-        ).build()
+            FitsuDatabase::class.java
+        ).allowMainThreadQueries().build()
     }
 
 }
