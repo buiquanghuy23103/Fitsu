@@ -9,9 +9,12 @@ import com.huy.fitsu.LiveDataTestUtil
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Transaction
 import kotlinx.coroutines.runBlocking
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
 
@@ -81,10 +84,8 @@ class FitsuDatabaseTest {
 
         transactionDao.insertNewTransaction(transaction)
 
-        val transactionLiveData = transactionDao.getTransactionDetail(transaction.id)
-        val dbTransaction = LiveDataTestUtil.getValue(transactionLiveData)
-        Assert.assertNotNull(dbTransaction)
-        assertEquals("Date should match", transaction.date, dbTransaction.date)
-        assertEquals("categoryId should match", transaction.categoryId, dbTransaction.categoryId)
+        val transactionFromDb = transactionDao.getTransaction(transaction.id)
+        assertEquals("Date should match", transaction.date, transactionFromDb.date)
+        assertEquals("categoryId should match", transaction.categoryId, transactionFromDb.categoryId)
     }
 }
