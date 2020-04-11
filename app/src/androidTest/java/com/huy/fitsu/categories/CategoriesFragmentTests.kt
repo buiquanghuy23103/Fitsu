@@ -15,6 +15,7 @@ import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.repository.CategoryRepository
+import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -33,13 +34,15 @@ class CategoriesFragmentTests {
     fun setup() {
         categoryRepository = ApplicationProvider.getApplicationContext<FitsuApplication>().appComponent
             .categoryRepository
-        runBlocking {
-            categoryRepository.insertNewCategory(testCategory)
+        wrapEspressoIdlingResource {
+            runBlocking {
+                categoryRepository.insertNewCategory(testCategory)
+            }
         }
     }
 
     @After
-    fun tearDown() {
+    fun tearDown() = wrapEspressoIdlingResource {
         runBlocking {
             categoryRepository.deleteAllCategories()
         }
