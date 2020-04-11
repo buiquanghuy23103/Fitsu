@@ -9,6 +9,7 @@ import com.huy.fitsu.data.repository.TransactionRepository
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.notNull
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -44,7 +45,10 @@ class AddEditTransactionViewModelTest {
 
 
     @Before
-    fun setUp() {
+    fun setUp() = testDispatcher.runBlockingTest {
+
+        whenever(transactionRepository.getTransaction(any()))
+            .thenReturn(testTransaction)
 
         viewModel = AddEditTransactionViewModel(transactionRepository, categoryRepository, testDispatcher)
 
@@ -53,15 +57,18 @@ class AddEditTransactionViewModelTest {
     }
 
     @Test
-    fun updateTransaction_shouldNavigateUp() {
-        viewModel.updateTransactionToDb(testTransaction)
+    fun updateTransaction_shouldNavigateUp() = testDispatcher.runBlockingTest {
+
+
+        viewModel.updateTransactionToDb()
 
         verify(navigateUpObserver).onChanged(notNull())
     }
 
     @Test
     fun updateTransaction_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
-        viewModel.updateTransactionToDb(testTransaction)
+
+        viewModel.updateTransactionToDb()
 
         verify(transactionRepository).updateTransaction(any())
     }
