@@ -1,5 +1,6 @@
 package com.huy.fitsu.addEditTransaction
 
+import android.widget.DatePicker
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
@@ -7,9 +8,10 @@ import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.contrib.PickerActions
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
@@ -20,12 +22,15 @@ import com.huy.fitsu.data.repository.TransactionRepository
 import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
+import java.util.*
+
 
 @RunWith(AndroidJUnit4::class)
 class AddEditTransactionFragmentTest {
@@ -88,6 +93,45 @@ class AddEditTransactionFragmentTest {
             .perform(click())
 
         verify(navController).navigateUp()
+    }
+
+    @Test
+    fun updateTransaction_shouldDisplayOnDashboard() {
+        val dateString = "Friday, 10 April 2020"
+        val testDate = DateConverter.stringToDate(dateString)
+        val calendar = Calendar.getInstance().apply { time = testDate }
+        val testYear = calendar.get(Calendar.YEAR)
+        val testMonth = calendar.get(Calendar.MONTH)
+        val testDay = calendar.get(Calendar.DAY_OF_MONTH)
+        launchFragment()
+
+        // Change transaction value
+        onView(withId(R.id.transaction_value_edit_text))
+            .perform(replaceText("123"))
+
+        // Change transaction date value
+        onView(withId(R.id.transaction_date_button))
+            .perform(click())
+        onView(withClassName(equalTo(DatePicker::class.java.name)))
+            .perform(PickerActions.setDate(testYear, testMonth, testDay))
+
+        // Change transaction's category
+        onView(withId(R.id.transaction_category_button))
+            .perform(click())
+        onView(withText(testCategory2.title))
+            .perform(click())
+        onView(withId(android.R.id.button1))
+            .perform(click())
+
+        // Click "Update" fab
+        onView(withId(R.id.add_transaction_fab))
+            .perform(click())
+
+        onView(withText(testCategory2.title))
+            .check(matches(isDisplayed()))
+        onView(withText(dateString))
+            .check(matches(isDisplayed()))
+
     }
 
     private fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
