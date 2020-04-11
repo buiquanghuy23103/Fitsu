@@ -7,12 +7,18 @@ import com.huy.fitsu.data.model.TransactionDetail
 
 interface TransactionDataSource {
 
+    suspend fun getTransaction(id: String): Transaction
+
     suspend fun insertNewTransaction(transaction: Transaction)
 
     suspend fun deleteAllTransactions()
 
+    suspend fun updateTransaction(transaction: Transaction)
+
     fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
 
-    fun getTransaction(id: String): LiveData<Transaction>
+    fun getTransactionDetail(id: String): LiveData<TransactionDetail>
+
+    fun getTransactionLiveData(id: String): LiveData<Transaction>
 
 }

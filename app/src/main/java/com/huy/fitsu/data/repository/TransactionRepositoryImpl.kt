@@ -7,6 +7,7 @@ import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.manager.TransactionDataSource
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
+import com.huy.fitsu.util.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -14,12 +15,28 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionLocalDataSource: TransactionDataSource
 ) : TransactionRepository {
 
+    override suspend fun getTransaction(id: String): Transaction {
+        return wrapEspressoIdlingResource {
+            transactionLocalDataSource.getTransaction(id)
+        }
+    }
+
     override suspend fun insertNewTransaction(transaction: Transaction) {
-        transactionLocalDataSource.insertNewTransaction(transaction)
+        wrapEspressoIdlingResource {
+            transactionLocalDataSource.insertNewTransaction(transaction)
+        }
     }
 
     override suspend fun deleteAllTransactions() {
-        transactionLocalDataSource.deleteAllTransactions()
+        wrapEspressoIdlingResource {
+            transactionLocalDataSource.deleteAllTransactions()
+        }
+    }
+
+    override suspend fun updateTransaction(transaction: Transaction) {
+        wrapEspressoIdlingResource {
+            transactionLocalDataSource.updateTransaction(transaction)
+        }
     }
 
     override fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>> {
@@ -27,7 +44,11 @@ class TransactionRepositoryImpl @Inject constructor(
         return factory.toLiveData(pageSize = 5)
     }
 
-    override fun getTransaction(id: String): LiveData<Transaction> {
-        return transactionLocalDataSource.getTransaction(id)
+    override fun getTransactionDetail(id: String): LiveData<TransactionDetail> {
+        return transactionLocalDataSource.getTransactionDetail(id)
+    }
+
+    override fun getTransactionLiveData(id: String): LiveData<Transaction> {
+        return transactionLocalDataSource.getTransactionLiveData(id)
     }
 }

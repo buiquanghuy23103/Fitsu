@@ -13,6 +13,10 @@ class TransactionLocalDataSource(
     private val ioDispatcher: CoroutineDispatcher
 ): TransactionDataSource {
 
+    override suspend fun getTransaction(id: String) : Transaction = withContext(ioDispatcher) {
+        transactionDao.getTransaction(id)
+    }
+
     override suspend fun insertNewTransaction(transaction: Transaction) = withContext(ioDispatcher) {
         transactionDao.insertNewTransaction(transaction)
     }
@@ -21,11 +25,19 @@ class TransactionLocalDataSource(
         transactionDao.deleteAllTransactions()
     }
 
+    override suspend fun updateTransaction(transaction: Transaction) = withContext(ioDispatcher) {
+        transactionDao.updateTransaction(transaction)
+    }
+
     override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
         return transactionDao.getTransactionDetails()
     }
 
-    override fun getTransaction(id: String): LiveData<Transaction> {
-        return transactionDao.getTransaction(id)
+    override fun getTransactionDetail(id: String): LiveData<TransactionDetail> {
+        return transactionDao.getTransactionDetail(id)
+    }
+
+    override fun getTransactionLiveData(id: String): LiveData<Transaction> {
+        return transactionDao.getTransactionLiveData(id)
     }
 }

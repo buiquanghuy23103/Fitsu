@@ -7,12 +7,18 @@ import com.huy.fitsu.data.model.TransactionDetail
 
 interface TransactionRepository {
 
+    suspend fun getTransaction(id: String) : Transaction
+
     suspend fun insertNewTransaction(transaction: Transaction)
 
     suspend fun deleteAllTransactions()  // for testing
 
     fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>>
 
-    fun getTransaction(id: String): LiveData<Transaction>
+    fun getTransactionDetail(id: String): LiveData<TransactionDetail>
+
+    fun getTransactionLiveData(id: String): LiveData<Transaction>
+
+    suspend fun updateTransaction(transaction: Transaction)
 
 }

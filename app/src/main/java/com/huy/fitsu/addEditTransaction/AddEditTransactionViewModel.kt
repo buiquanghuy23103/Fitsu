@@ -1,22 +1,75 @@
 package com.huy.fitsu.addEditTransaction
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.huy.fitsu.data.model.Category
+import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.TransactionRepository
+import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 class AddEditTransactionViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val categoryRepository: CategoryRepository,
+    @DispatcherModule.MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private var transactionId = ""
 
-    fun withTransactionId(id: String) {
+    private val _navigateUp = MutableLiveData<Event<Unit>>()
+    val navigateUp : LiveData<Event<Unit>> = _navigateUp
+
+    private val _transaction = MutableLiveData<Transaction>()
+
+    fun loadTransactionWithId(id: String) {
         this.transactionId = id
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                val transaction = transactionRepository.getTransaction(id)
+                _transaction.postValue(transaction)
+            }
+        }
     }
 
-    val transaction : LiveData<Transaction>
-        get() = transactionRepository.getTransaction(transactionId)
+    val transaction : LiveData<Transaction> = _transaction
+
+    val category : LiveData<Category>
+        get() = Transformations.switchMap(_transaction) {
+            categoryRepository.getCategory(it.categoryId)
+        }
+
+    val categories = categoryRepository.getCategories()
+
+    fun updateTransaction() {
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                _transaction.value?.let {
+                    transactionRepository.updateTransaction(it)
+                    _navigateUp.value = Event(Unit)
+                }
+
+            }
+        }
+    }
+
+    fun updateTransactionDate(date: Date) {
+        val newTransaction = _transaction.value?.copy(
+            date = date
+        )
+        newTransaction?.let { _transaction.value = newTransaction }
+    }
+
+    fun updateTransactionCategoryId(categoryId: String) {
+        val newTransaction = _transaction.value?.copy(
+            categoryId = categoryId
+        )
+        newTransaction?.let { _transaction.value = newTransaction }
+    }
 
 }
