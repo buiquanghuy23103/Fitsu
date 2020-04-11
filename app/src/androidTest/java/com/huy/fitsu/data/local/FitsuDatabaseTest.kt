@@ -17,6 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class FitsuDatabaseTest {
@@ -27,7 +28,15 @@ class FitsuDatabaseTest {
     private lateinit var db: FitsuDatabase
     private lateinit var categoryDao: CategoryDao
     private lateinit var transactionDao: TransactionDao
-    private val sampleCategory = Category()
+    private val sampleCategory = Category(
+        color = -255,
+        title = "Food"
+    )
+    private val sampleTransaction = Transaction(
+        value = 123,
+        categoryId = sampleCategory.id,
+        date = Date()
+    )
 
     @Before
     fun createDb() {
@@ -80,12 +89,27 @@ class FitsuDatabaseTest {
 
     @Test
     fun getTransactionById() = runBlocking {
-        val transaction = Transaction(categoryId = "categoryId")
+        transactionDao.insertNewTransaction(sampleTransaction)
 
-        transactionDao.insertNewTransaction(transaction)
+        val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
+        assertEquals("Date should match", sampleTransaction.date, transactionFromDb.date)
+        assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb.categoryId)
+    }
 
-        val transactionFromDb = transactionDao.getTransaction(transaction.id)
-        assertEquals("Date should match", transaction.date, transactionFromDb.date)
-        assertEquals("categoryId should match", transaction.categoryId, transactionFromDb.categoryId)
+    @Test
+    fun getTransactionDetail() = runBlocking {
+        categoryDao.insertNewCategory(sampleCategory)
+        transactionDao.insertNewTransaction(sampleTransaction)
+
+        val transactionDetailLiveData = transactionDao.getTransactionDetail(sampleTransaction.id)
+        val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
+
+        assertEquals(sampleTransaction.id, transactionDetail.id)
+        assertEquals(sampleTransaction.date, transactionDetail.date)
+        assertEquals(sampleTransaction.value, transactionDetail.value)
+        assertEquals(sampleTransaction.categoryId, transactionDetail.categoryId)
+        assertEquals(sampleCategory.title, transactionDetail.categoryTitle)
+        assertEquals(sampleCategory.color, transactionDetail.categoryColor)
+        assertEquals(sampleCategory.id, transactionDetail.categoryId)
     }
 }
