@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,7 +20,6 @@ import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.AddEditTransactionFragBinding
 import com.huy.fitsu.util.DateConverter
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -61,6 +61,7 @@ class AddEditTransactionFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setupValueEditText()
         setupUpdateButton()
 
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
@@ -70,16 +71,15 @@ class AddEditTransactionFragment: Fragment() {
             }
         })
 
-        viewModel.category.observe(viewLifecycleOwner, Observer {
-            it?.let {category ->
+        viewModel.categoriesAndChosenCategory().observe(viewLifecycleOwner, Observer {
+            it?.let { pair ->
+                val categories = pair.first
+                val category = pair.second
+                val currentCategoryIndex = categories.indexOf(category)
+
                 binding.category = category
-            }
-        })
-
-        viewModel.categories.observe(viewLifecycleOwner, Observer {
-            it?.let { categories ->
-                setupCategoryPicker(categories)
-
+                setupCategoryPicker(categories, category)
+                viewModel.saveCategoryIndex(currentCategoryIndex)
             }
         })
 
@@ -89,7 +89,14 @@ class AddEditTransactionFragment: Fragment() {
 
     }
 
-    private fun setupCategoryPicker(categories: List<Category>) {
+    private fun setupValueEditText() {
+        binding.transactionValueEditText.addTextChangedListener {
+            val value = it.toString().toInt()
+            viewModel.updateTransactionValue(value)
+        }
+    }
+
+    private fun setupCategoryPicker(categories: List<Category>, selectedCategory: Category) {
         val categoriesString : Array<CharSequence> = categories.map { it.title }.toTypedArray()
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
@@ -97,17 +104,17 @@ class AddEditTransactionFragment: Fragment() {
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
-            .setPositiveButton(R.string.transaction_category_picker_positive_button_title) { dialog, _ ->
-
-                dialog.dismiss()
-            }
-            .setSingleChoiceItems(categoriesString, -1) { _, which ->
-                Timber.i("chosenIndex=$which")
-                val chosenCategory = categories[which]
-                viewModel.updateTransactionCategoryId(chosenCategory.id)
-            }
 
         binding.transactionCategoryButton.setOnClickListener {
+            val currentCategoryIndex = categories.indexOf(selectedCategory)
+
+            dialog.setPositiveButton(R.string.ok) { dialog, _ ->
+                viewModel.updateTransactionCategoryId(categories)
+                dialog.dismiss()
+            }.setSingleChoiceItems(categoriesString, currentCategoryIndex) { _, which ->
+                viewModel.saveCategoryIndex(which)
+            }
+
             dialog.show()
         }
     }
@@ -132,7 +139,7 @@ class AddEditTransactionFragment: Fragment() {
 
     private fun setupUpdateButton() {
         binding.transactionUpdateButton.setOnClickListener {
-            viewModel.updateTransaction()
+            viewModel.updateTransactionToDb()
         }
     }
 

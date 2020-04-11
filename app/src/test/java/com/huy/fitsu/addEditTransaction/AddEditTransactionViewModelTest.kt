@@ -54,14 +54,14 @@ class AddEditTransactionViewModelTest {
 
     @Test
     fun updateTransaction_shouldNavigateUp() {
-        viewModel.updateTransaction(testTransaction)
+        viewModel.updateTransactionToDb(testTransaction)
 
         verify(navigateUpObserver).onChanged(notNull())
     }
 
     @Test
     fun updateTransaction_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
-        viewModel.updateTransaction(testTransaction)
+        viewModel.updateTransactionToDb(testTransaction)
 
         verify(transactionRepository).updateTransaction(any())
     }
