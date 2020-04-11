@@ -97,12 +97,14 @@ class AddEditTransactionViewModel @Inject constructor(
         newTransaction?.let { _transaction.value = newTransaction }
     }
 
-    fun updateTransactionCategoryId(categories: List<Category>) {
-        val selectedCategory = categories[selectedCategoryIndex]
-        val newTransaction = _transaction.value?.copy(
-            categoryId = selectedCategory.id
-        )
-        newTransaction?.let { _transaction.value = newTransaction }
+    fun updateTransactionCategoryId() {
+        categories.value?.get(selectedCategoryIndex)?.let {selectedCategory ->
+            val newTransaction = _transaction.value?.copy(
+                categoryId = selectedCategory.id
+            )
+            newTransaction?.let { _transaction.value = newTransaction }
+        }
+
     }
 
 }

@@ -109,7 +109,7 @@ class AddEditTransactionFragment: Fragment() {
             val currentCategoryIndex = categories.indexOf(selectedCategory)
 
             dialog.setPositiveButton(R.string.ok) { dialog, _ ->
-                viewModel.updateTransactionCategoryId(categories)
+                viewModel.updateTransactionCategoryId()
                 dialog.dismiss()
             }.setSingleChoiceItems(categoriesString, currentCategoryIndex) { _, which ->
                 viewModel.saveCategoryIndex(which)
