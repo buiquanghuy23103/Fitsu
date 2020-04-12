@@ -10,12 +10,15 @@ class FakeCategoryRepository @Inject constructor() : CategoryRepository {
 
     private val categories = mutableListOf<Category>()
 
+    override suspend fun getCategory(id: String): Category?
+        = categories.find { it.id == id }
+
     override fun getCategoriesLiveData(): LiveData<List<Category>> = liveData {
         emit(categories.toList())
     }
 
     override fun getCategoryLiveData(id: String): LiveData<Category> = liveData {
-        findById(id)?.let { emit(it) }
+        getCategory(id)?.let { emit(it) }
     }
 
     override suspend fun insertNewCategory(category: Category) {
@@ -34,5 +37,4 @@ class FakeCategoryRepository @Inject constructor() : CategoryRepository {
         categories.removeAll { true }
     }
 
-    private fun findById(id: String) = categories.find { it.id == id }
 }

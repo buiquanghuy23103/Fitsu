@@ -17,6 +17,10 @@ class CategoryRepositoryImpl @Inject constructor(
 
     private val categoryDao = db.categoryDao()
 
+    override suspend fun getCategory(id: String): Category? {
+        return categoryDao.findById(id)
+    }
+
     override fun getCategoriesLiveData(): LiveData<List<Category>> {
         return categoryDao.getAllLiveData()
     }

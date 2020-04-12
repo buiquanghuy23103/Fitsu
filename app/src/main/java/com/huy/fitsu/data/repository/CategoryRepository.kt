@@ -9,6 +9,8 @@ interface CategoryRepository {
 
     fun getCategoryLiveData(id: String): LiveData<Category>
 
+    suspend fun getCategory(id: String) : Category?
+
     suspend fun insertNewCategory(category: Category)
 
     suspend fun updateCategory(category: Category)
