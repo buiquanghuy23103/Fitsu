@@ -5,7 +5,6 @@ import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.dashboard.di.DashboardComponent
-import com.huy.fitsu.data.manager.DataSourceModule
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.data.repository.TransactionRepository
@@ -24,8 +23,7 @@ import javax.inject.Singleton
         ViewModelBuilderModule::class,
         RepositoryModule::class,
         SchedulerModule::class,
-        DispatcherModule::class,
-        DataSourceModule::class
+        DispatcherModule::class
     ]
 )
 interface AppComponent {
