@@ -8,18 +8,18 @@ import com.huy.fitsu.data.model.Category
 interface CategoryDao {
 
     @Query("SELECT * FROM categories WHERE id = :id")
-    fun findById(id: String): LiveData<Category>
+    fun findByIdLiveData(id: String): LiveData<Category>
 
     @Query("SELECT * FROM categories ORDER BY title")
-    fun getAll(): LiveData<List<Category>>
+    fun getAllLiveData(): LiveData<List<Category>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNewCategory(category: Category)
+    suspend fun insert(category: Category)
 
     @Update
-    suspend fun updateCategory(category: Category)
+    suspend fun update(category: Category)
 
     @Query("DELETE FROM categories")
-    suspend fun deleteAllCategories() // Use for testing
+    suspend fun deleteAll() // Use for testing
 
 }

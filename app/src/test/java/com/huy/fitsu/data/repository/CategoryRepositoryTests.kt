@@ -1,10 +1,14 @@
 package com.huy.fitsu.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.huy.fitsu.data.manager.CategoryDataSource
+import com.huy.fitsu.data.local.CategoryDao
+import com.huy.fitsu.data.local.FitsuDatabase
 import com.huy.fitsu.data.model.Category
 import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.whenever
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -13,6 +17,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
 class CategoryRepositoryTests {
 
@@ -20,13 +25,20 @@ class CategoryRepositoryTests {
     val taskRuleExecutor = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var localDataSource: CategoryDataSource
+    private lateinit var db: FitsuDatabase
+
+    @Mock
+    private lateinit var categoryDao: CategoryDao
 
     private lateinit var repository: CategoryRepository
 
+    private val testDispatcher = TestCoroutineDispatcher()
+
     @Before
     fun setup() {
-        repository = CategoryRepositoryImpl(localDataSource)
+        whenever(db.categoryDao())
+            .thenReturn(categoryDao)
+        repository = CategoryRepositoryImpl(db, testDispatcher)
     }
 
     @Test
@@ -34,14 +46,14 @@ class CategoryRepositoryTests {
         val newCategory = Category()
         repository.insertNewCategory(newCategory)
 
-        verify(localDataSource).insertNewCategory(eq(newCategory))
+        verify(categoryDao).insert(eq(newCategory))
     }
 
     @Test
     fun getAllCategories_shouldDelegateTo_localDataSource() {
         repository.getCategories()
 
-        verify(localDataSource).getCategories()
+        verify(categoryDao).getAllLiveData()
     }
 
     @Test
@@ -50,7 +62,7 @@ class CategoryRepositoryTests {
 
         repository.getCategory(id)
 
-        verify(localDataSource).getCategory(eq(id))
+        verify(categoryDao).findByIdLiveData(eq(id))
     }
 
     @Test
@@ -59,7 +71,7 @@ class CategoryRepositoryTests {
 
         repository.updateCategory(updatedCategory)
 
-        verify(localDataSource).updateCategory(updatedCategory)
+        verify(categoryDao).update(updatedCategory)
     }
 
 }

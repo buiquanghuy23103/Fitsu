@@ -1,40 +1,51 @@
 package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
-import com.huy.fitsu.data.manager.CategoryDataSource
-import com.huy.fitsu.data.manager.DataSourceModule
+import com.huy.fitsu.data.local.FitsuDatabase
 import com.huy.fitsu.data.model.Category
+import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
-    @DataSourceModule.CategoryLocalDataSource
-    private val categoryLocalDataSource: CategoryDataSource
+    db: FitsuDatabase,
+    @DispatcherModule.IoDispatcher
+    private val ioDispatcher: CoroutineDispatcher
 ) : CategoryRepository {
 
+    private val categoryDao = db.categoryDao()
+
     override fun getCategories(): LiveData<List<Category>> {
-        return categoryLocalDataSource.getCategories()
+        return categoryDao.getAllLiveData()
     }
 
     override fun getCategory(id: String): LiveData<Category> {
-        return categoryLocalDataSource.getCategory(id)
+        return categoryDao.findByIdLiveData(id)
     }
 
     override suspend fun insertNewCategory(category: Category) {
         wrapEspressoIdlingResource {
-            categoryLocalDataSource.insertNewCategory(category)
+            withContext(ioDispatcher) {
+                categoryDao.insert(category)
+            }
         }
     }
 
     override suspend fun updateCategory(category: Category) {
         wrapEspressoIdlingResource {
-            categoryLocalDataSource.updateCategory(category)
+            withContext(ioDispatcher) {
+                categoryDao.update(category)
+            }
         }
     }
 
     override suspend fun deleteAllCategories() {
         wrapEspressoIdlingResource {
-            categoryLocalDataSource.deleteAllCategories()
+            withContext(ioDispatcher) {
+                categoryDao.deleteAll()
+            }
         }
     }
 }

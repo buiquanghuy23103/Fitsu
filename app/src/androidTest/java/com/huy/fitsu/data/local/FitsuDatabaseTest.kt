@@ -56,9 +56,9 @@ class FitsuDatabaseTest {
 
     @Test
     fun getAllCategories() = runBlocking {
-        categoryDao.insertNewCategory(sampleCategory)
+        categoryDao.insert(sampleCategory)
 
-        val categoriesLiveData = categoryDao.getAll()
+        val categoriesLiveData = categoryDao.getAllLiveData()
         val categories = LiveDataTestUtil.getValue(categoriesLiveData)
 
         assertTrue(categories.contains(sampleCategory))
@@ -66,9 +66,9 @@ class FitsuDatabaseTest {
 
     @Test
     fun getCategoryById() = runBlocking {
-        categoryDao.insertNewCategory(sampleCategory)
+        categoryDao.insert(sampleCategory)
 
-        val categoryLiveData = categoryDao.findById(sampleCategory.id)
+        val categoryLiveData = categoryDao.findByIdLiveData(sampleCategory.id)
         val category = LiveDataTestUtil.getValue(categoryLiveData)
 
         assertEquals(category, sampleCategory)
@@ -76,12 +76,12 @@ class FitsuDatabaseTest {
 
     @Test
     fun updateCategory() = runBlocking {
-        categoryDao.insertNewCategory(sampleCategory)
+        categoryDao.insert(sampleCategory)
 
         val newCategory = sampleCategory.copy(title = "New")
-        categoryDao.updateCategory(newCategory)
+        categoryDao.update(newCategory)
 
-        val categoryLiveData = categoryDao.findById(sampleCategory.id)
+        val categoryLiveData = categoryDao.findByIdLiveData(sampleCategory.id)
         val categoryFromDb = LiveDataTestUtil.getValue(categoryLiveData)
 
         assertEquals(newCategory.title, categoryFromDb.title)
@@ -89,17 +89,17 @@ class FitsuDatabaseTest {
 
     @Test
     fun getTransactionById() = runBlocking {
-        transactionDao.insertNewTransaction(sampleTransaction)
+        transactionDao.insert(sampleTransaction)
 
         val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
-        assertEquals("Date should match", sampleTransaction.date, transactionFromDb.date)
-        assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb.categoryId)
+        assertEquals("Date should match", sampleTransaction.date, transactionFromDb?.date)
+        assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb?.categoryId)
     }
 
     @Test
     fun getTransactionDetail() = runBlocking {
-        categoryDao.insertNewCategory(sampleCategory)
-        transactionDao.insertNewTransaction(sampleTransaction)
+        categoryDao.insert(sampleCategory)
+        transactionDao.insert(sampleTransaction)
 
         val transactionDetailLiveData = transactionDao.getTransactionDetail(sampleTransaction.id)
         val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
