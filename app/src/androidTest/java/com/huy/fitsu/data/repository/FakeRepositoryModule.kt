@@ -8,7 +8,7 @@ abstract class FakeRepositoryModule {
 
 
     @Binds
-    abstract fun categoriesRepository(repository: CategoryRepositoryImpl): CategoryRepository
+    abstract fun categoriesRepository(repository: FakeCategoryRepository): CategoryRepository
 
     @Binds
     abstract fun transactionsRepository(repo: TransactionRepositoryImpl): TransactionRepository
