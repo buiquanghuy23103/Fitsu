@@ -47,10 +47,10 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private val category : LiveData<Category>
         get() = Transformations.switchMap(_transaction) {
-            categoryRepository.getCategory(it.categoryId)
+            categoryRepository.getCategoryLiveData(it.categoryId)
         }
 
-    private val categories = categoryRepository.getCategories()
+    private val categories = categoryRepository.getCategoriesLiveData()
 
     fun categoriesAndChosenCategory() : LiveData<Pair<List<Category>, Category>> {
 

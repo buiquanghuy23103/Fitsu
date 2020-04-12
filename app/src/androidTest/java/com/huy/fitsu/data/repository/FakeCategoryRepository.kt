@@ -10,11 +10,11 @@ class FakeCategoryRepository @Inject constructor() : CategoryRepository {
 
     private val categories = mutableListOf<Category>()
 
-    override fun getCategories(): LiveData<List<Category>> = liveData {
+    override fun getCategoriesLiveData(): LiveData<List<Category>> = liveData {
         emit(categories.toList())
     }
 
-    override fun getCategory(id: String): LiveData<Category> = liveData {
+    override fun getCategoryLiveData(id: String): LiveData<Category> = liveData {
         findById(id)?.let { emit(it) }
     }
 

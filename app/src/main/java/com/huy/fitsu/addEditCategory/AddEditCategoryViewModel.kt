@@ -33,7 +33,7 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     fun getCategory(): LiveData<Category> {
-        return repository.getCategory(categoryId)
+        return repository.getCategoryLiveData(categoryId)
     }
 
     fun updateCategory(category: Category) {

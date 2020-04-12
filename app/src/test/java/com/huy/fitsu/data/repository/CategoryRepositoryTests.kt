@@ -51,7 +51,7 @@ class CategoryRepositoryTests {
 
     @Test
     fun getAllCategories_shouldDelegateTo_localDataSource() {
-        repository.getCategories()
+        repository.getCategoriesLiveData()
 
         verify(categoryDao).getAllLiveData()
     }
@@ -60,7 +60,7 @@ class CategoryRepositoryTests {
     fun findCategoryById_shouldDelegateTo_localDataSource() {
         val id = "id"
 
-        repository.getCategory(id)
+        repository.getCategoryLiveData(id)
 
         verify(categoryDao).findByIdLiveData(eq(id))
     }

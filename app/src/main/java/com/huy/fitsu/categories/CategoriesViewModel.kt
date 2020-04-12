@@ -28,7 +28,7 @@ class CategoriesViewModel @Inject constructor(
     }
 
     fun getAllCategories() : LiveData<List<Category>>
-            = repository.getCategories()
+            = repository.getCategoriesLiveData()
 
     fun editCategoryWithId(id: String) {
         editCategoryEventLiveData.value = Event(id)
