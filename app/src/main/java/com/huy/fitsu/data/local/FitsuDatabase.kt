@@ -17,4 +17,5 @@ import com.huy.fitsu.data.model.TransactionDetail
 abstract class FitsuDatabase: RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun transactionDao(): TransactionDao
+    abstract fun transactionDetailDao(): TransactionDetailDao
 }

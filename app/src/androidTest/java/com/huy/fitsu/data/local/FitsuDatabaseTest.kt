@@ -89,7 +89,7 @@ class FitsuDatabaseTest {
 
     @Test
     fun getTransactionById() = runBlocking {
-        transactionDao.insertNewTransaction(sampleTransaction)
+        transactionDao.insert(sampleTransaction)
 
         val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
         assertEquals("Date should match", sampleTransaction.date, transactionFromDb?.date)
@@ -99,7 +99,7 @@ class FitsuDatabaseTest {
     @Test
     fun getTransactionDetail() = runBlocking {
         categoryDao.insert(sampleCategory)
-        transactionDao.insertNewTransaction(sampleTransaction)
+        transactionDao.insert(sampleTransaction)
 
         val transactionDetailLiveData = transactionDao.getTransactionDetail(sampleTransaction.id)
         val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)

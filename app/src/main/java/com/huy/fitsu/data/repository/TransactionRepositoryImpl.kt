@@ -3,52 +3,66 @@ package com.huy.fitsu.data.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.huy.fitsu.data.manager.DataSourceModule
-import com.huy.fitsu.data.manager.TransactionDataSource
+import com.huy.fitsu.data.local.FitsuDatabase
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
+import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    @DataSourceModule.TransactionLocalDataSource
-    private val transactionLocalDataSource: TransactionDataSource
+    db: FitsuDatabase,
+    @DispatcherModule.IoDispatcher
+    private val ioDispatcher: CoroutineDispatcher
 ) : TransactionRepository {
+
+    private val transactionDao = db.transactionDao()
+    private val transactionDetailDao = db.transactionDetailDao()
 
     override suspend fun getTransaction(id: String): Transaction? {
         return wrapEspressoIdlingResource {
-            transactionLocalDataSource.getTransaction(id)
+            withContext(ioDispatcher) {
+                transactionDao.getTransaction(id)
+            }
         }
     }
 
     override suspend fun insertNewTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.insertNewTransaction(transaction)
+            withContext(ioDispatcher) {
+                transactionDao.insert(transaction)
+            }
         }
     }
 
     override suspend fun deleteAllTransactions() {
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.deleteAllTransactions()
+            withContext(ioDispatcher) {
+                transactionDao.deleteAll()
+            }
         }
     }
 
     override suspend fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.updateTransaction(transaction)
+            withContext(ioDispatcher) {
+                transactionDao.update(transaction)
+            }
         }
     }
 
     override fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>> {
-        val factory = transactionLocalDataSource.getTransactionDetails()
+        val factory = transactionDetailDao.getPagedListLiveData()
         return factory.toLiveData(pageSize = 5)
     }
 
     override fun getTransactionDetail(id: String): LiveData<TransactionDetail> {
-        return transactionLocalDataSource.getTransactionDetail(id)
+        return transactionDetailDao.findByIdLiveData(id)
     }
 
     override fun getTransactionLiveData(id: String): LiveData<Transaction> {
-        return transactionLocalDataSource.getTransactionLiveData(id)
+        return transactionDao.findByIdLiveData(id)
     }
 }

@@ -10,24 +10,24 @@ import com.huy.fitsu.data.model.TransactionDetail
 interface TransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNewTransaction(transaction: Transaction)
+    suspend fun insert(transaction: Transaction)
 
     @Query("SELECT * FROM TransactionDetail WHERE id = :id")
     fun getTransactionDetail(id: String): LiveData<TransactionDetail>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
-    fun getTransactionLiveData(id: String): LiveData<Transaction>
+    fun findByIdLiveData(id: String): LiveData<Transaction>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getTransaction(id: String): Transaction?
 
     @Query("SELECT * FROM TransactionDetail ORDER BY date DESC")
-    fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
+    fun getPagedListLiveData(): DataSource.Factory<Int, TransactionDetail>
 
     @Update
-    suspend fun updateTransaction(transaction: Transaction)
+    suspend fun update(transaction: Transaction)
 
     @Query("DELETE FROM transactions")
-    suspend fun deleteAllTransactions()
+    suspend fun deleteAll()
 
 }

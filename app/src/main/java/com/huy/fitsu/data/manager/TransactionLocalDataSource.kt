@@ -18,19 +18,19 @@ class TransactionLocalDataSource(
     }
 
     override suspend fun insertNewTransaction(transaction: Transaction) = withContext(ioDispatcher) {
-        transactionDao.insertNewTransaction(transaction)
+        transactionDao.insert(transaction)
     }
 
     override suspend fun deleteAllTransactions() = withContext(ioDispatcher) {
-        transactionDao.deleteAllTransactions()
+        transactionDao.deleteAll()
     }
 
     override suspend fun updateTransaction(transaction: Transaction) = withContext(ioDispatcher) {
-        transactionDao.updateTransaction(transaction)
+        transactionDao.update(transaction)
     }
 
     override fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail> {
-        return transactionDao.getTransactionDetails()
+        return transactionDao.getPagedListLiveData()
     }
 
     override fun getTransactionDetail(id: String): LiveData<TransactionDetail> {
@@ -38,6 +38,6 @@ class TransactionLocalDataSource(
     }
 
     override fun getTransactionLiveData(id: String): LiveData<Transaction> {
-        return transactionDao.getTransactionLiveData(id)
+        return transactionDao.findByIdLiveData(id)
     }
 }
