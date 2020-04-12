@@ -13,9 +13,9 @@ interface TransactionRepository {
 
     suspend fun deleteAllTransactions()  // for testing
 
-    fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>>
+    fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>>
 
-    fun getTransactionDetail(id: String): LiveData<TransactionDetail>
+    fun getTransactionDetailLiveData(id: String): LiveData<TransactionDetail>
 
     fun getTransactionLiveData(id: String): LiveData<Transaction>
 

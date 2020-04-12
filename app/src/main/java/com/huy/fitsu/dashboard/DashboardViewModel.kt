@@ -25,7 +25,7 @@ class DashboardViewModel @Inject constructor(
     val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
     val transactions: LiveData<PagedList<TransactionDetail>>
-            = transactionRepository.getTransactionDetails()
+            = transactionRepository.getTransactionDetailPagedList()
 
     fun editTransaction(transactionId: String) {
         _editTransactionEvent.value = Event(transactionId)
