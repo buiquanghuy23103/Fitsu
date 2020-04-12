@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.LiveDataTestUtil
 import com.huy.fitsu.data.model.Category
+import com.huy.fitsu.data.model.Transaction
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -16,6 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class FitsuDatabaseTest {
@@ -25,7 +27,16 @@ class FitsuDatabaseTest {
 
     private lateinit var db: FitsuDatabase
     private lateinit var categoryDao: CategoryDao
-    private val sampleCategory = Category()
+    private lateinit var transactionDao: TransactionDao
+    private val sampleCategory = Category(
+        color = -255,
+        title = "Food"
+    )
+    private val sampleTransaction = Transaction(
+        value = 123,
+        categoryId = sampleCategory.id,
+        date = Date()
+    )
 
     @Before
     fun createDb() {
@@ -34,7 +45,7 @@ class FitsuDatabaseTest {
             appContext, FitsuDatabase::class.java
         ).build()
         categoryDao = db.categoryDao()
-
+        transactionDao = db.transactionDao()
     }
 
     @After
@@ -74,5 +85,31 @@ class FitsuDatabaseTest {
         val categoryFromDb = LiveDataTestUtil.getValue(categoryLiveData)
 
         assertEquals(newCategory.title, categoryFromDb.title)
+    }
+
+    @Test
+    fun getTransactionById() = runBlocking {
+        transactionDao.insertNewTransaction(sampleTransaction)
+
+        val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
+        assertEquals("Date should match", sampleTransaction.date, transactionFromDb.date)
+        assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb.categoryId)
+    }
+
+    @Test
+    fun getTransactionDetail() = runBlocking {
+        categoryDao.insertNewCategory(sampleCategory)
+        transactionDao.insertNewTransaction(sampleTransaction)
+
+        val transactionDetailLiveData = transactionDao.getTransactionDetail(sampleTransaction.id)
+        val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
+
+        assertEquals(sampleTransaction.id, transactionDetail.id)
+        assertEquals(sampleTransaction.date, transactionDetail.date)
+        assertEquals(sampleTransaction.value, transactionDetail.value)
+        assertEquals(sampleTransaction.categoryId, transactionDetail.categoryId)
+        assertEquals(sampleCategory.title, transactionDetail.categoryTitle)
+        assertEquals(sampleCategory.color, transactionDetail.categoryColor)
+        assertEquals(sampleCategory.id, transactionDetail.categoryId)
     }
 }

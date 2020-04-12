@@ -59,7 +59,9 @@ class CategoriesFragment: Fragment() {
 
         viewModel.getAllCategories().observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) Timber.i("category list is empty")
-            it?.let { categories -> listAdapter.submitList(categories) }
+            it?.let { categories ->
+                listAdapter.submitList(categories)
+            }
         })
     }
 

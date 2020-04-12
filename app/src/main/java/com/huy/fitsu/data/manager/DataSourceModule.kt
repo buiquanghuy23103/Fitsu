@@ -29,4 +29,22 @@ object DataSourceModule {
         )
     }
 
+    @Qualifier
+    @Retention(AnnotationRetention.RUNTIME)
+    annotation class TransactionLocalDataSource
+
+    @JvmStatic
+    @Singleton
+    @TransactionLocalDataSource
+    @Provides
+    fun transactionLocalDataSource(
+        database: FitsuDatabase,
+        @DispatcherModule.IoDispatcher ioDispatcher: CoroutineDispatcher
+    ) : TransactionDataSource {
+        return TransactionLocalDataSource(
+            database.transactionDao(),
+            ioDispatcher
+        )
+    }
+
 }

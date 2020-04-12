@@ -14,4 +14,13 @@
     <string name="drawer_header_image_content_description">Fitsu header image</string>
     <string name="update_category_button_label">Update category</string>
 
+    <!--  Add/Edit transaction  -->
+    <string name="transaction_value_edit_text_hint">Transaction value</string>
+    <string name="transaction_date_hint">Transaction date</string>
+    <string name="transaction_date_picker_title">Select date</string>
+    <string name="transaction_category_picker_title">Select category</string>
+
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

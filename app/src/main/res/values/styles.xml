@@ -50,6 +50,14 @@
         parent="Widget.MaterialComponents.Button.OutlinedButton">
     </style>
 
+    <style name="AppTheme.DateButton"
+        parent="AppTheme.OutlineButton">
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">?attr/editTextColor</item>
+        <item name="android:padding">@dimen/padding_large</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
     <style name="AppTheme.ImageButton"
         parent="Widget.AppCompat.ImageButton">
         <item name="backgroundColor">@android:color/transparent</item>
