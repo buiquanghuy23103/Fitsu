@@ -10,8 +10,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        DatabaseModule::class,
-        DaoModule::class,
         SubComponentModule::class,
         ViewModelBuilderModule::class,
         FakeRepositoryModule::class,
