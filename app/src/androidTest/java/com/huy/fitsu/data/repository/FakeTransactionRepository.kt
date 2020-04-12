@@ -5,7 +5,7 @@ import androidx.lifecycle.liveData
 import androidx.paging.PagedList
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
-import com.huy.fitsu.mockPagedList
+import com.huy.fitsu.toTestPagedList
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -44,10 +44,12 @@ class FakeTransactionRepository @Inject constructor(
     }
 
     override fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>> = liveData {
-        val list = transactions.map { it.id }
+        val pagedList = transactions.map { it.id }
             .map { findTransactionDetailById(it) }
             .requireNoNulls()
-        val pagedList = mockPagedList(list)
+            .toMutableList()
+            .toTestPagedList()
+
         emit(pagedList)
     }
 
@@ -68,4 +70,6 @@ class FakeTransactionRepository @Inject constructor(
             }
         }
     }
+
+
 }
