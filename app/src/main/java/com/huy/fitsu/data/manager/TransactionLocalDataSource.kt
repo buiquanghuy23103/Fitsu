@@ -13,7 +13,7 @@ class TransactionLocalDataSource(
     private val ioDispatcher: CoroutineDispatcher
 ): TransactionDataSource {
 
-    override suspend fun getTransaction(id: String) : Transaction = withContext(ioDispatcher) {
+    override suspend fun getTransaction(id: String) : Transaction? = withContext(ioDispatcher) {
         transactionDao.getTransaction(id)
     }
 

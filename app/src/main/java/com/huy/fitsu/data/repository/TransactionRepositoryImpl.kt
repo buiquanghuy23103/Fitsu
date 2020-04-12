@@ -15,7 +15,7 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionLocalDataSource: TransactionDataSource
 ) : TransactionRepository {
 
-    override suspend fun getTransaction(id: String): Transaction {
+    override suspend fun getTransaction(id: String): Transaction? {
         return wrapEspressoIdlingResource {
             transactionLocalDataSource.getTransaction(id)
         }

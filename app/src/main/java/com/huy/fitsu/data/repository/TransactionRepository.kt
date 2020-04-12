@@ -7,7 +7,7 @@ import com.huy.fitsu.data.model.TransactionDetail
 
 interface TransactionRepository {
 
-    suspend fun getTransaction(id: String) : Transaction
+    suspend fun getTransaction(id: String) : Transaction?
 
     suspend fun insertNewTransaction(transaction: Transaction)
 

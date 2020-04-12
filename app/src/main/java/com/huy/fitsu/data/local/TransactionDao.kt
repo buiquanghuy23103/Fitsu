@@ -19,7 +19,7 @@ interface TransactionDao {
     fun getTransactionLiveData(id: String): LiveData<Transaction>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
-    suspend fun getTransaction(id: String): Transaction
+    suspend fun getTransaction(id: String): Transaction?
 
     @Query("SELECT * FROM TransactionDetail ORDER BY date DESC")
     fun getTransactionDetails(): DataSource.Factory<Int, TransactionDetail>
