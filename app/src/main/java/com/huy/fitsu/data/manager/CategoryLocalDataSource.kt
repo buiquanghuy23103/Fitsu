@@ -12,21 +12,21 @@ class CategoryLocalDataSource (
 ): CategoryDataSource {
 
     override fun getCategory(id: String): LiveData<Category> {
-        return categoryDao.findById(id)
+        return categoryDao.findByIdLiveData(id)
     }
 
     override fun getCategories(): LiveData<List<Category>> {
-        return categoryDao.getAll()
+        return categoryDao.getAllLiveData()
     }
     override suspend fun insertNewCategory(category: Category) = withContext(ioDispatcher) {
-        categoryDao.insertNewCategory(category)
+        categoryDao.insert(category)
     }
 
     override suspend fun updateCategory(category: Category) = withContext(ioDispatcher) {
-        categoryDao.updateCategory(category)
+        categoryDao.update(category)
     }
 
     override suspend fun deleteAllCategories() = withContext(ioDispatcher) {
-        categoryDao.deleteAllCategories()
+        categoryDao.deleteAll()
     }
 }
