@@ -32,8 +32,9 @@ class CategoriesFragmentTests {
 
     @Before
     fun setup() {
-        categoryRepository = ApplicationProvider.getApplicationContext<FitsuApplication>().appComponent
-            .categoryRepository
+        categoryRepository =
+            ApplicationProvider.getApplicationContext<FitsuApplication>().appComponent
+                .categoryRepository
         wrapEspressoIdlingResource {
             runBlocking {
                 categoryRepository.insertNewCategory(testCategory)
@@ -79,6 +80,17 @@ class CategoriesFragmentTests {
         verify(navController).navigate(
             CategoriesFragmentDirections.toAddEditCategoryFragment(testCategory.id)
         )
+    }
+
+    @Test
+    fun addCategory() {
+        launchFragment()
+
+        onView(withId(R.id.categories_add_button))
+            .perform(click())
+
+        onView(withId(R.id.add_edit_categories_form_container))
+            .check(matches(isDisplayed()))
     }
 
 
