@@ -17,4 +17,6 @@ interface CategoryRepository {
 
     suspend fun deleteAllCategories()
 
+    suspend fun deleteCategory(id: String)
+
 }

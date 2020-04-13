@@ -52,4 +52,14 @@ class CategoryRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun deleteCategory(id: String) {
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                categoryDao.deleteById(id)
+            }
+        }
+    }
+
+
 }
