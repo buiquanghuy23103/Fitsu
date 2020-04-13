@@ -81,6 +81,7 @@ class AddEditCategoryFragment: Fragment() {
                     binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 }
                 setupUpdateCategoryButton(it)
+                setupDeleteCategoryButton(it)
             }
         })
 
@@ -121,6 +122,12 @@ class AddEditCategoryFragment: Fragment() {
             )
             if (category_color_seek_bar.isVisible) newCategory.color = color
             viewModel.updateCategory(newCategory)
+        }
+    }
+
+    private fun setupDeleteCategoryButton(category: Category) {
+        binding.categoryDeleteButton.setOnClickListener {
+            viewModel.deleteCategory(category.id)
         }
     }
 
