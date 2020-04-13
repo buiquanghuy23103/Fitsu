@@ -72,4 +72,22 @@ class AddEditTransactionViewModelTest {
 
         verify(transactionRepository).updateTransaction(any())
     }
+
+    @Test
+    fun deleteTransaction_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
+        val id = "id"
+
+        viewModel.deleteTransaction(id)
+
+        verify(transactionRepository).deleteTransaction(id)
+    }
+
+    @Test
+    fun deleteTransaction_shouldNavigateUp() {
+        val id = "id"
+
+        viewModel.deleteTransaction(id)
+
+        verify(navigateUpObserver).onChanged(notNull())
+    }
 }

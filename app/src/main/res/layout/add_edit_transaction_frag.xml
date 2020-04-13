@@ -106,6 +106,14 @@
                 android:src="@drawable/ic_tick"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/transaction_delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
