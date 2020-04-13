@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.divyanshu.colorseekbar.ColorSeekBar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.BudgetDuration
@@ -81,7 +82,7 @@ class AddEditCategoryFragment: Fragment() {
                     binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 }
                 setupUpdateCategoryButton(it)
-                setupDeleteCategoryButton(it)
+                setupDeleteCategoryButton(it.id)
             }
         })
 
@@ -125,10 +126,21 @@ class AddEditCategoryFragment: Fragment() {
         }
     }
 
-    private fun setupDeleteCategoryButton(category: Category) {
+    private fun setupDeleteCategoryButton(categoryId: String) {
         binding.categoryDeleteButton.setOnClickListener {
-            viewModel.deleteCategory(category.id)
+            showDeleteWarningDialog(categoryId)
         }
+    }
+
+    private fun showDeleteWarningDialog(categoryId: String) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.delete_category_warning_dialog_title)
+            .setMessage(R.string.delete_category_warning_dialog_message)
+            .setPositiveButton(R.string.delete_category_warning_dialog_positive_button) {dialog, _ ->
+                viewModel.deleteCategory(categoryId)
+                dialog.dismiss()
+            }
+            .show()
     }
 
 }

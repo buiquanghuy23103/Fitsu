@@ -47,6 +47,8 @@ class AddEditCategoryFragmentTest {
 
         onView(withId(R.id.category_delete_button))
             .perform(click())
+        onView(withId(android.R.id.button1))
+            .perform(click()) // Press "OK" button on the dialog
 
         verify(navController).navigateUp()
     }

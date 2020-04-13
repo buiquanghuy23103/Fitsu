@@ -13,6 +13,9 @@
     <string name="category_color_reset_button_label">Reset color</string>
     <string name="drawer_header_image_content_description">Fitsu header image</string>
     <string name="update_category_button_content_description">Update category</string>
+    <string name="delete_category_warning_dialog_title">Delete this category?</string>
+    <string name="delete_category_warning_dialog_message">If you delete this category, all transactions belongs to it will also be deleted?</string>
+    <string name="delete_category_warning_dialog_positive_button">Delete category</string>
 
     <!--  Add/Edit transaction  -->
     <string name="transaction_value_edit_text_hint">Transaction value</string>
