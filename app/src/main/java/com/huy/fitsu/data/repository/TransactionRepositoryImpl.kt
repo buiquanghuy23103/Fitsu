@@ -53,12 +53,12 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getTransactionDetails(): LiveData<PagedList<TransactionDetail>> {
+    override fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>> {
         val factory = transactionDetailDao.getPagedListLiveData()
         return factory.toLiveData(pageSize = 5)
     }
 
-    override fun getTransactionDetail(id: String): LiveData<TransactionDetail> {
+    override fun getTransactionDetailLiveData(id: String): LiveData<TransactionDetail> {
         return transactionDetailDao.findByIdLiveData(id)
     }
 

@@ -60,6 +60,10 @@ dependencies {
     implementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
     // Room database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -101,4 +105,8 @@ dependencies {
     androidTestImplementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
     testImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMaker_version"
+    androidTestImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    androidTestImplementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    androidTestImplementation "androidx.test:runner:$androidXTestRule_version"
+    androidTestImplementation "androidx.test:rules:$androidXTestRule_version"
 }

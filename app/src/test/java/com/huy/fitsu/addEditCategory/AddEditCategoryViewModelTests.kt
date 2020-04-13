@@ -69,7 +69,7 @@ class AddEditCategoryViewModelTests {
 
         viewModel.getCategory()
 
-        verify(repository).getCategory(eq(id))
+        verify(repository).getCategoryLiveData(eq(id))
     }
 
     @Test

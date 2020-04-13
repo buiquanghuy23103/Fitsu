@@ -43,7 +43,7 @@ class DashboardViewModelTest {
 
     @Before
     fun setUp() {
-        whenever(transactionRepository.getTransactionDetails())
+        whenever(transactionRepository.getTransactionDetailPagedList())
             .thenReturn(MutableLiveData())
         viewModel = DashboardViewModel(transactionRepository, testDispatcher)
 

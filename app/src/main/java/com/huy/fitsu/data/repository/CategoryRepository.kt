@@ -5,9 +5,11 @@ import com.huy.fitsu.data.model.Category
 
 interface CategoryRepository {
 
-    fun getCategories(): LiveData<List<Category>>
+    fun getCategoriesLiveData(): LiveData<List<Category>>
 
-    fun getCategory(id: String): LiveData<Category>
+    fun getCategoryLiveData(id: String): LiveData<Category>
+
+    suspend fun getCategory(id: String) : Category?
 
     suspend fun insertNewCategory(category: Category)
 
