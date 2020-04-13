@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -61,8 +60,8 @@ class AddEditTransactionFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupValueEditText()
         setupUpdateButton()
+        updateTransactionValue()
 
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
             it?.let { transaction ->
@@ -87,13 +86,6 @@ class AddEditTransactionFragment: Fragment() {
             findNavController().navigateUp()
         })
 
-    }
-
-    private fun setupValueEditText() {
-        binding.transactionValueEditText.addTextChangedListener {
-            val value = it.toString().toInt()
-            viewModel.updateTransactionValue(value)
-        }
     }
 
     private fun setupCategoryPicker(categories: List<Category>, selectedCategory: Category) {
@@ -140,6 +132,18 @@ class AddEditTransactionFragment: Fragment() {
     private fun setupUpdateButton() {
         binding.transactionUpdateButton.setOnClickListener {
             viewModel.updateTransactionToDb()
+        }
+    }
+
+    private fun updateTransactionValue() {
+        with(binding.transactionValueEditText) {
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    val str = this.text.toString()
+                    val value = str.toInt()
+                    viewModel.updateTransactionValue(value)
+                }
+            }
         }
     }
 
