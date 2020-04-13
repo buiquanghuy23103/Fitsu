@@ -50,6 +50,7 @@ class CategoriesFragment: Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         viewModel.createDummyCategories()
         setupListAdapter()
+        setupAddCategoryButton()
         setupNavigation()
     }
 
@@ -63,6 +64,12 @@ class CategoriesFragment: Fragment() {
                 listAdapter.submitList(categories)
             }
         })
+    }
+
+    private fun setupAddCategoryButton() {
+        binding.categoriesAddButton.setOnClickListener {
+            viewModel.addCategory()
+        }
     }
 
     private fun setupNavigation() {
