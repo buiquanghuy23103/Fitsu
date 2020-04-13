@@ -15,6 +15,7 @@ buildscript {
         fragment_version = '1.2.4'
         dexMaker_version = '2.25.1'
         lifecycle_version = '2.2.0'
+        androidXTestRule_version = '1.2.0'
     }
     repositories {
         google()
