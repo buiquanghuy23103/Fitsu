@@ -54,4 +54,13 @@ class AddEditCategoryViewModel @Inject constructor(
         }
     }
 
+    fun deleteCategory(id: String) {
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                repository.deleteCategory(id)
+                navigateBackLiveData.postValue(Event(Unit))
+            }
+        }
+    }
+
 }
