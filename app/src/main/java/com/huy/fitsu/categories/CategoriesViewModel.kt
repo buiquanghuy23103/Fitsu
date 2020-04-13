@@ -22,15 +22,6 @@ class CategoriesViewModel @Inject constructor(
 
     fun editCategoryEventLiveData(): LiveData<Event<String>> = editCategoryEventLiveData
 
-    fun createDummyCategories() {
-        val food = Category(title = "Food")
-        val houseRent = Category(title = "House rent")
-        viewModelScope.launch(mainDispatcher) {
-            repository.insertNewCategory(food)
-            repository.insertNewCategory(houseRent)
-        }
-    }
-
     fun getAllCategories() : LiveData<List<Category>>
             = repository.getCategoriesLiveData()
 

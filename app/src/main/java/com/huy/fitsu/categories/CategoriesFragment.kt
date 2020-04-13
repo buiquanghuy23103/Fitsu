@@ -48,7 +48,6 @@ class CategoriesFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.lifecycleOwner = this.viewLifecycleOwner
-        viewModel.createDummyCategories()
         setupListAdapter()
         setupAddCategoryButton()
         setupNavigation()
