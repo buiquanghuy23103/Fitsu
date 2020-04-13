@@ -14,9 +14,10 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(appContext: Context): FitsuDatabase {
-        return Room.inMemoryDatabaseBuilder(
+        return Room.databaseBuilder(
             appContext,
-            FitsuDatabase::class.java
+            FitsuDatabase::class.java,
+            "Fitsu.db"
         ).build()
     }
 
