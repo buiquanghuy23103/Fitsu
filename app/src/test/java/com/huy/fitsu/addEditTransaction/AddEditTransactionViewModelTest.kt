@@ -6,10 +6,7 @@ import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.TransactionRepository
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.notNull
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -76,17 +73,17 @@ class AddEditTransactionViewModelTest {
     @Test
     fun deleteTransaction_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
         val id = "id"
+        viewModel.loadTransactionWithId(id)
 
-        viewModel.deleteTransaction(id)
+        viewModel.deleteTransaction()
 
-        verify(transactionRepository).deleteTransaction(id)
+        verify(transactionRepository).deleteTransaction(eq(id))
     }
 
     @Test
     fun deleteTransaction_shouldNavigateUp() {
-        val id = "id"
 
-        viewModel.deleteTransaction(id)
+        viewModel.deleteTransaction()
 
         verify(navigateUpObserver).onChanged(notNull())
     }
