@@ -38,6 +38,6 @@ class FakeCategoryRepository @Inject constructor() : CategoryRepository {
     }
 
     override suspend fun deleteCategory(id: String) {
-        categories.removeIf { it.id == id }
+        categories.removeAll { it.id == id }
     }
 }
