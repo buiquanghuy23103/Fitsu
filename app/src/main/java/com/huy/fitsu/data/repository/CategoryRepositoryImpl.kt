@@ -16,6 +16,7 @@ class CategoryRepositoryImpl @Inject constructor(
 ) : CategoryRepository {
 
     private val categoryDao = db.categoryDao()
+    private val transactionDao = db.transactionDao()
 
     override suspend fun getCategory(id: String): Category? {
         return categoryDao.findById(id)
@@ -57,6 +58,7 @@ class CategoryRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 categoryDao.deleteById(id)
+                transactionDao.deleteByCategoryId(id)
             }
         }
     }

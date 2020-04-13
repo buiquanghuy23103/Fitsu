@@ -3,6 +3,7 @@ package com.huy.fitsu.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.huy.fitsu.data.local.CategoryDao
 import com.huy.fitsu.data.local.FitsuDatabase
+import com.huy.fitsu.data.local.TransactionDao
 import com.huy.fitsu.data.model.Category
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.whenever
@@ -30,6 +31,9 @@ class CategoryRepositoryTests {
     @Mock
     private lateinit var categoryDao: CategoryDao
 
+    @Mock
+    private lateinit var transactionDao : TransactionDao
+
     private lateinit var repository: CategoryRepository
 
     private val testDispatcher = TestCoroutineDispatcher()
@@ -38,6 +42,8 @@ class CategoryRepositoryTests {
     fun setup() {
         whenever(db.categoryDao())
             .thenReturn(categoryDao)
+        whenever(db.transactionDao())
+            .thenReturn(transactionDao)
         repository = CategoryRepositoryImpl(db, testDispatcher)
     }
 
@@ -72,6 +78,24 @@ class CategoryRepositoryTests {
         repository.updateCategory(updatedCategory)
 
         verify(categoryDao).update(updatedCategory)
+    }
+
+    @Test
+    fun deleteCategory_shouldDelegateTo_categoryDao() = runBlocking {
+        val id = "id"
+
+        repository.deleteCategory(id)
+
+        verify(categoryDao).deleteById(eq(id))
+    }
+
+    @Test
+    fun deleteCategory_shouldAlsoDeleteTransactions() = runBlocking {
+        val id = "id"
+
+        repository.deleteCategory(id)
+
+        verify(transactionDao).deleteByCategoryId(eq(id))
     }
 
 }
