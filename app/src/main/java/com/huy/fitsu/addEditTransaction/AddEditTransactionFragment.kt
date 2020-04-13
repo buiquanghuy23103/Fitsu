@@ -61,6 +61,7 @@ class AddEditTransactionFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupUpdateButton()
+        setupDeleteButton()
         updateTransactionValue()
 
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
@@ -132,6 +133,12 @@ class AddEditTransactionFragment: Fragment() {
     private fun setupUpdateButton() {
         binding.transactionUpdateButton.setOnClickListener {
             viewModel.updateTransactionToDb()
+        }
+    }
+
+    private fun setupDeleteButton() {
+        binding.transactionDeleteButton.setOnClickListener {
+            viewModel.deleteTransaction()
         }
     }
 

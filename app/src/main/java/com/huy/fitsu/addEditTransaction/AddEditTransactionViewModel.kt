@@ -107,7 +107,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     }
 
-    fun deleteTransaction(transactionId: String) {
+    fun deleteTransaction() {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 transactionRepository.deleteTransaction(transactionId)
