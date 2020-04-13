@@ -89,6 +89,18 @@ class AddEditTransactionFragmentTest {
 
         verify(navController).navigateUp()
     }
+@Test
+    fun deleteTransaction_shouldNavigateUp() {
+        val navController = mock(NavController::class.java)
+        launchFragment().onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+
+        onView(withId(R.id.transaction_delete_button))
+            .perform(click())
+
+        verify(navController).navigateUp()
+    }
 
     @Test
     fun updateTransaction_shouldDisplayOnDashboard() {
