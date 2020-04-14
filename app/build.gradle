@@ -14,6 +14,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "com.huy.fitsu.CustomTestRunner"
     }
@@ -32,16 +33,34 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        // Sets Java compatibility to Java 8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
         jvmTarget = "1.8"
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        // Determines whether to generate a BuildConfig class.
+        buildConfig = true
+        // Determines whether to support View Binding.
+        // Note that the viewBinding.enabled property is now deprecated.
+        viewBinding = false
+        // Determines whether to support Data Binding.
+        // Note that the dataBinding.enabled property is now deprecated.
+        dataBinding = true
+        // Determines whether to generate binder classes for your AIDL files.
+        aidl = true
+        // Determines whether to support RenderScript.
+        renderScript = true
+        // Determines whether to support injecting custom variables into the module's R class.
+        resValues = true
+        // Determines whether to support shader AOT compilation.
+        shaders = true
     }
 
 }
@@ -64,6 +83,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
+    // Enable Java 8 APIs
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.5'
+
     // Room database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -85,7 +107,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation "androidx.room:room-testing:$room_version"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"
     testImplementation "org.robolectric:robolectric:$robolectric_version"
     testImplementation "org.hamcrest:hamcrest-all:$hamcrest_version"
@@ -103,7 +125,6 @@ dependencies {
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
     androidTestImplementation 'com.google.android.material:material:1.1.0'
     androidTestImplementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
-    testImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMaker_version"
     androidTestImplementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     androidTestImplementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
