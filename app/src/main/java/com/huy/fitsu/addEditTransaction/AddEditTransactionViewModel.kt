@@ -10,7 +10,6 @@ import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 class AddEditTransactionViewModel @Inject constructor(
@@ -21,17 +20,19 @@ class AddEditTransactionViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var transactionId = ""
-    private var selectedCategoryIndex = -1
+    var selectedCategoryIndex = -1
+        set(value) {
+            field = if (value < -1) {
+                -1
+            } else {
+                value
+            }
+        }
 
     private val _navigateUp = MutableLiveData<Event<Unit>>()
     val navigateUp : LiveData<Event<Unit>> = _navigateUp
 
     private val _transaction = MutableLiveData<Transaction>()
-
-    fun saveCategoryIndex(index: Int) {
-        if (index < -1 ) return
-        this.selectedCategoryIndex = index
-    }
 
     fun loadTransactionWithId(id: String) {
         this.transactionId = id
@@ -90,27 +91,22 @@ class AddEditTransactionViewModel @Inject constructor(
         newTransaction?.let { _transaction.value = newTransaction }
     }
 
-    fun updateTransactionDate(date: Date) {
-        val newTransaction = _transaction.value?.copy(
-            date = date
-        )
-        newTransaction?.let { _transaction.value = newTransaction }
-    }
-
-    fun updateTransactionCategoryId() {
-        categories.value?.get(selectedCategoryIndex)?.let {selectedCategory ->
-            val newTransaction = _transaction.value?.copy(
-                categoryId = selectedCategory.id
-            )
-            newTransaction?.let { _transaction.value = newTransaction }
-        }
-
-    }
-
     fun deleteTransaction() {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 transactionRepository.deleteTransaction(transactionId)
+                _navigateUp.postValue(Event(Unit))
+            }
+        }
+    }
+
+    fun updateTransaction(transactionFromUi: Transaction) {
+        val transactionGoToDb = transactionFromUi.copy(
+            id = transactionId
+        )
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                transactionRepository.updateTransaction(transactionGoToDb)
                 _navigateUp.postValue(Event(Unit))
             }
         }

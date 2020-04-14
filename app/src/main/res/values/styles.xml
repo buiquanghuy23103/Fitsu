@@ -63,4 +63,19 @@
         <item name="backgroundColor">@android:color/transparent</item>
     </style>
 
+    <style name="AppTheme.TextAppearance"
+        parent="TextAppearance.MaterialComponents.Body1"/>
+
+    <style name="AppTheme.TextAppearance.ItemTitle"
+        parent="TextAppearance.MaterialComponents.Subtitle1"/>
+
+    <style name="AppTheme.TextAppearance.ItemSubtitle"
+        parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/less_white</item>
+    </style>
+
+    <style name="AppTheme.TextAppearance.Caption"
+        parent="TextAppearance.MaterialComponents.Caption"/>
+
+
 </resources>

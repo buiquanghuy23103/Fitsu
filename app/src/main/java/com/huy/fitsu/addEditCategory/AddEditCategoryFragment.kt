@@ -82,12 +82,12 @@ class AddEditCategoryFragment: Fragment() {
                     binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 }
                 setupUpdateCategoryButton(it)
-                setupDeleteCategoryButton(it.id)
             }
         })
 
         setupDropDownMenu()
         setupColorSelector()
+        setupDeleteCategoryButton()
     }
 
     private fun setupDropDownMenu() {
@@ -126,18 +126,18 @@ class AddEditCategoryFragment: Fragment() {
         }
     }
 
-    private fun setupDeleteCategoryButton(categoryId: String) {
+    private fun setupDeleteCategoryButton() {
         binding.categoryDeleteButton.setOnClickListener {
-            showDeleteWarningDialog(categoryId)
+            showDeleteWarningDialog()
         }
     }
 
-    private fun showDeleteWarningDialog(categoryId: String) {
+    private fun showDeleteWarningDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.delete_category_warning_dialog_title)
             .setMessage(R.string.delete_category_warning_dialog_message)
             .setPositiveButton(R.string.delete_category_warning_dialog_positive_button) {dialog, _ ->
-                viewModel.deleteCategory(categoryId)
+                viewModel.deleteCategory()
                 dialog.dismiss()
             }
             .show()

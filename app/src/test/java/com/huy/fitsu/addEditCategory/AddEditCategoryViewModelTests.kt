@@ -133,9 +133,7 @@ class AddEditCategoryViewModelTests {
 
     @Test
     fun deleteCategory_shouldNavigateUp() = testDispatcher.runBlockingTest {
-        val id = "id"
-
-        viewModel.deleteCategory(id)
+        viewModel.deleteCategory()
 
         verify(navigateBackObserver).onChanged(notNull())
     }
@@ -143,8 +141,9 @@ class AddEditCategoryViewModelTests {
     @Test
     fun deleteCategory_shouldDelegateToRepo() = testDispatcher.runBlockingTest {
         val id = "id"
+        viewModel.setCategoryId(id)
 
-        viewModel.deleteCategory(id)
+        viewModel.deleteCategory()
 
         verify(repository).deleteCategory(eq(id))
     }

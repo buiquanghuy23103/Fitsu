@@ -17,6 +17,7 @@ import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.EventObserver
+import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.databinding.AddEditTransactionFragBinding
 import com.huy.fitsu.util.DateConverter
 import java.util.*
@@ -60,9 +61,7 @@ class AddEditTransactionFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupUpdateButton()
         setupDeleteButton()
-        updateTransactionValue()
 
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
             it?.let { transaction ->
@@ -79,7 +78,8 @@ class AddEditTransactionFragment: Fragment() {
 
                 binding.category = category
                 setupCategoryPicker(categories, category)
-                viewModel.saveCategoryIndex(currentCategoryIndex)
+                viewModel.selectedCategoryIndex = currentCategoryIndex
+                setupUpdateButton(categories)
             }
         })
 
@@ -102,10 +102,11 @@ class AddEditTransactionFragment: Fragment() {
             val currentCategoryIndex = categories.indexOf(selectedCategory)
 
             dialog.setPositiveButton(R.string.ok) { dialog, _ ->
-                viewModel.updateTransactionCategoryId()
+                val chosenCategory = categories[viewModel.selectedCategoryIndex]
+                binding.transactionCategoryButton.text = chosenCategory.title
                 dialog.dismiss()
             }.setSingleChoiceItems(categoriesString, currentCategoryIndex) { _, which ->
-                viewModel.saveCategoryIndex(which)
+                viewModel.selectedCategoryIndex = which
             }
 
             dialog.show()
@@ -123,34 +124,37 @@ class AddEditTransactionFragment: Fragment() {
 
         binding.transactionDateButton.setOnClickListener {
             datePicker.addOnPositiveButtonClickListener {
-                    viewModel.updateTransactionDate(Date(it))
+                val date = Date(it)
+                val dateText = DateConverter.dateToString(date)
+                binding.transactionDateButton.text = dateText
             }
             datePicker.showNow(this.childFragmentManager, datePickerTag)
         }
 
     }
 
-    private fun setupUpdateButton() {
+    private fun setupUpdateButton(categories: List<Category>) {
         binding.transactionUpdateButton.setOnClickListener {
-            viewModel.updateTransactionToDb()
+            with(binding) {
+                val moneyValue = transactionValueEditText.text.toString().toInt()
+                val dateText = transactionDateButton.text.toString()
+                val date = DateConverter.stringToDate(dateText)
+                val category = categories[viewModel.selectedCategoryIndex]
+                date?.let {
+                    val newTransaction = Transaction(
+                        value = moneyValue,
+                        date = date,
+                        categoryId = category.id
+                    )
+                    viewModel.updateTransaction(newTransaction)
+                }
+            }
         }
     }
 
     private fun setupDeleteButton() {
         binding.transactionDeleteButton.setOnClickListener {
             viewModel.deleteTransaction()
-        }
-    }
-
-    private fun updateTransactionValue() {
-        with(binding.transactionValueEditText) {
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    val str = this.text.toString()
-                    val value = str.toInt()
-                    viewModel.updateTransactionValue(value)
-                }
-            }
         }
     }
 

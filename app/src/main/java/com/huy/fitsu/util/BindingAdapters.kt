@@ -1,11 +1,19 @@
 package com.huy.fitsu.util
 
-import android.widget.Button
+import android.content.res.ColorStateList
+import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.databinding.BindingAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 @BindingAdapter("showDate")
-fun showDateOnEditText(button: Button, date: Date?) {
+fun showDate(textView: TextView, date: Date?) {
     val dateString = date?.let { DateConverter.dateToString(date) } ?: ""
-    button.text = dateString
+    textView.text = dateString
+}
+
+@BindingAdapter("showColorBadge")
+fun showColorBadge(fab: FloatingActionButton, @ColorInt colorInt : Int) {
+    fab.backgroundTintList = ColorStateList.valueOf(colorInt)
 }
