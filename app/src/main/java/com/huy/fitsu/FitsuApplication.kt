@@ -1,11 +1,11 @@
 package com.huy.fitsu
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.huy.fitsu.di.AppComponent
 import com.huy.fitsu.di.DaggerAppComponent
 import timber.log.Timber
 
-open class FitsuApplication: Application() {
+open class FitsuApplication: MultiDexApplication() {
 
     val appComponent: AppComponent by lazy {
         initAppComponent()
