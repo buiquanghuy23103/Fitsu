@@ -25,11 +25,11 @@
 
         <TextView
             android:id="@+id/category_item_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/category_item_icon"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/layout_margin_extreme_large"
+            android:layout_marginStart="@dimen/layout_margin_extra_large"
             android:text="@{category.title}"
             android:textAppearance="@style/AppTheme.TextAppearance.ItemTitle"
             tools:text="Transportation" />
