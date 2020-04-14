@@ -17,50 +17,33 @@
         android:layout_margin="@dimen/layout_margin_large">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/category_icon"
+            android:id="@+id/category_item_icon"
             style="@style/AppTheme.ColorBadge"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/category_item_title"
+            app:layout_constraintBottom_toBottomOf="@id/category_item_subtitle"/>
 
-        <LinearLayout
-            android:id="@+id/category_info_container"
+        <TextView
+            android:id="@+id/category_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/category_item_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/layout_margin_extreme_large"
+            android:text="@{category.title}"
+            android:textAppearance="@style/AppTheme.TextAppearance.ItemTitle"
+            tools:text="Transportation" />
+
+        <TextView
+            android:id="@+id/category_item_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/category_item_title"
+            app:layout_constraintTop_toBottomOf="@id/category_item_title"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/category_icon"
-            app:layout_constraintBottom_toTopOf="@id/category_item_divider"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/category_item_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{category.title}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                tools:text="Transportation" />
-
-            <TextView
-                android:id="@+id/category_item_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{category.budgetDuration.name()}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                tools:text="Outcome -- Week budget" />
-        </LinearLayout>
-
-
-        <View
-            android:id="@+id/category_item_divider"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="?attr/divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/category_info_container"
-            app:layout_constraintTop_toBottomOf="@id/category_info_container"
-            android:layout_marginTop="@dimen/layout_margin_large"/>
-
+            android:text="@{String.format(@string/category_item_subtitle_format, category.budgetDuration.name())}"
+            android:textAppearance="@style/AppTheme.TextAppearance.ItemSubtitle"
+            tools:text="Included in Week budget" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

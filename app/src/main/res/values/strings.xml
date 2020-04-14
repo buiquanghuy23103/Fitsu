@@ -6,6 +6,9 @@
     <string name="bottom_nav_menu_add_transactions">Add transactions</string>
     <string name="bottom_nav_menu_categories">Categories</string>
 
+    <!--  Category item  -->
+    <string name="category_item_subtitle_format">Included in %1$s budget</string>
+
     <!--  Add/Edit category   -->
     <string name="category_title_edit_text_hint">Category title</string>
     <string name="category_budget_duration_hint">Budget duration</string>
