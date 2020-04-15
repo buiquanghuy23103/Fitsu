@@ -2,10 +2,9 @@ package com.huy.fitsu.data.model
 
 import androidx.room.DatabaseView
 import java.time.LocalDate
-import java.util.*
 
 @DatabaseView(
-    "SELECT transactions.id, transactions.date, transactions.value, " +
+    "SELECT transactions.id, transactions.value, " +
             "transactions.categoryId, transactions.createdAt, " +
             "categories.title AS categoryTitle, categories.color AS categoryColor " +
             "FROM transactions INNER JOIN categories " +
@@ -14,7 +13,6 @@ import java.util.*
 data class TransactionDetail(
     val id: String,
     val value: Int,
-    val date: Date,
     val createdAt: LocalDate,
     val categoryId: String,
     val categoryTitle: String,

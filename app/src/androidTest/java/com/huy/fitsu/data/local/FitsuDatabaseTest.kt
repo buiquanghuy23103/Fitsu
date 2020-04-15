@@ -105,7 +105,6 @@ class FitsuDatabaseTest {
         val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
 
         assertEquals(sampleTransaction.id, transactionDetail.id)
-        assertEquals(sampleTransaction.date, transactionDetail.date)
         assertEquals(sampleTransaction.value, transactionDetail.value)
         assertEquals(sampleTransaction.categoryId, transactionDetail.categoryId)
         assertEquals(sampleCategory.title, transactionDetail.categoryTitle)

@@ -66,7 +66,6 @@ class FakeTransactionRepository @Inject constructor(
                 TransactionDetail(
                     id = transactionNonNull.id,
                     value = transactionNonNull.value,
-                    date = transactionNonNull.date,
                     categoryId = transactionNonNull.categoryId,
                     categoryColor = categoryNonNull.color,
                     categoryTitle = categoryNonNull.title,
