@@ -69,7 +69,8 @@ class FakeTransactionRepository @Inject constructor(
                     date = transactionNonNull.date,
                     categoryId = transactionNonNull.categoryId,
                     categoryColor = categoryNonNull.color,
-                    categoryTitle = categoryNonNull.title
+                    categoryTitle = categoryNonNull.title,
+                    createdAt = transactionNonNull.createdAt
                 )
             }
         }

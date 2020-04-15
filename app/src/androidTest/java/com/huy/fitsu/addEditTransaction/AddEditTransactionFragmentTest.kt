@@ -65,7 +65,7 @@ class AddEditTransactionFragmentTest {
 
     @Test
     fun displayTransactionDetails() {
-        val dateString = DateConverter.dateToString(testTransaction.date)
+        val dateString = DateConverter.localDateToString(testTransaction.createdAt)
 
         launchFragment()
 
