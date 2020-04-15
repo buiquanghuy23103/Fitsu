@@ -21,7 +21,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getTransaction(id: String): Transaction?
 
-    @Query("SELECT * FROM TransactionDetail ORDER BY date DESC")
+    @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
     fun getPagedListLiveData(): DataSource.Factory<Int, TransactionDetail>
 
     @Update
