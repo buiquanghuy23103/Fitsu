@@ -48,7 +48,7 @@
 
         <TextView
             android:id="@+id/transaction_item_subtitle"
-            showDate="@{transaction.date}"
+            showDateText="@{transaction.createdAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/AppTheme.TextAppearance.ItemSubtitle"
