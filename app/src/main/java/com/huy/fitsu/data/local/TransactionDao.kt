@@ -1,10 +1,8 @@
 package com.huy.fitsu.data.local
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.room.*
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.model.TransactionDetail
 
 @Dao
 interface TransactionDao {
@@ -12,17 +10,11 @@ interface TransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaction: Transaction)
 
-    @Query("SELECT * FROM TransactionDetail WHERE id = :id")
-    fun getTransactionDetail(id: String): LiveData<TransactionDetail>
-
     @Query("SELECT * FROM transactions WHERE id = :id")
     fun findByIdLiveData(id: String): LiveData<Transaction>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getTransaction(id: String): Transaction?
-
-    @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
-    fun getPagedListLiveData(): DataSource.Factory<Int, TransactionDetail>
 
     @Update
     suspend fun update(transaction: Transaction)
