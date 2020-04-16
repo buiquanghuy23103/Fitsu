@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.util.*
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class FitsuDatabaseTest {
@@ -35,7 +35,7 @@ class FitsuDatabaseTest {
     private val sampleTransaction = Transaction(
         value = 123,
         categoryId = sampleCategory.id,
-        date = Date()
+        createdAt = LocalDate.now()
     )
 
     @Before
@@ -92,7 +92,7 @@ class FitsuDatabaseTest {
         transactionDao.insert(sampleTransaction)
 
         val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
-        assertEquals("Date should match", sampleTransaction.date, transactionFromDb?.date)
+        assertEquals("Date should match", sampleTransaction.createdAt, transactionFromDb?.createdAt)
         assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb?.categoryId)
     }
 
@@ -105,7 +105,7 @@ class FitsuDatabaseTest {
         val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
 
         assertEquals(sampleTransaction.id, transactionDetail.id)
-        assertEquals(sampleTransaction.date, transactionDetail.date)
+        assertEquals(sampleTransaction.createdAt, transactionDetail.createdAt)
         assertEquals(sampleTransaction.value, transactionDetail.value)
         assertEquals(sampleTransaction.categoryId, transactionDetail.categoryId)
         assertEquals(sampleCategory.title, transactionDetail.categoryTitle)

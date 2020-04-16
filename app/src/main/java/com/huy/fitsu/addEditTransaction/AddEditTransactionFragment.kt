@@ -20,7 +20,7 @@ import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.databinding.AddEditTransactionFragBinding
 import com.huy.fitsu.util.DateConverter
-import java.util.*
+import java.time.LocalDate
 import javax.inject.Inject
 
 class AddEditTransactionFragment: Fragment() {
@@ -66,7 +66,8 @@ class AddEditTransactionFragment: Fragment() {
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
             it?.let { transaction ->
                 binding.transaction = transaction
-                setupDateButton(transaction.date)
+//                setupDateButton(transaction.date)
+                setupDateButton(transaction.createdAt)
             }
         })
 
@@ -113,19 +114,18 @@ class AddEditTransactionFragment: Fragment() {
         }
     }
 
-    private fun setupDateButton(currentDate: Date) {
-        val currentDateString = DateConverter.dateToString(currentDate)
-        binding.transactionDateButton.text = currentDateString
+    private fun setupDateButton(currentDate: LocalDate) {
+        val epochSeconds = DateConverter.localDateToEpochSeconds(currentDate)
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setSelection(currentDate.time)
+            .setSelection(epochSeconds)
             .setTitleText(R.string.transaction_date_picker_title)
             .build()
 
         binding.transactionDateButton.setOnClickListener {
             datePicker.addOnPositiveButtonClickListener {
-                val date = Date(it)
-                val dateText = DateConverter.dateToString(date)
+                val date = DateConverter.epochSecondsToLocalDate(it)
+                val dateText = DateConverter.localDateToString(date)
                 binding.transactionDateButton.text = dateText
             }
             datePicker.showNow(this.childFragmentManager, datePickerTag)
@@ -138,12 +138,12 @@ class AddEditTransactionFragment: Fragment() {
             with(binding) {
                 val moneyValue = transactionValueEditText.text.toString().toInt()
                 val dateText = transactionDateButton.text.toString()
-                val date = DateConverter.stringToDate(dateText)
+                val date = DateConverter.stringToLocalDate(dateText)
                 val category = categories[viewModel.selectedCategoryIndex]
                 date?.let {
                     val newTransaction = Transaction(
                         value = moneyValue,
-                        date = date,
+                        createdAt = date,
                         categoryId = category.id
                     )
                     viewModel.updateTransaction(newTransaction)
