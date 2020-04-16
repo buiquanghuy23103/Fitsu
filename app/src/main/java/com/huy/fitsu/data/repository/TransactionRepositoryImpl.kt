@@ -27,7 +27,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun getTransaction(id: String): Transaction? {
         return wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                transactionDao.getTransaction(id)
+                transactionDao.findById(id)
             }
         }
     }

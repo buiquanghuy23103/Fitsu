@@ -14,7 +14,7 @@ interface TransactionDao {
     fun findByIdLiveData(id: String): LiveData<Transaction>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
-    suspend fun getTransaction(id: String): Transaction?
+    suspend fun findById(id: String): Transaction?
 
     @Update
     suspend fun update(transaction: Transaction)

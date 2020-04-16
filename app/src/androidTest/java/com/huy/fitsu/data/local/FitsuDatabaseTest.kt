@@ -91,7 +91,7 @@ class FitsuDatabaseTest {
     fun getTransactionById() = runBlocking {
         transactionDao.insert(sampleTransaction)
 
-        val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
+        val transactionFromDb = transactionDao.findById(sampleTransaction.id)
         assertEquals("Date should match", sampleTransaction.createdAt, transactionFromDb?.createdAt)
         assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb?.categoryId)
     }
