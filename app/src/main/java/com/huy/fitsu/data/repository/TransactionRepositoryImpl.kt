@@ -37,8 +37,8 @@ class TransactionRepositoryImpl @Inject constructor(
             withContext(ioDispatcher) {
                 transactionDao.insert(transaction)
                 DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
-                    val budget = budgetDao.getBySemanticWeek(it.year, it.weekNumber)
-                    if (budget == null) {
+                    val budgetId = budgetDao.getIdBySemanticWeek(it.year, it.weekNumber)
+                    if (budgetId.isNullOrEmpty()) {
                         DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let { semanticWeek ->
                             val newBudget = Budget(semanticWeek = semanticWeek)
                             budgetDao.insert(newBudget)
@@ -69,10 +69,16 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.update(transaction)
-                DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
-                    budgetDao.getBySemanticWeek(it.year, it.weekNumber)?.let { budget ->
-                        budgetDao.addTransactionValue(budget.id, transaction.value)
-                    }
+                val date = transaction.createdAt
+                val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
+                    .toEpochDay()
+                val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
+                    .toEpochDay()
+                val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
+                DateConverter.localDateToSemanticWeek(date)?.let {
+                    budgetDao.getIdBySemanticWeek(it.year, it.weekNumber)
+                }?.let { id ->
+                    budgetDao.updateExpense(id, weekReport.sum)
                 }
             }
         }

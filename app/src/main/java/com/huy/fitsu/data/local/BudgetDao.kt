@@ -9,14 +9,14 @@ import com.huy.fitsu.data.model.Budget
 @Dao
 interface BudgetDao {
 
-    @Query("SELECT * FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
-    suspend fun getBySemanticWeek(year: Int, weekNumber: Int): Budget?
+    @Query("SELECT id FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
+    suspend fun getIdBySemanticWeek(year: Int, weekNumber: Int): String?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(budget: Budget)
 
-    @Query("UPDATE budgets SET expense = expense + :transactionValue WHERE id = :id")
-    suspend fun addTransactionValue(id: String, transactionValue: Int)
+    @Query("UPDATE budgets SET expense = :expense WHERE id = :id")
+    suspend fun updateExpense(id: String, expense: Int)
 
 
 }
