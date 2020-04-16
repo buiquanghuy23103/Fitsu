@@ -10,7 +10,7 @@ import java.util.*
 data class Budget(
     @PrimaryKey @ColumnInfo(name = "id") val id : String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "value") val value : Int = 0,
-    @ColumnInfo(name = "expense") val expense : Int = 0,
+    @ColumnInfo(name = "expense") var expense : Int = 0,
     @Embedded val semanticWeek: SemanticWeek,
     @ColumnInfo(name = "budget_duration") val budgetDuration: BudgetDuration = BudgetDuration.WEEKLY
 )

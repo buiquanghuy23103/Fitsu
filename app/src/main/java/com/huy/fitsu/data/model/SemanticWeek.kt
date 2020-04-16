@@ -4,4 +4,8 @@ data class SemanticWeek(
     val weekNumber: Int,
     val month: Int,
     val year: Int
-)
+) {
+    fun isEqualTo(anotherSemanticWeek: SemanticWeek): Boolean =
+        weekNumber == anotherSemanticWeek.weekNumber
+                && year == anotherSemanticWeek.year
+}

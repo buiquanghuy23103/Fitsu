@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.FitsuDatabase
+import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -20,6 +22,7 @@ class TransactionRepositoryImpl @Inject constructor(
 
     private val transactionDao = db.transactionDao()
     private val transactionDetailDao = db.transactionDetailDao()
+    private val budgetDao = db.budgetDao()
 
     override suspend fun getTransaction(id: String): Transaction? {
         return wrapEspressoIdlingResource {
@@ -33,6 +36,15 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.insert(transaction)
+                DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
+                    val budget = budgetDao.getBySemanticWeek(it.year, it.weekNumber)
+                    if (budget == null) {
+                        DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let { semanticWeek ->
+                            val newBudget = Budget(semanticWeek = semanticWeek)
+                            budgetDao.insert(newBudget)
+                        }
+                    }
+                }
             }
         }
     }
@@ -57,6 +69,11 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.update(transaction)
+                DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
+                    budgetDao.getBySemanticWeek(it.year, it.weekNumber)?.let { budget ->
+                        budgetDao.addTransactionValue(budget.id, transaction.value)
+                    }
+                }
             }
         }
     }
