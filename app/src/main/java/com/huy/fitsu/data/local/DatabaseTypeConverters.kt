@@ -2,6 +2,7 @@ package com.huy.fitsu.data.local
 
 import androidx.room.TypeConverter
 import com.huy.fitsu.data.model.BudgetDuration
+import java.time.LocalDate
 import java.util.*
 
 class DatabaseTypeConverters {
@@ -29,6 +30,16 @@ class DatabaseTypeConverters {
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time?.toLong()
+    }
+
+    @TypeConverter
+    fun fromLocalDate(localDate: LocalDate?) : Long? {
+        return localDate?.toEpochDay()
+    }
+
+    @TypeConverter
+    fun toLocalDate(long: Long?) : LocalDate? {
+        return long?.let { LocalDate.ofEpochDay(it) }
     }
 
 }
