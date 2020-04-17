@@ -1,5 +1,6 @@
 package com.huy.fitsu.data.repository
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -49,6 +50,7 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
+    @VisibleForTesting
     override suspend fun deleteAllTransactions() {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
