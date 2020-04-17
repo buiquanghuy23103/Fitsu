@@ -10,7 +10,7 @@ import com.huy.fitsu.data.model.Budget
 interface BudgetDao {
 
     @Query("SELECT id FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
-    suspend fun getIdBySemanticWeek(year: Int, weekNumber: Int): String?
+    suspend fun getWeekBudget(weekNumber: Int, year: Int): String?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(budget: Budget)

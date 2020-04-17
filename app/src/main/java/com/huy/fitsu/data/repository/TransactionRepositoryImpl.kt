@@ -13,6 +13,7 @@ import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -37,15 +38,7 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.insert(transaction)
-                DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
-                    val budgetId = budgetDao.getIdBySemanticWeek(it.year, it.weekNumber)
-                    if (budgetId.isNullOrEmpty()) {
-                        DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let { semanticWeek ->
-                            val newBudget = Budget(semanticWeek = semanticWeek)
-                            budgetDao.insert(newBudget)
-                        }
-                    }
-                }
+                createBudgetOfThisWeekIfNotExist(transaction.createdAt)
             }
         }
     }
@@ -72,19 +65,11 @@ class TransactionRepositoryImpl @Inject constructor(
             withContext(ioDispatcher) {
                 transactionDao.update(transaction)
                 val date = transaction.createdAt
-                val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
-                    .toEpochDay()
-                val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
-                    .toEpochDay()
-                val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
-                DateConverter.localDateToSemanticWeek(date)?.let {
-                    budgetDao.getIdBySemanticWeek(it.year, it.weekNumber)
-                }?.let { id ->
-                    budgetDao.updateExpense(id, weekReport.sum)
-                }
+                recalculateBudgetByDate(date)
             }
         }
     }
+
 
     override fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>> {
         val factory = transactionDetailDao.getPagedListLiveData()
@@ -98,4 +83,31 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun getTransactionLiveData(id: String): LiveData<Transaction> {
         return transactionDao.findByIdLiveData(id)
     }
+
+
+    private suspend fun createBudgetOfThisWeekIfNotExist(transactionDate: LocalDate) =
+        DateConverter.localDateToSemanticWeek(transactionDate)?.let {
+            val budgetId = budgetDao.getWeekBudget(it.year, it.weekNumber)
+            if (budgetId.isNullOrEmpty()) {
+                DateConverter.localDateToSemanticWeek(transactionDate)?.let { semanticWeek ->
+                    val newBudget = Budget(semanticWeek = semanticWeek)
+                    budgetDao.insert(newBudget)
+                }
+            }
+        }
+
+
+    private suspend fun recalculateBudgetByDate(date: LocalDate) {
+        val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
+            .toEpochDay()
+        val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
+            .toEpochDay()
+        val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
+        DateConverter.localDateToSemanticWeek(date)?.let {
+            budgetDao.getWeekBudget(it.weekNumber, it.year)
+        }?.let { budgetId ->
+            budgetDao.updateExpense(budgetId, weekReport.sum)
+        }
+    }
+
 }
