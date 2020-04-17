@@ -15,7 +15,7 @@ interface TransactionRepository {
     @VisibleForTesting
     suspend fun deleteAllTransactions()
 
-    suspend fun deleteTransaction(id: String)
+    suspend fun deleteTransaction(transaction: Transaction)
 
     fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>>
 

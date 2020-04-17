@@ -84,17 +84,11 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun updateTransactionValue(value: Int) {
-        val newTransaction = _transaction.value?.copy(
-            value = value
-        )
-        newTransaction?.let { _transaction.value = newTransaction }
-    }
 
-    fun deleteTransaction() {
+    fun deleteTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                transactionRepository.deleteTransaction(transactionId)
+                transactionRepository.deleteTransaction(transaction)
                 _navigateUp.postValue(Event(Unit))
             }
         }

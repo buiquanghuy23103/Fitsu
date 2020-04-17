@@ -52,10 +52,10 @@ class TransactionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteTransaction(id: String) {
+    override suspend fun deleteTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                transactionDao.deleteById(id)
+                transactionDao.delete(transaction)
             }
         }
     }
