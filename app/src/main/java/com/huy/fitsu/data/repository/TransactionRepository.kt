@@ -1,5 +1,6 @@
 package com.huy.fitsu.data.repository
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.huy.fitsu.data.model.Transaction
@@ -11,7 +12,8 @@ interface TransactionRepository {
 
     suspend fun insertNewTransaction(transaction: Transaction)
 
-    suspend fun deleteAllTransactions()  // for testing
+    @VisibleForTesting
+    suspend fun deleteAllTransactions()
 
     suspend fun deleteTransaction(id: String)
 
