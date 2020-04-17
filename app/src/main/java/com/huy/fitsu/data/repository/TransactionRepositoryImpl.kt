@@ -55,7 +55,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun deleteTransaction(id: String) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                transactionDao.deleteByCategoryId(id)
+                transactionDao.deleteById(id)
             }
         }
     }
@@ -65,7 +65,7 @@ class TransactionRepositoryImpl @Inject constructor(
             withContext(ioDispatcher) {
                 transactionDao.update(transaction)
                 val date = transaction.createdAt
-                recalculateBudgetByDate(date)
+                recalculateWeekBudget(date)
             }
         }
     }
@@ -97,7 +97,7 @@ class TransactionRepositoryImpl @Inject constructor(
         }
 
 
-    private suspend fun recalculateBudgetByDate(date: LocalDate) {
+    private suspend fun recalculateWeekBudget(date: LocalDate) {
         val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
             .toEpochDay()
         val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
