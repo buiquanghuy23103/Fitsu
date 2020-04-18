@@ -47,10 +47,10 @@ object DateConverter {
         )
     }
 
-    fun firstDayOfWeek(localDate: LocalDate) =
-        localDate?.with(TemporalAdjusters.previousOrSame(firstDayOfWeek))
+    fun firstDayOfWeek(localDate: LocalDate): LocalDate? =
+        localDate.with(TemporalAdjusters.previousOrSame(firstDayOfWeek))
 
-    fun lastDayOfWeek(localDate: LocalDate) =
-        localDate?.with(TemporalAdjusters.nextOrSame(lastDayOfWeek))
+    fun lastDayOfWeek(localDate: LocalDate): LocalDate? =
+        localDate.with(TemporalAdjusters.nextOrSame(lastDayOfWeek))
 
 }

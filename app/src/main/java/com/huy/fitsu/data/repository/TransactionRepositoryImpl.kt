@@ -6,6 +6,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.FitsuDatabase
 import com.huy.fitsu.data.model.Budget
+import com.huy.fitsu.data.model.SemanticWeek
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.di.DispatcherModule
@@ -63,10 +64,8 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
+                recalculateBudget(transaction)
                 transactionDao.update(transaction)
-                val date = transaction.createdAt
-                createBudgetOfThisWeekIfNotExist(date)
-                recalculateWeekBudget(date)
             }
         }
     }
@@ -88,7 +87,7 @@ class TransactionRepositoryImpl @Inject constructor(
 
     private suspend fun createBudgetOfThisWeekIfNotExist(transactionDate: LocalDate) =
         DateConverter.localDateToSemanticWeek(transactionDate)?.let {
-            val thisWeekBudget = budgetDao.getWeekBudget(it.weekNumber, it.year)
+            val thisWeekBudget = budgetDao.getWeekBudgetByWeekNumberAndYear(it.weekNumber, it.year)
             if (thisWeekBudget == null) {
                 val newBudget = Budget(semanticWeek = it)
                 budgetDao.insert(newBudget)
@@ -98,15 +97,50 @@ class TransactionRepositoryImpl @Inject constructor(
 
     private suspend fun recalculateWeekBudget(date: LocalDate) {
         val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
-            .toEpochDay()
+            ?.toEpochDay() ?: 0
         val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
-            .toEpochDay()
+            ?.toEpochDay() ?: 0
         val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
         DateConverter.localDateToSemanticWeek(date)?.let {
-            budgetDao.getWeekBudget(it.weekNumber, it.year)
+            budgetDao.getWeekBudgetByWeekNumberAndYear(it.weekNumber, it.year)
         }?.let { budget ->
             budgetDao.updateExpense(budget.id, weekReport.sum)
         }
     }
 
+    private suspend fun recalculateBudget(newTransaction: Transaction) =
+        transactionDao.findById(newTransaction.id)?.let { oldTransaction ->
+            val newDate = newTransaction.createdAt
+            val newWeek = DateConverter.localDateToSemanticWeek(newDate)
+            val newTransactionValue = newTransaction.value
+            val oldDate = oldTransaction.createdAt
+            val oldWeek = DateConverter.localDateToSemanticWeek(oldDate)
+            val oldTransactionValue = oldTransaction.value
+
+            if (oldWeek == null || newWeek == null) return@let
+
+            val oldWeekBudget = getBudgetBySemanticWeek(oldWeek)
+            val newWeekBudget = getBudgetBySemanticWeek(newWeek)
+
+            if (oldWeek != newWeek) {
+                val oldWeekExpense = oldWeekBudget.expense.minus(oldTransactionValue)
+                budgetDao.updateExpense(oldWeekBudget.id, oldWeekExpense)
+
+                val newWeekExpense = newWeekBudget.expense.plus(newTransactionValue)
+                budgetDao.updateExpense(newWeekBudget.id, newWeekExpense)
+            } else if (newTransactionValue != oldTransactionValue) {
+                val newExpense = newWeekBudget.expense.plus(newTransactionValue - oldTransactionValue)
+                budgetDao.updateExpense(newWeekBudget.id, newExpense)
+            }
+        }
+
+    private suspend fun getBudgetBySemanticWeek(semanticWeek: SemanticWeek) : Budget {
+        val budget = budgetDao.getWeekBudgetByWeekNumberAndYear(semanticWeek.weekNumber, semanticWeek.year)
+        if (budget == null) {
+            val newBudget = Budget(semanticWeek = semanticWeek)
+            budgetDao.insert(newBudget)
+            return newBudget
+        }
+        return budget
+    }
 }
