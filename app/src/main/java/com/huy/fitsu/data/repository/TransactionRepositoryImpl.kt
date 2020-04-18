@@ -118,13 +118,16 @@ class TransactionRepositoryImpl @Inject constructor(
                 val newWeekExpense = newWeekBudget.expense.plus(newTransactionValue)
                 budgetDao.updateExpense(newWeekBudget.id, newWeekExpense)
             } else if (newTransactionValue != oldTransactionValue) {
-                val newExpense = newWeekBudget.expense.plus(newTransactionValue - oldTransactionValue)
+                val newExpense = newWeekBudget.expense
+                    .plus(newTransactionValue - oldTransactionValue)
                 budgetDao.updateExpense(newWeekBudget.id, newExpense)
             }
         }
 
-    private suspend fun getBudgetBySemanticWeek(semanticWeek: SemanticWeek) : Budget {
-        val budget = budgetDao.getWeekBudgetByWeekNumberAndYear(semanticWeek.weekNumber, semanticWeek.year)
+    private suspend fun getBudgetBySemanticWeek(semanticWeek: SemanticWeek): Budget {
+        val budget = budgetDao.getWeekBudgetByWeekNumberAndYear(
+            semanticWeek.weekNumber, semanticWeek.year
+        )
         if (budget == null) {
             val newBudget = Budget(semanticWeek = semanticWeek)
             budgetDao.insert(newBudget)
