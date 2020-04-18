@@ -9,8 +9,8 @@ import com.huy.fitsu.data.model.Budget
 @Dao
 interface BudgetDao {
 
-    @Query("SELECT id FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
-    suspend fun getWeekBudget(weekNumber: Int, year: Int): String?
+    @Query("SELECT * FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
+    suspend fun getWeekBudget(weekNumber: Int, year: Int): Budget?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(budget: Budget)

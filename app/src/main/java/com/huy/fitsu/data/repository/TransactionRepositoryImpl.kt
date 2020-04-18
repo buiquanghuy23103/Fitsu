@@ -38,7 +38,6 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.insert(transaction)
-                createBudgetOfThisWeekIfNotExist(transaction.createdAt)
             }
         }
     }
@@ -65,6 +64,7 @@ class TransactionRepositoryImpl @Inject constructor(
             withContext(ioDispatcher) {
                 transactionDao.update(transaction)
                 val date = transaction.createdAt
+                createBudgetOfThisWeekIfNotExist(date)
                 recalculateWeekBudget(date)
             }
         }
@@ -87,12 +87,10 @@ class TransactionRepositoryImpl @Inject constructor(
 
     private suspend fun createBudgetOfThisWeekIfNotExist(transactionDate: LocalDate) =
         DateConverter.localDateToSemanticWeek(transactionDate)?.let {
-            val budgetId = budgetDao.getWeekBudget(it.year, it.weekNumber)
-            if (budgetId.isNullOrEmpty()) {
-                DateConverter.localDateToSemanticWeek(transactionDate)?.let { semanticWeek ->
-                    val newBudget = Budget(semanticWeek = semanticWeek)
-                    budgetDao.insert(newBudget)
-                }
+            val thisWeekBudget = budgetDao.getWeekBudget(it.weekNumber, it.year)
+            if (thisWeekBudget == null) {
+                val newBudget = Budget(semanticWeek = it)
+                budgetDao.insert(newBudget)
             }
         }
 
@@ -105,8 +103,8 @@ class TransactionRepositoryImpl @Inject constructor(
         val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
         DateConverter.localDateToSemanticWeek(date)?.let {
             budgetDao.getWeekBudget(it.weekNumber, it.year)
-        }?.let { budgetId ->
-            budgetDao.updateExpense(budgetId, weekReport.sum)
+        }?.let { budget ->
+            budgetDao.updateExpense(budget.id, weekReport.sum)
         }
     }
 
