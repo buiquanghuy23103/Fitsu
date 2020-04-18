@@ -1,5 +1,6 @@
 package com.huy.fitsu.data.local
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,6 +12,9 @@ interface BudgetDao {
 
     @Query("SELECT * FROM budgets WHERE year = :year AND weekNumber = :weekNumber")
     suspend fun getWeekBudgetByWeekNumberAndYear(weekNumber: Int, year: Int): Budget?
+
+    @Query("SELECT * FROM budgets")
+    fun getAll(): DataSource.Factory<Int, Budget>
 
     @Query("SELECT * FROM budgets WHERE id = :id")
     suspend fun findById(id: String): Budget

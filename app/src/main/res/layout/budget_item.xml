@@ -22,6 +22,7 @@
             app:layout_constraintEnd_toStartOf="@id/budget_item_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{String.valueOf(budget.expense)}"
             tools:text="Week 16" />
 
         <TextView
@@ -31,6 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/budget_item_title"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@{String.valueOf(budget.value)}"
             tools:text="-13" />
 
 
