@@ -111,7 +111,7 @@ class TransactionRepositoryImpl @Inject constructor(
             val oldWeekBudget = getBudgetBySemanticWeek(oldWeek)
             val newWeekBudget = getBudgetBySemanticWeek(newWeek)
 
-            if (oldWeek != newWeek) {
+            if (!oldWeek.isEqualTo(newWeek)) {
                 val oldWeekExpense = oldWeekBudget.expense.minus(oldTransactionValue)
                 budgetDao.updateExpense(oldWeekBudget.id, oldWeekExpense)
 
