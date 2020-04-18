@@ -55,6 +55,7 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.delete(transaction)
+                recalculateWeekBudget(transaction.createdAt)
             }
         }
     }
