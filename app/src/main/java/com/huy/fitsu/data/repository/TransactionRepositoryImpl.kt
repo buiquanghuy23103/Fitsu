@@ -14,7 +14,6 @@ import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -56,7 +55,7 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.delete(transaction)
-                recalculateWeekBudget(transaction.createdAt)
+                recalculateBudgetOnTransactionDelete(transaction)
             }
         }
     }
@@ -82,19 +81,6 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override fun getTransactionLiveData(id: String): LiveData<Transaction> {
         return transactionDao.findByIdLiveData(id)
-    }
-
-    private suspend fun recalculateWeekBudget(date: LocalDate) {
-        val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
-            ?.toEpochDay() ?: 0
-        val lastDayOfWeek = DateConverter.lastDayOfWeek(date)
-            ?.toEpochDay() ?: 0
-        val weekReport = transactionDao.calculateExpense(firstDayOfWeek, lastDayOfWeek)
-        DateConverter.localDateToSemanticWeek(date)?.let {
-            budgetDao.getWeekBudgetByWeekNumberAndYear(it.weekNumber, it.year)
-        }?.let { budget ->
-            budgetDao.updateExpense(budget.id, weekReport.sum)
-        }
     }
 
     private suspend fun recalculateBudget(newTransaction: Transaction) =
@@ -135,4 +121,11 @@ class TransactionRepositoryImpl @Inject constructor(
         }
         return budget
     }
+
+    private suspend fun recalculateBudgetOnTransactionDelete(transaction: Transaction) =
+        DateConverter.localDateToSemanticWeek(transaction.createdAt)?.let {
+            val budget = getBudgetBySemanticWeek(it)
+            val newExpense = budget.expense.minus(transaction.value)
+            budgetDao.updateExpense(budget.id, newExpense)
+        }
 }
