@@ -84,17 +84,6 @@ class TransactionRepositoryImpl @Inject constructor(
         return transactionDao.findByIdLiveData(id)
     }
 
-
-    private suspend fun createBudgetOfThisWeekIfNotExist(transactionDate: LocalDate) =
-        DateConverter.localDateToSemanticWeek(transactionDate)?.let {
-            val thisWeekBudget = budgetDao.getWeekBudgetByWeekNumberAndYear(it.weekNumber, it.year)
-            if (thisWeekBudget == null) {
-                val newBudget = Budget(semanticWeek = it)
-                budgetDao.insert(newBudget)
-            }
-        }
-
-
     private suspend fun recalculateWeekBudget(date: LocalDate) {
         val firstDayOfWeek = DateConverter.firstDayOfWeek(date)
             ?.toEpochDay() ?: 0
