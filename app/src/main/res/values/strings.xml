@@ -9,6 +9,9 @@
     <!--  Category item  -->
     <string name="category_item_subtitle_format">Included in %1$s budget</string>
 
+    <!--  Budget item  -->
+    <string name="budget_item_title_format">Week %1$d</string>
+
     <!--  Add/Edit category   -->
     <string name="category_title_edit_text_hint">Category title</string>
     <string name="category_budget_duration_hint">Budget duration</string>

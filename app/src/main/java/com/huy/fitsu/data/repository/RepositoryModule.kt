@@ -15,4 +15,8 @@ abstract class RepositoryModule {
     @Binds
     abstract fun transactionsRepository(repo: TransactionRepositoryImpl): TransactionRepository
 
+    @Singleton
+    @Binds
+    abstract fun budgetsRepository(repo: BudgetRepositoryImpl): BudgetRepository
+
 }

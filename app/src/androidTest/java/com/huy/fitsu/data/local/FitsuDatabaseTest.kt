@@ -28,6 +28,7 @@ class FitsuDatabaseTest {
     private lateinit var db: FitsuDatabase
     private lateinit var categoryDao: CategoryDao
     private lateinit var transactionDao: TransactionDao
+    private lateinit var transactionDetailDao: TransactionDetailDao
     private val sampleCategory = Category(
         color = -255,
         title = "Food"
@@ -46,6 +47,7 @@ class FitsuDatabaseTest {
         ).build()
         categoryDao = db.categoryDao()
         transactionDao = db.transactionDao()
+        transactionDetailDao = db.transactionDetailDao()
     }
 
     @After
@@ -91,7 +93,7 @@ class FitsuDatabaseTest {
     fun getTransactionById() = runBlocking {
         transactionDao.insert(sampleTransaction)
 
-        val transactionFromDb = transactionDao.getTransaction(sampleTransaction.id)
+        val transactionFromDb = transactionDao.findById(sampleTransaction.id)
         assertEquals("Date should match", sampleTransaction.createdAt, transactionFromDb?.createdAt)
         assertEquals("categoryId should match", sampleTransaction.categoryId, transactionFromDb?.categoryId)
     }
@@ -101,7 +103,7 @@ class FitsuDatabaseTest {
         categoryDao.insert(sampleCategory)
         transactionDao.insert(sampleTransaction)
 
-        val transactionDetailLiveData = transactionDao.getTransactionDetail(sampleTransaction.id)
+        val transactionDetailLiveData = transactionDetailDao.findByIdLiveData(sampleTransaction.id)
         val transactionDetail = LiveDataTestUtil.getValue(transactionDetailLiveData)
 
         assertEquals(sampleTransaction.id, transactionDetail.id)

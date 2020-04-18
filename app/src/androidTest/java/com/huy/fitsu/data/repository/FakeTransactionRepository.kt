@@ -23,8 +23,8 @@ class FakeTransactionRepository @Inject constructor(
         transactions.add(transaction)
     }
 
-    override suspend fun deleteTransaction(id: String) {
-        transactions.removeAll { it.id == id }
+    override suspend fun deleteTransaction(transaction: Transaction) {
+        transactions.remove(transaction)
     }
 
     override suspend fun deleteAllTransactions() {

@@ -61,12 +61,10 @@ class AddEditTransactionFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupDeleteButton()
-
         viewModel.transaction.observe(viewLifecycleOwner, Observer {
             it?.let { transaction ->
                 binding.transaction = transaction
-//                setupDateButton(transaction.date)
+                setupDeleteButton(transaction)
                 setupDateButton(transaction.createdAt)
             }
         })
@@ -152,9 +150,9 @@ class AddEditTransactionFragment: Fragment() {
         }
     }
 
-    private fun setupDeleteButton() {
+    private fun setupDeleteButton(transaction: Transaction) {
         binding.transactionDeleteButton.setOnClickListener {
-            viewModel.deleteTransaction()
+            viewModel.deleteTransaction(transaction)
         }
     }
 

@@ -46,7 +46,8 @@ class DashboardFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupListAdapter()
+        setupTransactionList()
+        setupBudgetList()
         setupAddTransactionFab()
 
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
@@ -54,11 +55,20 @@ class DashboardFragment: Fragment() {
         })
     }
 
-    private fun setupListAdapter() {
+    private fun setupTransactionList() {
         val adapter = TransactionsAdapter(viewModel)
         binding.transactionList.adapter = adapter
 
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
+            it?.let { list -> adapter.submitList(list) }
+        })
+    }
+
+    private fun setupBudgetList() {
+        val adapter = BudgetsAdapter(viewModel)
+        binding.budgetList.adapter = adapter
+
+        viewModel.budgets.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
     }
