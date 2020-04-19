@@ -3,6 +3,7 @@
     
     <!--  Drawer menu  -->
     <string name="drawer_menu_dashboard">Dashboard</string>
+    <string name="drawer_menu_budget_history">Budget history</string>
     <string name="drawer_menu_categories">Categories</string>
     <string name="drawer_menu_transaction_history">Transaction history</string>
 

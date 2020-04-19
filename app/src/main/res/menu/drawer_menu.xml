@@ -5,7 +5,7 @@
     <item
         android:id="@+id/dashboardFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_dashboard"
+        android:title="@string/drawer_menu_budget_history"
         android:icon="@drawable/ic_dashboard"
         app:showAsAction="ifRoom"/>
 
