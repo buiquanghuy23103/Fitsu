@@ -36,4 +36,8 @@
             android:name="transactionId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/transactionHistoryFragment"
+        android:name="com.huy.fitsu.transactionHistory.TransactionHistoryFragment"
+        android:label="Transaction History" />
 </navigation>
