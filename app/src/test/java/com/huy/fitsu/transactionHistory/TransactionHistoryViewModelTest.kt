@@ -1,4 +1,4 @@
-package com.huy.fitsu.budgetHistory
+package com.huy.fitsu.transactionHistory
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -23,12 +23,12 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class BudgetHistoryViewModelTest {
+class TransactionHistoryViewModelTest {
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: BudgetHistoryViewModel
+    private lateinit var viewModel: TransactionHistoryViewModel
 
     @Mock
     private lateinit var transactionRepository: TransactionRepository
@@ -45,7 +45,7 @@ class BudgetHistoryViewModelTest {
     fun setUp() {
         whenever(transactionRepository.getTransactionDetailPagedList())
             .thenReturn(MutableLiveData())
-        viewModel = BudgetHistoryViewModel(transactionRepository, testDispatcher)
+        viewModel = TransactionHistoryViewModel(transactionRepository, testDispatcher)
 
         viewModel.editTransactionEvent.observeForever(editTransactionEventObserver)
         viewModel.transactions.observeForever(transactionDetailPagedListObserver)
