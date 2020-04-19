@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.budgetHistory
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer

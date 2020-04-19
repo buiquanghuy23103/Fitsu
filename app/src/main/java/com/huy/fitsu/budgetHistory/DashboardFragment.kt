@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.budgetHistory
 
 import android.content.Context
 import android.os.Bundle

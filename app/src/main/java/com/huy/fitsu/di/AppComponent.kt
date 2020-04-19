@@ -3,8 +3,8 @@ package com.huy.fitsu.di
 import android.content.Context
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
+import com.huy.fitsu.budgetHistory.di.DashboardComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
-import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.data.repository.TransactionRepository

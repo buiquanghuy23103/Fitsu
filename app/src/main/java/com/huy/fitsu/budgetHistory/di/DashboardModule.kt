@@ -1,7 +1,7 @@
-package com.huy.fitsu.dashboard.di
+package com.huy.fitsu.budgetHistory.di
 
 import androidx.lifecycle.ViewModel
-import com.huy.fitsu.dashboard.DashboardViewModel
+import com.huy.fitsu.budgetHistory.DashboardViewModel
 import com.huy.fitsu.di.ViewModelKey
 import dagger.Binds
 import dagger.Module

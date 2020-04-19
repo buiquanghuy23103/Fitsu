@@ -1,6 +1,6 @@
-package com.huy.fitsu.dashboard.di
+package com.huy.fitsu.budgetHistory.di
 
-import com.huy.fitsu.dashboard.DashboardFragment
+import com.huy.fitsu.budgetHistory.DashboardFragment
 import dagger.Subcomponent
 
 @Subcomponent(

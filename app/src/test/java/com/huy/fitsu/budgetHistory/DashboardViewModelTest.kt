@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.budgetHistory
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData

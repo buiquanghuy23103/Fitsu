@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.budgetHistory
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.huy.fitsu.dashboard.DashboardFragment"
+        android:name="com.huy.fitsu.budgetHistory.DashboardFragment"
         android:label="Dashboard" >
         <action
             android:id="@+id/to_addEditTransactionFragment"
