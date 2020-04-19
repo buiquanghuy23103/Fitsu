@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.huy.fitsu.FitsuApplication
-import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.DashboardFragBinding
 import javax.inject.Inject
 
@@ -46,22 +44,8 @@ class DashboardFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupTransactionList()
         setupBudgetList()
-        setupAddTransactionFab()
 
-        viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
-            editTransaction(it)
-        })
-    }
-
-    private fun setupTransactionList() {
-        val adapter = TransactionsAdapter(viewModel)
-        binding.transactionList.adapter = adapter
-
-        viewModel.transactions.observe(viewLifecycleOwner, Observer {
-            it?.let { list -> adapter.submitList(list) }
-        })
     }
 
     private fun setupBudgetList() {
@@ -71,17 +55,6 @@ class DashboardFragment: Fragment() {
         viewModel.budgets.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
-    }
-
-    private fun setupAddTransactionFab() {
-        binding.addTransactionFab.setOnClickListener {
-            viewModel.addTransaction()
-        }
-    }
-
-    private fun editTransaction(transactionId: String) {
-        val action = DashboardFragmentDirections.toAddEditTransactionFragment(transactionId)
-        findNavController().navigate(action)
     }
 
 }
