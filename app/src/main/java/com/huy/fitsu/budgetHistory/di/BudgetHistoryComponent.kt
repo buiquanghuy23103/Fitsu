@@ -4,7 +4,7 @@ import com.huy.fitsu.budgetHistory.DashboardFragment
 import dagger.Subcomponent
 
 @Subcomponent(
-    modules = [DashboardModule::class]
+    modules = [BudgetHistoryModule::class]
 )
 interface BudgetHistoryComponent {
 
