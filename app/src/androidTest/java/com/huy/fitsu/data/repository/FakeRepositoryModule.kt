@@ -16,5 +16,9 @@ abstract class FakeRepositoryModule {
     @Binds
     abstract fun transactionsRepository(repo: FakeTransactionRepository): TransactionRepository
 
+    @Singleton
+    @Binds
+    abstract fun budgetRepository(repo: FakeBudgetRepository): BudgetRepository
+
 
 }

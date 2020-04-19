@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.transactionHistory
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -6,14 +6,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.categories.CategoriesAdapter
+import com.huy.fitsu.budgetHistory.BudgetHistoryFragment
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.repository.CategoryRepository
@@ -23,10 +23,10 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.Mockito
 
 @RunWith(AndroidJUnit4::class)
-class DashboardFragmentTests {
+class TransactionHistoryFragmentTest {
 
     private lateinit var transactionRepository: TransactionRepository
     private lateinit var categoryRepository: CategoryRepository
@@ -55,38 +55,38 @@ class DashboardFragmentTests {
 
     @Test
     fun clickTransactionItem_navigateToAddEditTransactionFragment() {
-        val navController = mock(NavController::class.java)
+        val navController = Mockito.mock(NavController::class.java)
         launchFragment().onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        onView(withId(R.id.transaction_list))
+        Espresso.onView(withId(R.id.transaction_history_list))
             .perform(
-                RecyclerViewActions.actionOnItemAtPosition<CategoriesAdapter.CategoryItem>(
-                    0, click()
+                RecyclerViewActions.actionOnItemAtPosition<TransactionHistoryAdapter.TransactionItem>(
+                    0, ViewActions.click()
                 )
             )
 
-        verify(navController).navigate(
-            DashboardFragmentDirections.toAddEditTransactionFragment(testTransaction.id)
+        Mockito.verify(navController).navigate(
+            TransactionHistoryFragmentDirections.toAddEditTransactionFragment(testTransaction.id)
         )
     }
 
     @Test
     fun clickAddTransactionFab_navigateToAddEditTransactionFragment() {
-        val navController = mock(NavController::class.java)
+        val navController = Mockito.mock(NavController::class.java)
         launchFragment().onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        onView(withId(R.id.add_transaction_fab))
-            .perform(click())
+        Espresso.onView(withId(R.id.transaction_history_add_trans_fab))
+            .perform(ViewActions.click())
 
-        verify(navController).navigate(any<NavDirections>())
+        Mockito.verify(navController).navigate(Mockito.any<NavDirections>())
     }
 
-    private fun launchFragment(): FragmentScenario<DashboardFragment> {
-        return launchFragmentInContainer<DashboardFragment>(null, R.style.AppTheme)
+    private fun launchFragment(): FragmentScenario<BudgetHistoryFragment> {
+        return launchFragmentInContainer<BudgetHistoryFragment>(null, R.style.AppTheme)
     }
 
 }

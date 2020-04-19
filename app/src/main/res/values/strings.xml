@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Fitsu</string>
     
-    <!--  Bottom navigation menu  -->
-    <string name="bottom_nav_menu_dashboard">Dashboard</string>
-    <string name="bottom_nav_menu_add_transactions">Add transactions</string>
-    <string name="bottom_nav_menu_categories">Categories</string>
+    <!--  Drawer menu  -->
+    <string name="drawer_menu_dashboard">Dashboard</string>
+    <string name="drawer_menu_budget_history">Budget history</string>
+    <string name="drawer_menu_categories">Categories</string>
+    <string name="drawer_menu_transaction_history">Transaction history</string>
 
     <!--  Category item  -->
     <string name="category_item_subtitle_format">Included in %1$s budget</string>
@@ -31,5 +32,8 @@
 
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+
+    <!--  Transaction history  -->
+    <string name="transaction_history_fab_content_description">Add a transaction</string>
 
 </resources>

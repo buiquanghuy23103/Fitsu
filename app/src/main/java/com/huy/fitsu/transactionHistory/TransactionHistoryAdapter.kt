@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.transactionHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.databinding.TransactionItemBinding
+import javax.inject.Inject
 
-class TransactionsAdapter(
-    private val viewModel: DashboardViewModel
-): PagedListAdapter<TransactionDetail, TransactionsAdapter.TransactionItem>(TransactionDiffCallback()) {
+class TransactionHistoryAdapter @Inject constructor(
+    private val viewModel: TransactionHistoryViewModel
+): PagedListAdapter<TransactionDetail, TransactionHistoryAdapter.TransactionItem>(TransactionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionItem {
         return TransactionItem.from(parent)
@@ -25,7 +26,7 @@ class TransactionsAdapter(
         private val binding: TransactionItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: TransactionDetail, viewModel: DashboardViewModel) {
+        fun bind(transaction: TransactionDetail, viewModel: TransactionHistoryViewModel) {
             binding.transaction = transaction
             binding.root.setOnClickListener {
                 viewModel.editTransaction(transaction.id)

@@ -1,4 +1,4 @@
-package com.huy.fitsu.dashboard
+package com.huy.fitsu.transactionHistory
 
 import android.content.Context
 import android.os.Bundle
@@ -12,22 +12,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.data.model.EventObserver
-import com.huy.fitsu.databinding.DashboardFragBinding
+import com.huy.fitsu.databinding.TransactionHistoryFragBinding
 import javax.inject.Inject
 
-class DashboardFragment: Fragment() {
+class TransactionHistoryFragment: Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<DashboardViewModel> { viewModelFactory }
+    @Inject
+    lateinit var adapter: TransactionHistoryAdapter
 
-    private lateinit var binding: DashboardFragBinding
+    private val viewModel: TransactionHistoryViewModel by viewModels { viewModelFactory }
+
+    private lateinit var binding: TransactionHistoryFragBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (requireActivity().application as FitsuApplication).appComponent
-            .dashboardComponent()
+            .transactionHistoryComponent()
             .create()
             .inject(this)
     }
@@ -37,7 +40,7 @@ class DashboardFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DashboardFragBinding.inflate(inflater, container, false)
+        binding = TransactionHistoryFragBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,7 +50,6 @@ class DashboardFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupTransactionList()
-        setupBudgetList()
         setupAddTransactionFab()
 
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
@@ -56,31 +58,21 @@ class DashboardFragment: Fragment() {
     }
 
     private fun setupTransactionList() {
-        val adapter = TransactionsAdapter(viewModel)
-        binding.transactionList.adapter = adapter
+        binding.transactionHistoryList.adapter = adapter
 
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
     }
 
-    private fun setupBudgetList() {
-        val adapter = BudgetsAdapter(viewModel)
-        binding.budgetList.adapter = adapter
-
-        viewModel.budgets.observe(viewLifecycleOwner, Observer {
-            it?.let { list -> adapter.submitList(list) }
-        })
-    }
-
     private fun setupAddTransactionFab() {
-        binding.addTransactionFab.setOnClickListener {
+        binding.transactionHistoryAddTransFab.setOnClickListener {
             viewModel.addTransaction()
         }
     }
 
     private fun editTransaction(transactionId: String) {
-        val action = DashboardFragmentDirections.toAddEditTransactionFragment(transactionId)
+        val action = TransactionHistoryFragmentDirections.toAddEditTransactionFragment(transactionId)
         findNavController().navigate(action)
     }
 
