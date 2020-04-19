@@ -93,7 +93,7 @@ class AddEditCategoryFragment: Fragment() {
     private fun setupDropDownMenu() {
         val adapter = ArrayAdapter(
             requireContext(),
-            R.layout.drawer_menu,
+            R.layout.dropdown_item_style,
             BudgetDuration.values()
         )
         binding.categoryBudgetDurationEditText.setAdapter(adapter)
