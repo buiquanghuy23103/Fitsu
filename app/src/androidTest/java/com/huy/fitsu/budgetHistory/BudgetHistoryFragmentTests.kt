@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 
 @RunWith(AndroidJUnit4::class)
-class DashboardFragmentTests {
+class BudgetHistoryFragmentTests {
 
     private lateinit var transactionRepository: TransactionRepository
     private lateinit var categoryRepository: CategoryRepository
@@ -85,8 +85,8 @@ class DashboardFragmentTests {
         verify(navController).navigate(any<NavDirections>())
     }
 
-    private fun launchFragment(): FragmentScenario<DashboardFragment> {
-        return launchFragmentInContainer<DashboardFragment>(null, R.style.AppTheme)
+    private fun launchFragment(): FragmentScenario<BudgetHistoryFragment> {
+        return launchFragmentInContainer<BudgetHistoryFragment>(null, R.style.AppTheme)
     }
 
 }

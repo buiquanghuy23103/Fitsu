@@ -13,7 +13,7 @@ import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.databinding.DashboardFragBinding
 import javax.inject.Inject
 
-class DashboardFragment: Fragment() {
+class BudgetHistoryFragment: Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory

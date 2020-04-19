@@ -1,6 +1,6 @@
 package com.huy.fitsu.budgetHistory.di
 
-import com.huy.fitsu.budgetHistory.DashboardFragment
+import com.huy.fitsu.budgetHistory.BudgetHistoryFragment
 import dagger.Subcomponent
 
 @Subcomponent(
@@ -13,6 +13,6 @@ interface BudgetHistoryComponent {
         fun create(): BudgetHistoryComponent
     }
 
-    fun inject(fragment: DashboardFragment)
+    fun inject(fragment: BudgetHistoryFragment)
 
 }
