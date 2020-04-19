@@ -6,11 +6,11 @@ import dagger.Subcomponent
 @Subcomponent(
     modules = [DashboardModule::class]
 )
-interface DashboardComponent {
+interface BudgetHistoryComponent {
 
     @Subcomponent.Factory
     interface Factory {
-        fun create(): DashboardComponent
+        fun create(): BudgetHistoryComponent
     }
 
     fun inject(fragment: DashboardFragment)
