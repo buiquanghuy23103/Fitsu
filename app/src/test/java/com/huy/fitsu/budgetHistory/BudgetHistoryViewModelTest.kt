@@ -23,12 +23,12 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class DashboardViewModelTest {
+class BudgetHistoryViewModelTest {
 
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: DashboardViewModel
+    private lateinit var viewModel: BudgetHistoryViewModel
 
     @Mock
     private lateinit var transactionRepository: TransactionRepository
@@ -45,7 +45,7 @@ class DashboardViewModelTest {
     fun setUp() {
         whenever(transactionRepository.getTransactionDetailPagedList())
             .thenReturn(MutableLiveData())
-        viewModel = DashboardViewModel(transactionRepository, testDispatcher)
+        viewModel = BudgetHistoryViewModel(transactionRepository, testDispatcher)
 
         viewModel.editTransactionEvent.observeForever(editTransactionEventObserver)
         viewModel.transactions.observeForever(transactionDetailPagedListObserver)

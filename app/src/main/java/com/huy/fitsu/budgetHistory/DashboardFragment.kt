@@ -18,7 +18,7 @@ class DashboardFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel by viewModels<DashboardViewModel> { viewModelFactory }
+    private val viewModel by viewModels<BudgetHistoryViewModel> { viewModelFactory }
 
     private lateinit var binding: DashboardFragBinding
 

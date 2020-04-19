@@ -9,7 +9,7 @@ import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.databinding.BudgetItemBinding
 
 class BudgetsAdapter(
-    private val viewModel: DashboardViewModel
+    private val viewModel: BudgetHistoryViewModel
 ): PagedListAdapter<Budget, BudgetsAdapter.BudgetItem>(diffCallback) {
 
     companion object {
@@ -38,7 +38,7 @@ class BudgetsAdapter(
         private val binding: BudgetItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(budget: Budget, viewModel: DashboardViewModel) {
+        fun bind(budget: Budget, viewModel: BudgetHistoryViewModel) {
             binding.budget = budget
         }
 

@@ -8,7 +8,7 @@ import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.repository.BudgetRepository
 import javax.inject.Inject
 
-class DashboardViewModel @Inject constructor(
+class BudgetHistoryViewModel @Inject constructor(
     budgetRepository: BudgetRepository
 ) : ViewModel() {
 
