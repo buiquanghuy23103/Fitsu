@@ -13,9 +13,9 @@ class BudgetHistoryViewModel @Inject constructor(
 
     val budgets: LiveData<PagedList<Budget>> =
         budgetRepository.getAllBudgets()
-    val defaultBudget: Int = budgetRepository.getDefaultBudget()
+    val defaultBudget: Float = budgetRepository.getDefaultBudget()
 
-    fun updateDefaultBudget(newBudgetValue: Int) {
+    fun updateDefaultBudget(newBudgetValue: Float) {
         budgetRepository.updateDefaultBudget(newBudgetValue)
     }
 

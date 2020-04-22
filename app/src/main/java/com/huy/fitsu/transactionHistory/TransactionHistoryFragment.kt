@@ -20,9 +20,6 @@ class TransactionHistoryFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject
-    lateinit var adapter: TransactionHistoryAdapter
-
     private val viewModel: TransactionHistoryViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: TransactionHistoryFragBinding
@@ -58,6 +55,7 @@ class TransactionHistoryFragment: Fragment() {
     }
 
     private fun setupTransactionList() {
+        val adapter = TransactionHistoryAdapter(viewModel)
         binding.transactionHistoryList.adapter = adapter
 
         viewModel.transactions.observe(viewLifecycleOwner, Observer {

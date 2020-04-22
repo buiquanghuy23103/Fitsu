@@ -11,6 +11,7 @@ import com.huy.fitsu.data.model.SemanticWeek
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.round
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -111,7 +112,7 @@ class TransactionRepositoryImpl @Inject constructor(
                 )
             } else {
                 addNewNewExpenseToBudgetByYearMonth(
-                    newTransaction.value - oldTransaction.value,
+                    (newTransaction.value - oldTransaction.value).round(2),
                     newTransactionDate.year,
                     newTransactionDate.monthValue
                 )
@@ -120,7 +121,7 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     private suspend fun addNewNewExpenseToBudgetByYearMonth(
-        newExpense: Int,
+        newExpense: Float,
         year: Int,
         month: Int
     ) {

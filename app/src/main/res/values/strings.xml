@@ -37,4 +37,8 @@
     <!--  Transaction history  -->
     <string name="transaction_history_fab_content_description">Add a transaction</string>
 
+    <!--  Warning  -->
+    <string name="invalid_money_value">Invalid money value</string>
+    <string name="invalid_date">Invalid date</string>
+
 </resources>

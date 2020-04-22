@@ -29,7 +29,7 @@ interface BudgetDao {
     suspend fun updateExpense(id: String, expense: Int)
 
     @Query("UPDATE budgets SET expense = expense + :newExpense WHERE year = :year AND month = :month")
-    suspend fun addNewExpenseByYearAndMonth(newExpense: Int, year: Int, month: Int): Int
+    suspend fun addNewExpenseByYearAndMonth(newExpense: Float, year: Int, month: Int): Int
 
 
 }

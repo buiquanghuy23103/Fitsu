@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -134,18 +136,29 @@ class AddEditTransactionFragment: Fragment() {
     private fun setupUpdateButton(categories: List<Category>) {
         binding.transactionUpdateButton.setOnClickListener {
             with(binding) {
-                val moneyValue = transactionValueEditText.text.toString().toInt()
+
+                val moneyValue = transactionValueEditText.text.toString().toFloatOrNull()
+                if (moneyValue == null) {
+                    warn(R.string.invalid_money_value)
+                    return@with
+                }
+
                 val dateText = transactionDateButton.text.toString()
                 val date = DateConverter.stringToLocalDate(dateText)
-                val category = categories[viewModel.selectedCategoryIndex]
-                date?.let {
-                    val newTransaction = Transaction(
-                        value = moneyValue,
-                        createdAt = date,
-                        categoryId = category.id
-                    )
-                    viewModel.updateTransaction(newTransaction)
+                if (date == null) {
+                    warn(R.string.invalid_date)
+                    return@with
                 }
+
+                val category = categories[viewModel.selectedCategoryIndex]
+
+                val newTransaction = Transaction(
+                    value = moneyValue,
+                    createdAt = date,
+                    categoryId = category.id
+                )
+
+                viewModel.updateTransaction(newTransaction)
             }
         }
     }
@@ -154,6 +167,10 @@ class AddEditTransactionFragment: Fragment() {
         binding.transactionDeleteButton.setOnClickListener {
             viewModel.deleteTransaction(transaction)
         }
+    }
+
+    private fun warn(@StringRes stringRes: Int) {
+        Toast.makeText(requireContext(), stringRes, Toast.LENGTH_SHORT).show()
     }
 
 }
