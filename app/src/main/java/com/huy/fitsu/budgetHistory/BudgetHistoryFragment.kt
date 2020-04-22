@@ -65,9 +65,11 @@ class BudgetHistoryFragment: Fragment() {
 
     private fun setupSaveDefaultBudgetButton() {
         binding.saveDefaultBudgetButton.setOnClickListener{
-            val value = binding.defaultBudgetEditText.text.toString().toInt()
-            // TODO: 22/04/2020 Need to change to Float
-            viewModel.updateDefaultBudget(value)
+            binding.defaultBudgetEditText.text
+                .toString()
+                .toFloatOrNull()?.let { newDefaultBudgetValue ->
+                    viewModel.updateDefaultBudget(newDefaultBudgetValue)
+                }
         }
     }
 

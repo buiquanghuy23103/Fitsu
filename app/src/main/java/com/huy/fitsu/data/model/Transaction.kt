@@ -9,7 +9,7 @@ import java.util.*
 @Entity(tableName = "transactions")
 data class Transaction(
     @PrimaryKey @ColumnInfo(name = "id") val id: String = UUID.randomUUID().toString(),
-    @ColumnInfo(name = "value") val value: Int = 0,
+    @ColumnInfo(name = "value") val value: Float = 0F,
     @ColumnInfo(name = "categoryId") val categoryId: String,
     @ColumnInfo(name = "createdAt") val createdAt: LocalDate = LocalDate.now()
 )

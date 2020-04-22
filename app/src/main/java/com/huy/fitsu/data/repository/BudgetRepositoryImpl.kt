@@ -18,12 +18,12 @@ class BudgetRepositoryImpl @Inject constructor(
     override fun getAllBudgets(): LiveData<PagedList<Budget>> =
         budgetDao.getAll().toLiveData(pageSize = 5)
 
-    override fun updateDefaultBudget(newBudgetValue: Int) {
+    override fun updateDefaultBudget(newBudgetValue: Float) {
         sharedPrefManager.saveDefaultBudget(newBudgetValue)
 
 
     }
 
-    override fun getDefaultBudget(): Int =
+    override fun getDefaultBudget(): Float =
         sharedPrefManager.getDefaultBudget()
 }

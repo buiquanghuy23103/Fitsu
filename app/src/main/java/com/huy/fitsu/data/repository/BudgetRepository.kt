@@ -8,8 +8,8 @@ interface BudgetRepository {
 
     fun getAllBudgets(): LiveData<PagedList<Budget>>
 
-    fun updateDefaultBudget(newBudgetValue: Int)
+    fun updateDefaultBudget(newBudgetValue: Float)
 
-    fun getDefaultBudget(): Int
+    fun getDefaultBudget(): Float
 
 }

@@ -120,7 +120,7 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     private suspend fun addNewNewExpenseToBudgetByYearMonth(
-        newExpense: Int,
+        newExpense: Float,
         year: Int,
         month: Int
     ) {

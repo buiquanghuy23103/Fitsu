@@ -11,12 +11,12 @@ class BudgetSharedPrefManager @Inject constructor(
     private val MONTH_BUDGET_KEY = "month_budget"
     private val editor = sharedPref.edit()
 
-    fun saveDefaultBudget(budgetValue: Int) = with(editor) {
-        putInt(MONTH_BUDGET_KEY, budgetValue)
+    fun saveDefaultBudget(budgetValue: Float) = with(editor) {
+        putFloat(MONTH_BUDGET_KEY, budgetValue)
         apply()
     }
 
-    fun getDefaultBudget(): Int =
-        sharedPref.getInt(MONTH_BUDGET_KEY, 0)
+    fun getDefaultBudget(): Float =
+        sharedPref.getFloat(MONTH_BUDGET_KEY, 0F)
 
 }
