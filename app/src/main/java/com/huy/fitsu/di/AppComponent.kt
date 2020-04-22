@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        DatabaseModule::class,
+        LocalStorageModule::class,
         SubComponentModule::class,
         ViewModelBuilderModule::class,
         RepositoryModule::class,
