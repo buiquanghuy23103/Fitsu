@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.huy.fitsu.FitsuApplication
-import com.huy.fitsu.databinding.DashboardFragBinding
+import com.huy.fitsu.databinding.BudgetHistoryFragBinding
 import javax.inject.Inject
 
 class BudgetHistoryFragment: Fragment() {
@@ -20,7 +20,7 @@ class BudgetHistoryFragment: Fragment() {
 
     private val viewModel by viewModels<BudgetHistoryViewModel> { viewModelFactory }
 
-    private lateinit var binding: DashboardFragBinding
+    private lateinit var binding: BudgetHistoryFragBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -35,7 +35,7 @@ class BudgetHistoryFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DashboardFragBinding.inflate(inflater, container, false)
+        binding = BudgetHistoryFragBinding.inflate(inflater, container, false)
         return binding.root
     }
 
