@@ -48,7 +48,8 @@ interface AppComponent {
     subcomponents = [
         CategoriesComponent::class,
         AddEditCategoryComponent::class,
-        BudgetHistoryComponent::class
+        BudgetHistoryComponent::class,
+        TransactionHistoryComponent::class
     ]
 )
 object SubComponentModule
