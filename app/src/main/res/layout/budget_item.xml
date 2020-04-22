@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toStartOf="@id/budget_item_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{String.format(@string/budget_item_title_format, budget.semanticWeek.weekNumber)}"
+            android:text="@{String.valueOf(budget.semanticWeek.month)}"
             tools:text="Week 16" />
 
         <TextView

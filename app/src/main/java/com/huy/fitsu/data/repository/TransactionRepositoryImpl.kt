@@ -14,6 +14,7 @@ import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.time.YearMonth
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -55,7 +56,8 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
                 transactionDao.delete(transaction)
-                recalculateBudgetOnTransactionDelete(transaction)
+                val date = transaction.createdAt
+                addNewNewExpenseToBudgetByYearMonth(-transaction.value, date.year, date.monthValue)
             }
         }
     }
@@ -63,7 +65,7 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             withContext(ioDispatcher) {
-                recalculateBudget(transaction)
+                recalculateMonthBudget(transaction)
                 transactionDao.update(transaction)
             }
         }
@@ -120,6 +122,50 @@ class TransactionRepositoryImpl @Inject constructor(
             return newBudget
         }
         return budget
+    }
+
+    private suspend fun recalculateMonthBudget(newTransaction: Transaction) {
+        transactionDao.findById(newTransaction.id)?.let { oldTransaction ->
+            val oldTransactionDate = oldTransaction.createdAt
+            val oldTransactionYearMonth =
+                YearMonth.of(oldTransactionDate.year, oldTransactionDate.month)
+
+            val newTransactionDate = newTransaction.createdAt
+            val newTransactionYearMonth =
+                YearMonth.of(newTransactionDate.year, newTransactionDate.monthValue)
+
+            if (oldTransactionYearMonth == newTransactionYearMonth) {
+                addNewNewExpenseToBudgetByYearMonth(
+                    -oldTransaction.value,
+                    oldTransactionDate.year,
+                    oldTransactionDate.monthValue
+                )
+                addNewNewExpenseToBudgetByYearMonth(
+                    newTransaction.value,
+                    newTransactionDate.year,
+                    newTransactionDate.monthValue
+                )
+            } else {
+                addNewNewExpenseToBudgetByYearMonth(
+                    newTransaction.value - oldTransaction.value,
+                    newTransactionDate.year,
+                    newTransactionDate.monthValue
+                )
+            }
+        }
+    }
+
+    private suspend fun addNewNewExpenseToBudgetByYearMonth(
+        newExpense: Int,
+        year: Int,
+        month: Int
+    ) {
+        val result = budgetDao.addNewExpenseByYearAndMonth(newExpense, year, month)
+        if (result <= 0) {
+            val semanticWeek = SemanticWeek(weekNumber = 0, month = month, year = year)
+            val newBudget = Budget(expense = newExpense, semanticWeek = semanticWeek)
+            budgetDao.insert(newBudget)
+        }
     }
 
     private suspend fun recalculateBudgetOnTransactionDelete(transaction: Transaction) =
