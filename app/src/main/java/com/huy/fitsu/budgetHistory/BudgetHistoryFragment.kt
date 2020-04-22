@@ -45,6 +45,8 @@ class BudgetHistoryFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupBudgetList()
+        setupDefaultBudgetEditText()
+        setupSaveDefaultBudgetButton()
 
     }
 
@@ -55,6 +57,18 @@ class BudgetHistoryFragment: Fragment() {
         viewModel.budgets.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
         })
+    }
+
+    private fun setupDefaultBudgetEditText() {
+        binding.defaultBudgetEditText.setText(viewModel.defaultBudget.toString())
+    }
+
+    private fun setupSaveDefaultBudgetButton() {
+        binding.saveDefaultBudgetButton.setOnClickListener{
+            val value = binding.defaultBudgetEditText.text.toString().toInt()
+            // TODO: 22/04/2020 Need to change to Float
+            viewModel.updateDefaultBudget(value)
+        }
     }
 
 }

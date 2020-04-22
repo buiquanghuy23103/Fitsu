@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="budget"
             type="com.huy.fitsu.data.model.Budget" />
@@ -12,27 +13,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin_large">
+        android:layout_marginTop="@dimen/layout_margin_large">
 
         <TextView
             android:id="@+id/budget_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{String.valueOf(budget.semanticWeek.month)}"
             android:textAppearance="@style/AppTheme.TextAppearance.ItemTitle"
             app:layout_constraintEnd_toStartOf="@id/budget_item_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{String.valueOf(budget.semanticWeek.month)}"
             tools:text="Week 16" />
 
         <TextView
             android:id="@+id/budget_item_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{String.valueOf(budget.value - budget.expense)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/budget_item_title"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{String.valueOf(budget.value - budget.expense)}"
             tools:text="-13" />
 
 

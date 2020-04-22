@@ -8,10 +8,15 @@ import com.huy.fitsu.data.repository.BudgetRepository
 import javax.inject.Inject
 
 class BudgetHistoryViewModel @Inject constructor(
-    budgetRepository: BudgetRepository
+    private val budgetRepository: BudgetRepository
 ) : ViewModel() {
 
     val budgets: LiveData<PagedList<Budget>> =
         budgetRepository.getAllBudgets()
+    val defaultBudget: Int = budgetRepository.getDefaultBudget()
+
+    fun updateDefaultBudget(newBudgetValue: Int) {
+        budgetRepository.updateDefaultBudget(newBudgetValue)
+    }
 
 }

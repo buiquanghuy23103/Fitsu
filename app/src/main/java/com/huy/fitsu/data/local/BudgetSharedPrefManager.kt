@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-class BudgetSharedPrefManager @Singleton @Inject constructor(
+@Singleton
+class BudgetSharedPrefManager @Inject constructor(
     private val sharedPref: SharedPreferences
 ) {
     private val MONTH_BUDGET_KEY = "month_budget"

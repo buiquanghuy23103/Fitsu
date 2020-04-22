@@ -9,17 +9,44 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/layout_margin_large">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/default_budget_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/default_budget_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/default_budget_hint"
+                android:inputType="numberDecimal" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/save_default_budget_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:text="@string/save_default_budget_button"
+            app:layout_constraintTop_toBottomOf="@id/default_budget_text_input_layout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/budget_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/budget_item"
-            tools:itemCount="5"/>
+            app:layout_constraintTop_toBottomOf="@id/save_default_budget_button"
+            tools:itemCount="5"
+            tools:listitem="@layout/budget_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
