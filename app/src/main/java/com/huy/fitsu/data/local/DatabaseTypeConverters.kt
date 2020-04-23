@@ -3,7 +3,6 @@ package com.huy.fitsu.data.local
 import androidx.room.TypeConverter
 import com.huy.fitsu.data.model.BudgetDuration
 import java.time.LocalDate
-import java.util.*
 
 class DatabaseTypeConverters {
 
@@ -20,16 +19,6 @@ class DatabaseTypeConverters {
             BudgetDuration.ANNUAL.name -> BudgetDuration.ANNUAL
             else -> BudgetDuration.NONE
         }
-    }
-
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
-
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
     }
 
     @TypeConverter
