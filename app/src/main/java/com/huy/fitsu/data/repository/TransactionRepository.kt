@@ -3,6 +3,7 @@ package com.huy.fitsu.data.repository
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.huy.fitsu.data.model.CategoryReport
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
 
@@ -24,5 +25,7 @@ interface TransactionRepository {
     fun getTransactionLiveData(id: String): LiveData<Transaction>
 
     suspend fun updateTransaction(transaction: Transaction)
+
+    fun transactionCountByCategory(): LiveData<List<CategoryReport>>
 
 }
