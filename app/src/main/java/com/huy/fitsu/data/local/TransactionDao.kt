@@ -2,7 +2,6 @@ package com.huy.fitsu.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.huy.fitsu.data.model.Report
 import com.huy.fitsu.data.model.Transaction
 
 @Dao
@@ -16,9 +15,6 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun findById(id: String): Transaction?
-
-    @Query("SELECT SUM(value) as sum FROM transactions WHERE createdAt BETWEEN :fromEpochDay AND :toEpochDay")
-    suspend fun calculateExpense(fromEpochDay: Long, toEpochDay: Long) : Report
 
     @Update
     suspend fun update(transaction: Transaction)

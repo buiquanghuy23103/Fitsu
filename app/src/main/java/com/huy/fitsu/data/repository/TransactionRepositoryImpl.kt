@@ -6,10 +6,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.BudgetSharedPrefManager
 import com.huy.fitsu.data.local.FitsuDatabase
-import com.huy.fitsu.data.model.Budget
-import com.huy.fitsu.data.model.SemanticWeek
-import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.model.TransactionDetail
+import com.huy.fitsu.data.model.*
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.round
 import com.huy.fitsu.util.wrapEspressoIdlingResource
@@ -88,6 +85,8 @@ class TransactionRepositoryImpl @Inject constructor(
         return transactionDao.findByIdLiveData(id)
     }
 
+    override fun transactionCountByCategory(): LiveData<List<CategoryReport>> =
+        transactionDetailDao.transactionCountByCategory()
 
     private suspend fun recalculateMonthBudget(newTransaction: Transaction) {
         transactionDao.findById(newTransaction.id)?.let { oldTransaction ->

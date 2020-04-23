@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
+import com.huy.fitsu.data.model.CategoryReport
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
@@ -26,6 +27,9 @@ class TransactionHistoryViewModel @Inject constructor(
 
     val transactions: LiveData<PagedList<TransactionDetail>> =
         transactionRepository.getTransactionDetailPagedList()
+
+    val transactionCountByCategory: LiveData<List<CategoryReport>> =
+        transactionRepository.transactionCountByCategory()
 
     fun editTransaction(transactionId: String) {
         _editTransactionEvent.value = Event(transactionId)
