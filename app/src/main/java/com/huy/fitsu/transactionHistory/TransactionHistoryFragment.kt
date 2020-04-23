@@ -93,7 +93,7 @@ class TransactionHistoryFragment: Fragment() {
                     setDrawIcons(false)
                     sliceSpace = 3f
                     iconsOffset = MPPointF.getInstance(0f, 40f)
-                    selectionShift = 5f
+                    selectionShift = 50f
                     colors = categoryReports.map { it.categoryColor }
                 }
 
@@ -127,6 +127,7 @@ class TransactionHistoryFragment: Fragment() {
                     setEntryLabelTextSize(12f)
 
                     legend.apply {
+                        textSize = 14f
                         textColor = Color.WHITE
                         verticalAlignment = Legend.LegendVerticalAlignment.TOP
                         horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
@@ -139,7 +140,7 @@ class TransactionHistoryFragment: Fragment() {
 
                     data = PieData(pieDataSet).apply {
                         setValueFormatter(PercentFormatter(this@with))
-                        setValueTextSize(11f)
+                        setValueTextSize(14f)
                         setValueTextColor(Color.WHITE)
                         setValueTypeface(Typeface.DEFAULT)
                     }
