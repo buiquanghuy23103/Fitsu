@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository
@@ -22,6 +23,7 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private var categoryId: String = ""
     private var currentColorInt = -255
+    private var currentBudgetDuration = BudgetDuration.WEEKLY
     private val navigateBackLiveData = MutableLiveData<Event<Unit>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<String>()
@@ -38,6 +40,10 @@ class AddEditCategoryViewModel @Inject constructor(
         currentColorInt = newColorInt
     }
 
+    fun setCurrentBudgetDuration(duration: BudgetDuration) {
+        currentBudgetDuration = duration
+    }
+
     fun getCategory(): LiveData<Category> {
         return repository.getCategoryLiveData(categoryId)
     }
@@ -47,7 +53,8 @@ class AddEditCategoryViewModel @Inject constructor(
         errorLiveData.value = ""
 
         val newCategory = category.copy(
-            color = currentColorInt
+            color = currentColorInt,
+            budgetDuration = currentBudgetDuration
         )
 
         wrapEspressoIdlingResource {

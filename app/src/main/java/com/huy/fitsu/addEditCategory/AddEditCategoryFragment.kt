@@ -78,12 +78,12 @@ class AddEditCategoryFragment: Fragment() {
                 binding.category = category
                 setupColorSelector(category.color)
                 saveCategoryColorToUI(category.color)
-                binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
+                binding.categoryBudgetDurationButton.text = it.budgetDuration.name
                 setupUpdateCategoryButton(it)
             }
         })
 
-        setupDropDownMenu()
+        setupCategoryButton()
         setupDeleteCategoryButton()
     }
 
@@ -91,13 +91,22 @@ class AddEditCategoryFragment: Fragment() {
         binding.categoryChangeColorButton.iconTint = ColorStateList.valueOf(colorInt)
     }
 
-    private fun setupDropDownMenu() {
+    private fun setupCategoryButton() {
+        val budgetDurations = BudgetDuration.values()
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.dropdown_item_style,
-            BudgetDuration.values()
+            budgetDurations
         )
-        binding.categoryBudgetDurationEditText.setAdapter(adapter)
+        binding.categoryBudgetDurationButton.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setAdapter(adapter) { _, which ->
+                    val selectedDuration = budgetDurations[which]
+                    viewModel.setCurrentBudgetDuration(selectedDuration)
+                    binding.categoryBudgetDurationButton.text = selectedDuration.name
+                }
+                .show()
+        }
     }
 
     private fun setupColorSelector(@ColorInt initColorInt: Int) {
@@ -124,10 +133,8 @@ class AddEditCategoryFragment: Fragment() {
     private fun setupUpdateCategoryButton(category: Category) {
         binding.categoryUpdateButton.setOnClickListener {
             val title = category_title_edit_text.text.toString()
-            val budgetDuration = category_budget_duration_edit_text.text.toString()
             val newCategory = category.copy(
-                title = title,
-                budgetDuration = BudgetDuration.valueOf(budgetDuration)
+                title = title
             )
             viewModel.updateCategory(newCategory)
         }
