@@ -49,7 +49,7 @@
     <style name="AppTheme.Button.Wide"
         parent="Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
         <item name="android:textColor">?attr/editTextColor</item>
         <item name="android:padding">@dimen/padding_large</item>
         <item name="iconPadding">@dimen/padding_extra_large</item>
