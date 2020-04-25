@@ -79,6 +79,9 @@ dependencies {
     implementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
 
+    // Color picker
+    implementation "com.github.yukuku:ambilwarna:$ambilwarna_version"
+
     // Pie chart
     implementation "com.github.PhilJay:MPAndroidChart:$pie_chart_version"
 

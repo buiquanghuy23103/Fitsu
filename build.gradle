@@ -17,6 +17,7 @@ buildscript {
         lifecycle_version = '2.2.0'
         androidXTestRule_version = '1.2.0'
         pie_chart_version = 'v3.1.0'
+        ambilwarna_version = '2.0.1'
     }
     repositories {
         google()
