@@ -88,7 +88,7 @@ class AddEditCategoryFragment: Fragment() {
     }
 
     private fun saveCategoryColorToUI(@ColorInt colorInt: Int) {
-        binding.categoryColorIcon.backgroundTintList = ColorStateList.valueOf(colorInt)
+        binding.categoryChangeColorButton.iconTint = ColorStateList.valueOf(colorInt)
     }
 
     private fun setupDropDownMenu() {
