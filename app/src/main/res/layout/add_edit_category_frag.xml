@@ -93,15 +93,6 @@
                 app:layout_constraintStart_toEndOf="@id/category_color_icon"
                 app:layout_constraintTop_toBottomOf="@id/category_budget_duration_text_input_layout" />
 
-            <Button
-                android:id="@+id/category_reset_color_button"
-                style="@style/AppTheme.OutlineButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin_large"
-                android:text="@string/category_color_reset_button_label"
-                app:layout_constraintStart_toEndOf="@id/category_change_color_button"
-                app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
 
             <com.divyanshu.colorseekbar.ColorSeekBar
                 android:id="@+id/category_color_seek_bar"

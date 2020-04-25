@@ -77,10 +77,6 @@ class AddEditCategoryFragment: Fragment() {
                 binding.category = category
                 binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
-                binding.categoryResetColorButton.setOnClickListener {
-                    binding.categoryColorSeekBar.visibility = View.GONE
-                    binding.categoryChangeColorButton.setBackgroundColor(category.color)
-                }
                 setupUpdateCategoryButton(it)
             }
         })
