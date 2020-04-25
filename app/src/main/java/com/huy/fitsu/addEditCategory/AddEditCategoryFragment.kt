@@ -77,8 +77,7 @@ class AddEditCategoryFragment: Fragment() {
             it?.let { category ->
                 binding.category = category
                 setupColorSelector(category.color)
-                binding.categoryChangeColorButton.setBackgroundColor(category.color)
-                binding.categoryColorIcon.backgroundTintList = ColorStateList.valueOf(category.color)
+                saveCategoryColorToUI(category.color)
                 binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
                 setupUpdateCategoryButton(it)
             }
@@ -86,6 +85,10 @@ class AddEditCategoryFragment: Fragment() {
 
         setupDropDownMenu()
         setupDeleteCategoryButton()
+    }
+
+    private fun saveCategoryColorToUI(@ColorInt colorInt: Int) {
+        binding.categoryColorIcon.backgroundTintList = ColorStateList.valueOf(colorInt)
     }
 
     private fun setupDropDownMenu() {
@@ -109,7 +112,7 @@ class AddEditCategoryFragment: Fragment() {
             initColorInt,
             object : AmbilWarnaDialog.OnAmbilWarnaListener {
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                    binding.categoryChangeColorButton.setBackgroundColor(color)
+                    saveCategoryColorToUI(color)
                     viewModel.setColorInt(color)
                 }
 

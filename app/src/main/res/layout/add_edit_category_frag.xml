@@ -91,9 +91,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/category_change_color_button"
-                style="@style/AppTheme.Button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_extra_large"
