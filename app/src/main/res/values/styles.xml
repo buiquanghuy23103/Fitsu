@@ -17,6 +17,7 @@
         <item name="divider">@color/less_white</item>
     </style>
 
+    <!--TEXT INPUT-->
     <style name="AppTheme.TextInputLayout"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
     </style>
@@ -25,25 +26,20 @@
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
     </style>
 
+    <!--BOTTOM NAVIGATION-->
     <style name="AppTheme.BottomNavigationView"
         parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
     </style>
 
-    <style name="AppTheme.FloatingActionButton"
-        parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="rippleColor">@color/white</item>
-    </style>
-
-    <style name="AppTheme.ColorBadge"
-        parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="android:layout_width">@dimen/icon_size</item>
-        <item name="android:layout_height">@dimen/icon_size</item>
-        <item name="elevation">@dimen/elevation_none</item>
-    </style>
-
+    <!--  BUTTON  -->
     <style name="AppTheme.Button"
         parent="Widget.MaterialComponents.Button">
         <item name="background">?attr/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Button.FloatingActionButton"
+        parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="rippleColor">@color/white</item>
     </style>
 
     <style name="AppTheme.OutlineButton"
@@ -73,6 +69,17 @@
         <item name="backgroundColor">@android:color/transparent</item>
     </style>
 
+
+    <!--  COLOR BADGE  -->
+    <style name="AppTheme.ColorBadge"
+        parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="elevation">@dimen/elevation_none</item>
+    </style>
+
+
+    <!--  TEXT STYLE  -->
     <style name="AppTheme.TextAppearance"
         parent="TextAppearance.MaterialComponents.Body1"/>
 
