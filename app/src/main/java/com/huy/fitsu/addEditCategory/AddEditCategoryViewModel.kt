@@ -1,5 +1,6 @@
 package com.huy.fitsu.addEditCategory
 
+import androidx.annotation.ColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ class AddEditCategoryViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var categoryId: String = ""
+    private var currentColorInt = -255
     private val navigateBackLiveData = MutableLiveData<Event<Unit>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<String>()
@@ -32,6 +34,10 @@ class AddEditCategoryViewModel @Inject constructor(
         categoryId = id
     }
 
+    fun setColorInt(@ColorInt newColorInt: Int) {
+        currentColorInt = newColorInt
+    }
+
     fun getCategory(): LiveData<Category> {
         return repository.getCategoryLiveData(categoryId)
     }
@@ -40,10 +46,14 @@ class AddEditCategoryViewModel @Inject constructor(
         loadingLiveData.value = true
         errorLiveData.value = ""
 
+        val newCategory = category.copy(
+            color = currentColorInt
+        )
+
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 try {
-                    repository.updateCategory(category)
+                    repository.updateCategory(newCategory)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
                 } catch (e: Exception) {

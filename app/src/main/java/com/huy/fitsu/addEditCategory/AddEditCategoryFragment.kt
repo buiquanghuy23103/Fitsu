@@ -108,6 +108,7 @@ class AddEditCategoryFragment: Fragment() {
             object : AmbilWarnaDialog.OnAmbilWarnaListener {
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
                     binding.categoryChangeColorButton.setBackgroundColor(color)
+                    viewModel.setColorInt(color)
                 }
 
                 override fun onCancel(dialog: AmbilWarnaDialog?) { /*DO NOTHING*/ }
