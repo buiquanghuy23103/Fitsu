@@ -1,19 +1,19 @@
 package com.huy.fitsu.addEditCategory
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
+import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.divyanshu.colorseekbar.ColorSeekBar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
@@ -21,6 +21,7 @@ import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
 import kotlinx.android.synthetic.main.add_edit_category_frag.*
+import yuku.ambilwarna.AmbilWarnaDialog
 import javax.inject.Inject
 
 class AddEditCategoryFragment: Fragment() {
@@ -75,53 +76,72 @@ class AddEditCategoryFragment: Fragment() {
         viewModel.getCategory().observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
-                binding.categoryChangeColorButton.setBackgroundColor(category.color)
-                binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
-                binding.categoryResetColorButton.setOnClickListener {
-                    binding.categoryColorSeekBar.visibility = View.GONE
-                    binding.categoryChangeColorButton.setBackgroundColor(category.color)
-                }
+                setupColorSelector(category.color)
+                saveCategoryColorToUI(category.color)
+                changeTitleOfBudgetDurationButton(it.budgetDuration)
                 setupUpdateCategoryButton(it)
             }
         })
 
-        setupDropDownMenu()
-        setupColorSelector()
+        setupCategoryButton()
         setupDeleteCategoryButton()
     }
 
-    private fun setupDropDownMenu() {
+    private fun saveCategoryColorToUI(@ColorInt colorInt: Int) {
+        binding.categoryChangeColorButton.iconTint = ColorStateList.valueOf(colorInt)
+    }
+
+    private fun setupCategoryButton() {
+        val budgetDurations = BudgetDuration.values()
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.dropdown_item_style,
-            BudgetDuration.values()
+            budgetDurations
         )
-        binding.categoryBudgetDurationEditText.setAdapter(adapter)
+        binding.categoryBudgetDurationButton.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setAdapter(adapter) { _, which ->
+                    val selectedDuration = budgetDurations[which]
+                    viewModel.setCurrentBudgetDuration(selectedDuration)
+                    changeTitleOfBudgetDurationButton(selectedDuration)
+                }
+                .show()
+        }
     }
 
-    private fun setupColorSelector() {
+    private fun changeTitleOfBudgetDurationButton(selectedDuration: BudgetDuration) {
+        val durationStr = selectedDuration.name.toLowerCase().capitalize()
+        val str = getString(R.string.category_budget_duration_button_label, durationStr)
+        binding.categoryBudgetDurationButton.text = str
+    }
+
+    private fun setupColorSelector(@ColorInt initColorInt: Int) {
         binding.categoryChangeColorButton.setOnClickListener {
-            binding.categoryColorSeekBar.visibility = View.VISIBLE
+            showColorPicker(initColorInt)
         }
-        binding.categoryColorSeekBar.setOnColorChangeListener(
-            object : ColorSeekBar.OnColorChangeListener {
-                override fun onColorChangeListener(color: Int) {
-                    binding.categoryChangeColorButton.setBackgroundColor(color)
+    }
+
+    private fun showColorPicker(initColorInt: Int) {
+        AmbilWarnaDialog(
+            requireContext(),
+            initColorInt,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    saveCategoryColorToUI(color)
+                    viewModel.setColorInt(color)
                 }
+
+                override fun onCancel(dialog: AmbilWarnaDialog?) { /*DO NOTHING*/ }
             }
-        )
+        ).show()
     }
 
     private fun setupUpdateCategoryButton(category: Category) {
         binding.categoryUpdateButton.setOnClickListener {
             val title = category_title_edit_text.text.toString()
-            val budgetDuration = category_budget_duration_edit_text.text.toString()
-            val color = category_color_seek_bar.getColor()
             val newCategory = category.copy(
-                title = title,
-                budgetDuration = BudgetDuration.valueOf(budgetDuration)
+                title = title
             )
-            if (category_color_seek_bar.isVisible) newCategory.color = color
             viewModel.updateCategory(newCategory)
         }
     }

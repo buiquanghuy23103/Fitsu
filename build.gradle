@@ -17,6 +17,7 @@ buildscript {
         lifecycle_version = '2.2.0'
         androidXTestRule_version = '1.2.0'
         pie_chart_version = 'v3.1.0'
+        ambilwarna_version = '2.0.1'
     }
     repositories {
         google()
@@ -24,7 +25,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0-alpha05'
+        classpath 'com.android.tools.build:gradle:4.1.0-alpha07'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         // NOTE: Do not place your application dependencies here; they belong
