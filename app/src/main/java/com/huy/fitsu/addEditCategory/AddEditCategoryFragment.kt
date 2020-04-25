@@ -1,6 +1,7 @@
 package com.huy.fitsu.addEditCategory
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -77,6 +78,7 @@ class AddEditCategoryFragment: Fragment() {
                 binding.category = category
                 setupColorSelector(category.color)
                 binding.categoryChangeColorButton.setBackgroundColor(category.color)
+                binding.categoryColorIcon.backgroundTintList = ColorStateList.valueOf(category.color)
                 binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
                 setupUpdateCategoryButton(it)
             }

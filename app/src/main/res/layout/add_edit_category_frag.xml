@@ -83,12 +83,10 @@
                 app:layout_constraintTop_toBottomOf="@id/category_budget_duration_text_input_layout" />
 
 
-            <ImageView
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/category_color_icon"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
+                style="@style/AppTheme.ColorBadge"
                 android:layout_marginStart="@dimen/layout_margin_large"
-                android:src="@drawable/ic_color_lens"
                 app:layout_constraintBottom_toBottomOf="@id/category_change_color_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/category_change_color_button" />
