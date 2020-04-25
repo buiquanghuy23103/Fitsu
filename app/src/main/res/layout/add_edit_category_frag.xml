@@ -21,37 +21,28 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_large">
 
-
-            <ImageView
-                android:id="@+id/category_title_icon"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:src="@drawable/ic_title"
-                app:layout_constraintBottom_toBottomOf="@id/category_title_text_input_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/category_title_text_input_layout" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/category_title_text_input_layout"
-                style="@style/AppTheme.TextInputLayout"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/category_title_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin_extra_large"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                android:background="@null"
                 android:hint="@string/category_title_edit_text_hint"
+                android:inputType="text"
+                android:text="@{category.title}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/category_title_icon"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toStartOf="@id/category_budget_duration_text_input_layout"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/category_title_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:text="@{category.title}" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
+            <View
+                android:id="@+id/category_edit_text_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="@dimen/layout_margin_large"
+                app:layout_constraintTop_toBottomOf="@id/category_title_edit_text"/>
 
             <ImageView
                 android:id="@+id/category_budget_duration_icon"
@@ -72,7 +63,7 @@
                 android:hint="@string/category_budget_duration_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/category_budget_duration_icon"
-                app:layout_constraintTop_toBottomOf="@id/category_title_text_input_layout">
+                app:layout_constraintTop_toBottomOf="@id/category_edit_text_divider">
 
                 <AutoCompleteTextView
                     android:id="@+id/category_budget_duration_edit_text"
@@ -138,8 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_large"
                 android:src="@drawable/ic_delete"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
