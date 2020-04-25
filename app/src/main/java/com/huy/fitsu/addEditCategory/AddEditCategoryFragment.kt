@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
 import kotlinx.android.synthetic.main.add_edit_category_frag.*
+import yuku.ambilwarna.AmbilWarnaDialog
 import javax.inject.Inject
 
 class AddEditCategoryFragment: Fragment() {
@@ -73,6 +75,7 @@ class AddEditCategoryFragment: Fragment() {
         viewModel.getCategory().observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
+                setupColorSelector(category.color)
                 binding.categoryChangeColorButton.setBackgroundColor(category.color)
                 binding.categoryBudgetDurationEditText.setText(category.budgetDuration.name, false)
                 setupUpdateCategoryButton(it)
@@ -80,7 +83,6 @@ class AddEditCategoryFragment: Fragment() {
         })
 
         setupDropDownMenu()
-        setupColorSelector()
         setupDeleteCategoryButton()
     }
 
@@ -93,8 +95,24 @@ class AddEditCategoryFragment: Fragment() {
         binding.categoryBudgetDurationEditText.setAdapter(adapter)
     }
 
-    private fun setupColorSelector() {
+    private fun setupColorSelector(@ColorInt initColorInt: Int) {
+        binding.categoryChangeColorButton.setOnClickListener {
+            showColorPicker(initColorInt)
+        }
+    }
 
+    private fun showColorPicker(initColorInt: Int) {
+        AmbilWarnaDialog(
+            requireContext(),
+            initColorInt,
+            object : AmbilWarnaDialog.OnAmbilWarnaListener {
+                override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                    binding.categoryChangeColorButton.setBackgroundColor(color)
+                }
+
+                override fun onCancel(dialog: AmbilWarnaDialog?) { /*DO NOTHING*/ }
+            }
+        ).show()
     }
 
     private fun setupUpdateCategoryButton(category: Category) {
