@@ -16,7 +16,7 @@
 
     <!--  Add/Edit category   -->
     <string name="category_title_edit_text_hint">Add title</string>
-    <string name="category_budget_duration_hint">Budget duration</string>
+    <string name="category_budget_duration_button_label">%1$s budget</string>
     <string name="category_change_color_button_label">Change color</string>
     <string name="category_color_reset_button_label">Reset color</string>
     <string name="drawer_header_image_content_description">Fitsu header image</string>

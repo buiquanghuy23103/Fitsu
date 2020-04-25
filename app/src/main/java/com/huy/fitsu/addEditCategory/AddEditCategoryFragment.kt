@@ -78,7 +78,7 @@ class AddEditCategoryFragment: Fragment() {
                 binding.category = category
                 setupColorSelector(category.color)
                 saveCategoryColorToUI(category.color)
-                binding.categoryBudgetDurationButton.text = it.budgetDuration.name
+                changeTitleOfBudgetDurationButton(it.budgetDuration)
                 setupUpdateCategoryButton(it)
             }
         })
@@ -103,10 +103,16 @@ class AddEditCategoryFragment: Fragment() {
                 .setAdapter(adapter) { _, which ->
                     val selectedDuration = budgetDurations[which]
                     viewModel.setCurrentBudgetDuration(selectedDuration)
-                    binding.categoryBudgetDurationButton.text = selectedDuration.name
+                    changeTitleOfBudgetDurationButton(selectedDuration)
                 }
                 .show()
         }
+    }
+
+    private fun changeTitleOfBudgetDurationButton(selectedDuration: BudgetDuration) {
+        val durationStr = selectedDuration.name.toLowerCase().capitalize()
+        val str = getString(R.string.category_budget_duration_button_label, durationStr)
+        binding.categoryBudgetDurationButton.text = str
     }
 
     private fun setupColorSelector(@ColorInt initColorInt: Int) {
