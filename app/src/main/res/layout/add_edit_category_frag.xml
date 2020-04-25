@@ -21,15 +21,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/category_title_edit_text"
+                style="@style/AppTheme.TitleEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_large"
-                android:layout_marginEnd="@dimen/layout_margin_large"
-                android:background="@null"
+                android:layout_marginStart="@dimen/layout_marginStart_title_edit_text"
                 android:hint="@string/category_title_edit_text_hint"
                 android:inputType="text"
                 android:text="@{category.title}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/category_budget_duration_button"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,15 +42,14 @@
                 app:layout_constraintTop_toBottomOf="@id/category_title_edit_text" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/category_budget_duration_button"
+                style="@style/AppTheme.Button.Wide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/AppTheme.Button.Wide"
-                android:id="@+id/category_budget_duration_button"
-                app:layout_constraintTop_toBottomOf="@id/category_title_divider"
-                app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/category_budget_duration_hint"
                 app:icon="@drawable/ic_repeat"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/category_title_divider" />
 
             <View
                 android:id="@+id/category_budget_duration_divider"
