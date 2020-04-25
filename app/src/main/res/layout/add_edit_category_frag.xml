@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -94,15 +93,6 @@
                 app:layout_constraintTop_toBottomOf="@id/category_budget_duration_text_input_layout" />
 
 
-            <com.divyanshu.colorseekbar.ColorSeekBar
-                android:id="@+id/category_color_seek_bar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_large"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@id/category_change_color_button"
-                app:layout_constraintTop_toBottomOf="@id/category_change_color_button"
-                tools:visibility="visible" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/category_update_button"
