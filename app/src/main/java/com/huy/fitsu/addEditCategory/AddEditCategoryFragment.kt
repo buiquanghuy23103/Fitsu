@@ -2,24 +2,28 @@ package com.huy.fitsu.addEditCategory
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
+import com.huy.fitsu.util.waitForTransition
 import kotlinx.android.synthetic.main.add_edit_category_frag.*
 import yuku.ambilwarna.AmbilWarnaDialog
 import javax.inject.Inject
@@ -44,12 +48,28 @@ class AddEditCategoryFragment: Fragment() {
             .inject(this)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setupTransition()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setupTransition() {
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = AddEditCategoryFragBinding.inflate(inflater, container, false)
+        binding = AddEditCategoryFragBinding.inflate(inflater, container, false).apply {
+            executePendingBindings()
+        }
+        waitForTransition(binding.root)
         return binding.root
     }
 
