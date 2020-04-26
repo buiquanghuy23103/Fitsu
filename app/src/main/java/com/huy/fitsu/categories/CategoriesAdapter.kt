@@ -2,20 +2,21 @@ package com.huy.fitsu.categories
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.CategoryItemBinding
 
-class CategoriesAdapter(
-    private val viewModel: CategoriesViewModel
-) : ListAdapter<Category, CategoriesAdapter.CategoryItem>(CategoryDiffCallback()) {
+class CategoriesAdapter :
+    ListAdapter<Category, CategoriesAdapter.CategoryItem>(CategoryDiffCallback()) {
 
     override fun onBindViewHolder(holder: CategoryItem, position: Int) {
         val item = getItem(position)
-        holder.bind(viewModel, item)
+        holder.bind(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryItem {
@@ -24,14 +25,25 @@ class CategoriesAdapter(
 
     class CategoryItem private constructor(
         private val binding: CategoryItemBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewModel: CategoriesViewModel, category: Category) {
-            binding.category = category
-            binding.categoryItemIcon.backgroundTintList = ColorStateList.valueOf(category.color)
-            binding.root.setOnClickListener {
-                viewModel.editCategoryWithId(category.id)
+        fun bind(category: Category) =
+            with(binding) {
+                this.category = category
+                categoryItemIcon.backgroundTintList = ColorStateList.valueOf(category.color)
+                root.setOnClickListener {
+                    navigateToAddEditCategoryFrag(category, it)
+                }
             }
+
+        private fun navigateToAddEditCategoryFrag(
+            category: Category,
+            view: View
+        ) {
+            val destination = CategoriesFragmentDirections.toAddEditCategoryFragment(
+                categoryId = category.id
+            )
+            view.findNavController().navigate(destination)
         }
 
         companion object {

@@ -16,7 +16,7 @@ import com.huy.fitsu.databinding.CategoriesFragBinding
 import timber.log.Timber
 import javax.inject.Inject
 
-class CategoriesFragment: Fragment() {
+class CategoriesFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -54,7 +54,7 @@ class CategoriesFragment: Fragment() {
     }
 
     private fun setupListAdapter() {
-        listAdapter = CategoriesAdapter(viewModel)
+        listAdapter = CategoriesAdapter()
         binding.categoriesList.adapter = listAdapter
 
         viewModel.getAllCategories().observe(viewLifecycleOwner, Observer {
@@ -72,7 +72,7 @@ class CategoriesFragment: Fragment() {
     }
 
     private fun setupNavigation() {
-        viewModel.editCategoryEventLiveData().observe(viewLifecycleOwner, EventObserver{
+        viewModel.editCategoryEventLiveData().observe(viewLifecycleOwner, EventObserver {
             val action = CategoriesFragmentDirections.toAddEditCategoryFragment(it)
             findNavController().navigate(action)
         })
