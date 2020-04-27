@@ -12,38 +12,41 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/category_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin_large">
+        android:layout_margin="@dimen/layout_margin_large"
+        android:transitionName="@{@string/category_title_transition(category.id)}"
+        tools:targetApi="lollipop">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/category_item_icon"
             style="@style/AppTheme.ColorBadge"
             showColorBadge="@{category.color}"
+            app:layout_constraintBottom_toBottomOf="@id/category_item_subtitle"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/category_item_title"
-            app:layout_constraintBottom_toBottomOf="@id/category_item_subtitle"/>
+            app:layout_constraintTop_toTopOf="@id/category_item_title" />
 
         <TextView
             android:id="@+id/category_item_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/category_item_icon"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/layout_margin_extra_large"
             android:text="@{category.title}"
             android:textAppearance="@style/AppTheme.TextAppearance.ItemTitle"
+            app:layout_constraintStart_toEndOf="@id/category_item_icon"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Transportation" />
 
         <TextView
             android:id="@+id/category_item_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/category_item_title"
-            app:layout_constraintTop_toBottomOf="@id/category_item_title"
-            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{String.format(@string/category_item_subtitle_format, category.budgetDuration.name())}"
             android:textAppearance="@style/AppTheme.TextAppearance.ItemSubtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/category_item_title"
+            app:layout_constraintTop_toBottomOf="@id/category_item_title"
             tools:text="Included in Week budget" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
