@@ -24,36 +24,17 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_large">
 
-            <ImageView
-                android:id="@+id/transaction_value_icon"
-                android:layout_width="@dimen/icon_size"
-                android:layout_height="@dimen/icon_size"
-                android:src="@drawable/ic_receipt"
-                app:layout_constraintBottom_toBottomOf="@id/transaction_value_text_input_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/transaction_value_text_input_layout" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/transaction_value_text_input_layout"
-                style="@style/AppTheme.TextInputLayout"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/transaction_value_edit_text"
+                style="@style/AppTheme.TitleEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin_extra_large"
-                android:hint="@string/transaction_value_edit_text_hint"
+                android:inputType="numberDecimal"
+                android:text="@{String.valueOf(transaction.value)}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/transaction_value_icon"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/transaction_value_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:text="@{String.valueOf(transaction.value)}"
-                    tools:text="100"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="100" />
 
             <ImageView
                 android:id="@+id/transaction_date_icon"
@@ -67,14 +48,14 @@
             <Button
                 android:id="@+id/transaction_date_button"
                 style="@style/AppTheme.DateButton"
+                showDateText="@{transaction.createdAt}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_extra_large"
                 android:layout_marginTop="@dimen/layout_margin_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/transaction_date_icon"
-                app:layout_constraintTop_toBottomOf="@id/transaction_value_text_input_layout"
-                showDateText="@{transaction.createdAt}"
+                app:layout_constraintTop_toBottomOf="@id/transaction_value_edit_text"
                 tools:text="Saturday, 30-04-2020" />
 
             <ImageView
@@ -93,26 +74,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin_extra_large"
                 android:layout_marginTop="@dimen/layout_margin_large"
+                android:text="@{category.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/transaction_category_icon"
-                app:layout_constraintTop_toBottomOf="@id/transaction_date_button"
-                android:text="@{category.title}" />
+                app:layout_constraintTop_toBottomOf="@id/transaction_date_button" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/transaction_update_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_tick"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/transaction_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
