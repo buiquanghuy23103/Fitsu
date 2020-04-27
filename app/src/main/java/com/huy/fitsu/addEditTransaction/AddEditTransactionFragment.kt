@@ -123,14 +123,11 @@ class AddEditTransactionFragment: Fragment() {
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.transaction_category_picker_title)
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
 
         binding.transactionCategoryButton.setOnClickListener {
             val currentCategoryIndex = categories.indexOf(selectedCategory)
 
-            dialog.setPositiveButton(R.string.ok) { dialog, _ ->
+            dialog.setPositiveButton(android.R.string.ok) { dialog, _ ->
                 val chosenCategory = categories[viewModel.selectedCategoryIndex]
                 binding.transactionCategoryButton.text = chosenCategory.title
                 dialog.dismiss()
