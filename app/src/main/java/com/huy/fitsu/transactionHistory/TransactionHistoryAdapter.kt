@@ -2,16 +2,14 @@ package com.huy.fitsu.transactionHistory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.databinding.TransactionItemBinding
-import javax.inject.Inject
 
-class TransactionHistoryAdapter @Inject constructor(
-    private val viewModel: TransactionHistoryViewModel
-): PagedListAdapter<TransactionDetail, TransactionHistoryAdapter.TransactionItem>(TransactionDiffCallback()) {
+class TransactionHistoryAdapter: PagedListAdapter<TransactionDetail, TransactionHistoryAdapter.TransactionItem>(TransactionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionItem {
         return TransactionItem.from(parent)
@@ -19,19 +17,34 @@ class TransactionHistoryAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: TransactionItem, position: Int) {
         val item: TransactionDetail? = getItem(position)
-        item?.let { holder.bind(it, viewModel) }
+        item?.let { holder.bind(it) }
     }
 
     class TransactionItem private constructor(
         private val binding: TransactionItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: TransactionDetail, viewModel: TransactionHistoryViewModel) {
-            binding.transaction = transaction
+        private lateinit var transactionDetail: TransactionDetail
+
+        fun bind(transactionDetail: TransactionDetail) {
+            this.transactionDetail = transactionDetail
+            binding.transaction = transactionDetail
             binding.root.setOnClickListener {
-                viewModel.editTransaction(transaction.id)
+                navigateToAddEditTransactionFrag()
             }
+            binding.executePendingBindings()
         }
+
+        private fun navigateToAddEditTransactionFrag() {
+            navigateWithoutTransition()
+        }
+
+        private fun navigateWithoutTransition() {
+            val destination = TransactionHistoryFragmentDirections
+                .toAddEditTransactionFragment(transactionDetail.id)
+            binding.root.findNavController().navigate(destination)
+        }
+
 
         companion object {
             fun from(parent: ViewGroup) : TransactionItem {

@@ -66,7 +66,7 @@ class TransactionHistoryFragment: Fragment() {
     }
 
     private fun setupTransactionList() {
-        val adapter = TransactionHistoryAdapter(viewModel)
+        val adapter = TransactionHistoryAdapter()
         binding.transactionHistoryList.adapter = adapter
 
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
