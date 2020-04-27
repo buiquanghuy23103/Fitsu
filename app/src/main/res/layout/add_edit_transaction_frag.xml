@@ -23,6 +23,7 @@
             style="@style/AppTheme.TitleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_marginStart_title_edit_text"
             android:inputType="numberDecimal"
             android:text="@{String.valueOf(transaction.value)}"
             app:layout_constraintEnd_toEndOf="parent"
