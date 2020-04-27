@@ -15,8 +15,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transaction_edit_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:transitionName="@{@string/edit_transaction_transition(transaction.id)}"
+        tools:targetApi="lollipop">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transaction_value_edit_text"

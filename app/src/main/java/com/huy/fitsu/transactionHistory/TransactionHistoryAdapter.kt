@@ -1,13 +1,17 @@
 package com.huy.fitsu.transactionHistory
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.databinding.TransactionItemBinding
+import com.huy.fitsu.util.toTransitionMap
 
 class TransactionHistoryAdapter: PagedListAdapter<TransactionDetail, TransactionHistoryAdapter.TransactionItem>(TransactionDiffCallback()) {
 
@@ -28,7 +32,7 @@ class TransactionHistoryAdapter: PagedListAdapter<TransactionDetail, Transaction
 
         fun bind(transactionDetail: TransactionDetail) {
             this.transactionDetail = transactionDetail
-            binding.transaction = transactionDetail
+            binding.transactionDetail = transactionDetail
             binding.root.setOnClickListener {
                 navigateToAddEditTransactionFrag()
             }
@@ -36,7 +40,21 @@ class TransactionHistoryAdapter: PagedListAdapter<TransactionDetail, Transaction
         }
 
         private fun navigateToAddEditTransactionFrag() {
-            navigateWithoutTransition()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                navigateWithTransition()
+            } else {
+                navigateWithoutTransition()
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        private fun navigateWithTransition() {
+            val extras = FragmentNavigatorExtras(
+                binding.transactionItemContainer.toTransitionMap()
+            )
+            val destination = TransactionHistoryFragmentDirections
+                .toAddEditTransactionFragment(transactionDetail.id)
+            binding.root.findNavController().navigate(destination, extras)
         }
 
         private fun navigateWithoutTransition() {

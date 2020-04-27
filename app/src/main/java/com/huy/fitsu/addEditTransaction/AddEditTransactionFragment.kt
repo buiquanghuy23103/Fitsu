@@ -1,11 +1,13 @@
 package com.huy.fitsu.addEditTransaction
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionInflater
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
@@ -22,6 +25,7 @@ import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.databinding.AddEditTransactionFragBinding
 import com.huy.fitsu.util.DateConverter
+import com.huy.fitsu.util.waitForTransition
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -41,10 +45,31 @@ class AddEditTransactionFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        injectDagger()
+    }
+
+    private fun injectDagger() {
         (requireActivity().application as FitsuApplication).appComponent
             .addEditTransactionComponent()
             .create()
             .inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupTransition()
+    }
+
+    private fun setupTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setupEnterTransition()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setupEnterTransition() {
+        sharedElementEnterTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(
@@ -52,7 +77,10 @@ class AddEditTransactionFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = AddEditTransactionFragBinding.inflate(inflater, container, false)
+        binding = AddEditTransactionFragBinding.inflate(inflater, container, false).apply {
+            executePendingBindings()
+            waitForTransition(transactionEditForm)
+        }
         return binding.root
     }
 
