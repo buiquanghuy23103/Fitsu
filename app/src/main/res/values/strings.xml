@@ -31,9 +31,8 @@
     <string name="transaction_date_picker_title">Select date</string>
     <string name="transaction_category_picker_title">Select category</string>
 
-    <string name="ok">Ok</string>
     <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 
     <!--  Transaction history  -->
     <string name="transaction_history_fab_content_description">Add a transaction</string>
