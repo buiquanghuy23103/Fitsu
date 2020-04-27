@@ -30,18 +30,31 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="100" />
 
+        <View
+            android:id="@+id/transaction_value_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/transaction_value_edit_text" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_date_button"
             style="@style/AppTheme.Button.Wide"
             showDateText="@{transaction.createdAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_margin_large"
             app:icon="@drawable/ic_calendar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_value_edit_text"
             tools:text="Saturday, 30-04-2020" />
+
+        <View
+            android:id="@+id/transaction_date_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/transaction_date_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_category_button"
@@ -53,6 +66,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_date_button" />
+
+        <View
+            android:id="@+id/transaction_category_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/transaction_category_button" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/transaction_update_button"
