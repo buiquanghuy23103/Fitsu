@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="category_title_transition">Title %s</string>
+    <string name="edit_category_transition">Edit category %s</string>
+    <string name="edit_transaction_transition">Edit transaction %s</string>
 
 </resources>

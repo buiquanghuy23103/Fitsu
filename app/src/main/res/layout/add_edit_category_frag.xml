@@ -14,7 +14,7 @@
         android:id="@+id/category_edit_form_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@{@string/category_title_transition(category.id)}"
+        android:transitionName="@{@string/edit_category_transition(category.id)}"
         tools:targetApi="lollipop">
 
         <com.google.android.material.textfield.TextInputEditText

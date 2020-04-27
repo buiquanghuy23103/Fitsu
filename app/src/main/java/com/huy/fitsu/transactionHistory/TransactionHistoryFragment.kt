@@ -22,6 +22,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
+import com.huy.fitsu.util.waitForTransition
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,6 +37,10 @@ class TransactionHistoryFragment: Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        injectDagger()
+    }
+
+    private fun injectDagger() {
         (requireActivity().application as FitsuApplication).appComponent
             .transactionHistoryComponent()
             .create()
@@ -50,6 +55,7 @@ class TransactionHistoryFragment: Fragment() {
         binding = TransactionHistoryFragBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,8 +72,10 @@ class TransactionHistoryFragment: Fragment() {
     }
 
     private fun setupTransactionList() {
-        val adapter = TransactionHistoryAdapter(viewModel)
+        val adapter = TransactionHistoryAdapter()
         binding.transactionHistoryList.adapter = adapter
+
+        waitForTransition(binding.transactionHistoryList)
 
         viewModel.transactions.observe(viewLifecycleOwner, Observer {
             it?.let { list -> adapter.submitList(list) }
@@ -97,9 +105,6 @@ class TransactionHistoryFragment: Fragment() {
                     colors = categoryReports.map { it.categoryColor }
                 }
 
-                binding.categoryPieChart.legend.apply {
-                    form = Legend.LegendForm.CIRCLE
-                }
 
                 with(binding.categoryPieChart) {
 
@@ -127,6 +132,7 @@ class TransactionHistoryFragment: Fragment() {
                     setEntryLabelTextSize(12f)
 
                     legend.apply {
+                        form = Legend.LegendForm.CIRCLE
                         textSize = 14f
                         textColor = Color.WHITE
                         verticalAlignment = Legend.LegendVerticalAlignment.TOP
