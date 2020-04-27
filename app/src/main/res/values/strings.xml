@@ -32,6 +32,7 @@
     <string name="transaction_category_picker_title">Select category</string>
 
     <string name="ok">Ok</string>
+    <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 
     <!--  Transaction history  -->
