@@ -32,7 +32,7 @@ class TransactionHistoryFragmentTest {
     private lateinit var categoryRepository: CategoryRepository
 
     private val testCategory = Category("A Test")
-    private val testTransaction = Transaction(value = 100, categoryId = testCategory.id)
+    private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
 
     @Before
     fun setup() {

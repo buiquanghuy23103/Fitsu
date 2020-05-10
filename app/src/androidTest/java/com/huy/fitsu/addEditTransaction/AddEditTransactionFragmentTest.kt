@@ -40,7 +40,7 @@ class AddEditTransactionFragmentTest {
 
     private val testCategory = Category("A Test")
     private val testCategory2 = Category("Food")
-    private val testTransaction = Transaction(value = 100, categoryId = testCategory.id)
+    private val testTransaction = Transaction(value = 100.00f, categoryId = testCategory.id)
 
     @Before
     fun setup() {
