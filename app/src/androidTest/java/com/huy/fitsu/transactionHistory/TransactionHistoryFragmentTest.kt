@@ -69,10 +69,7 @@ class TransactionHistoryFragmentTest {
 
     @Test
     fun clickTransactionItem_navigateToAddEditTransactionFragment() {
-        val navController = Mockito.mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        val navController = launchFragmentWithNavController()
 
         onView(withId(R.id.transaction_history_list))
             .perform(
@@ -81,8 +78,8 @@ class TransactionHistoryFragmentTest {
                 )
             )
 
-        val destination =
-            TransactionHistoryFragmentDirections.toAddEditTransactionFragment(testTransaction.id)
+        val destination = TransactionHistoryFragmentDirections
+            .toAddEditTransactionFragment(testTransaction.id)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Mockito.verify(navController)
                 .navigate(Mockito.eq(destination), Mockito.any(Navigator.Extras::class.java))
@@ -95,15 +92,20 @@ class TransactionHistoryFragmentTest {
 
     @Test
     fun clickAddTransactionFab_navigateToAddEditTransactionFragment() {
-        val navController = Mockito.mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        val navController = launchFragmentWithNavController()
 
         onView(withId(R.id.transaction_history_add_trans_fab))
             .perform(ViewActions.click())
 
         Mockito.verify(navController).navigate(Mockito.any<NavDirections>())
+    }
+
+    private fun launchFragmentWithNavController(): NavController {
+        val navController = Mockito.mock(NavController::class.java)
+        launchFragment().onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+        return navController
     }
 
     private fun launchFragment(): FragmentScenario<TransactionHistoryFragment> {
