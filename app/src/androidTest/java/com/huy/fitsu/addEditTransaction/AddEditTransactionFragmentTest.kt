@@ -41,7 +41,7 @@ class AddEditTransactionFragmentTest : BaseTest<AddEditTransactionFragment>() {
 
     private val testCategory = Category("A Test")
     private val testCategory2 = Category("Food")
-    private val testTransaction = Transaction(value = 100.00f, categoryId = testCategory.id)
+    private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
 
     override fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
         val bundle = AddEditTransactionFragmentArgs(testTransaction.id).toBundle()
