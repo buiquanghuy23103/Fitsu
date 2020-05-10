@@ -1,10 +1,10 @@
 package com.huy.fitsu.categories
 
+import android.os.Build
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.testing.TestNavHostController
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigator
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -12,6 +12,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.huy.fitsu.BaseTest
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.Category
@@ -19,19 +20,22 @@ import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito.*
 
 @RunWith(AndroidJUnit4::class)
-class CategoriesFragmentTests {
+class CategoriesFragmentTests : BaseTest<CategoriesFragment>() {
 
     private lateinit var categoryRepository: CategoryRepository
 
     private val testCategory = Category(title = "ATest")
 
-    private lateinit var navController: NavController
+    override fun launchFragment(): FragmentScenario<CategoriesFragment> {
+        return launchFragmentInContainer(null, R.style.AppTheme)
+    }
 
     @Before
     fun setup() {
@@ -42,15 +46,6 @@ class CategoriesFragmentTests {
             runBlocking {
                 categoryRepository.insertNewCategory(testCategory)
             }
-        }
-
-        val appContext = ApplicationProvider.getApplicationContext<FitsuApplication>()
-        navController = TestNavHostController(appContext).apply {
-            setGraph(R.navigation.nav_graph)
-        }
-
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
         }
     }
 
@@ -64,6 +59,8 @@ class CategoriesFragmentTests {
 
     @Test
     fun displayCategory() {
+        launchFragment()
+
         onView(withId(R.id.categories_list))
             .perform(RecyclerViewActions.scrollToPosition<CategoriesAdapter.CategoryItem>(0))
 
@@ -73,6 +70,10 @@ class CategoriesFragmentTests {
 
     @Test
     fun editCategory_shouldNavigate_toAddEditCategoryFragment() {
+        val navController = launchFragmentWithMockNavController()
+        val destination = CategoriesFragmentDirections
+            .toAddEditCategoryFragment(testCategory.id)
+
         onView(withId(R.id.categories_list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<CategoriesAdapter.CategoryItem>(
@@ -81,20 +82,28 @@ class CategoriesFragmentTests {
                 )
             )
 
-        Assert.assertEquals(navController.currentDestination?.id, R.id.addEditCategoryFragment)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            verify(navController).navigate(
+                eq(destination),
+                any(Navigator.Extras::class.java)
+            )
+        } else {
+            verify(navController).navigate(eq(destination))
+        }
     }
 
     @Test
     fun addCategory_shouldNavigate_toAddEditCategoryFragment() {
+        val navController = launchFragmentWithMockNavController()
+
         onView(withId(R.id.categories_add_button))
             .perform(click())
 
-        Assert.assertEquals(navController.currentDestination?.id, R.id.addEditCategoryFragment)
-    }
-
-
-    private fun launchFragment(): FragmentScenario<CategoriesFragment> {
-        return launchFragmentInContainer<CategoriesFragment>(null, R.style.AppTheme)
+        verify(navController).navigate(
+            ArgumentMatchers.any(NavDirections::class.java)
+        )
     }
 
 }

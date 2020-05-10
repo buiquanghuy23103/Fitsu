@@ -12,6 +12,7 @@ import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.huy.fitsu.BaseTest
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.childAtPosition
@@ -32,7 +33,7 @@ import org.mockito.Mockito.verify
 
 
 @RunWith(AndroidJUnit4::class)
-class AddEditTransactionFragmentTest {
+class AddEditTransactionFragmentTest : BaseTest<AddEditTransactionFragment>() {
 
 
     private lateinit var transactionRepository: TransactionRepository
@@ -40,7 +41,12 @@ class AddEditTransactionFragmentTest {
 
     private val testCategory = Category("A Test")
     private val testCategory2 = Category("Food")
-    private val testTransaction = Transaction(value = 100, categoryId = testCategory.id)
+    private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
+
+    override fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
+        val bundle = AddEditTransactionFragmentArgs(testTransaction.id).toBundle()
+        return launchFragmentInContainer<AddEditTransactionFragment>(bundle, R.style.AppTheme)
+    }
 
     @Before
     fun setup() {
@@ -79,22 +85,17 @@ class AddEditTransactionFragmentTest {
 
     @Test
     fun updateTransaction_shouldNavigate_toDashboardFragment() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        val navController = launchFragmentWithMockNavController()
 
         onView(withId(R.id.transaction_update_button))
             .perform(click())
 
         verify(navController).navigateUp()
     }
-@Test
+
+    @Test
     fun deleteTransaction_shouldNavigateUp() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        val navController = launchFragmentWithMockNavController()
 
         onView(withId(R.id.transaction_delete_button))
             .perform(click())
@@ -102,47 +103,4 @@ class AddEditTransactionFragmentTest {
         verify(navController).navigateUp()
     }
 
-    @Test
-    fun updateTransaction_shouldDisplayOnDashboard() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
-
-        // Change transaction value
-        onView(withId(R.id.transaction_value_edit_text))
-            .perform(replaceText("123"))
-
-
-        // Change transaction's category
-        onView(withId(R.id.transaction_category_button))
-            .perform(click())
-        val appCompatCheckedTextView = onData(anything())
-            .inAdapterView(
-                allOf(
-                    withId(R.id.select_dialog_listview),
-                    childAtPosition(
-                        withId(R.id.contentPanel),
-                        1
-                    )
-                )
-            )
-            .atPosition(0)
-        appCompatCheckedTextView.perform(click())
-        onView(withId(android.R.id.button1))
-            .perform(click())
-
-        // Click "Update" fab
-        onView(withId(R.id.transaction_update_button))
-            .perform(click())
-
-        onView(withText(testCategory2.title))
-            .check(matches(isDisplayed()))
-
-    }
-
-    private fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
-        val bundle = AddEditTransactionFragmentArgs(testTransaction.id).toBundle()
-        return launchFragmentInContainer<AddEditTransactionFragment>(bundle, R.style.AppTheme)
-    }
 }

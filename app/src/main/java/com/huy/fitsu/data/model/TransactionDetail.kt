@@ -12,7 +12,7 @@ import java.time.LocalDate
 )
 data class TransactionDetail(
     val id: String,
-    val value: Int,
+    val value: Float,
     val createdAt: LocalDate,
     val categoryId: String,
     val categoryTitle: String,

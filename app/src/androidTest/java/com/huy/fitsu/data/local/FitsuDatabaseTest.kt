@@ -34,7 +34,7 @@ class FitsuDatabaseTest {
         title = "Food"
     )
     private val sampleTransaction = Transaction(
-        value = 123,
+        value = 123f,
         categoryId = sampleCategory.id,
         createdAt = LocalDate.now()
     )

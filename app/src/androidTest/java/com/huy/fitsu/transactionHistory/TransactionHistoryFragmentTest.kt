@@ -1,19 +1,21 @@
 package com.huy.fitsu.transactionHistory
 
+import android.os.Build
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
+import androidx.navigation.Navigator
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.huy.fitsu.BaseTest
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.budgetHistory.BudgetHistoryFragment
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.repository.CategoryRepository
@@ -26,13 +28,17 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 
 @RunWith(AndroidJUnit4::class)
-class TransactionHistoryFragmentTest {
+class TransactionHistoryFragmentTest : BaseTest<TransactionHistoryFragment>() {
 
     private lateinit var transactionRepository: TransactionRepository
     private lateinit var categoryRepository: CategoryRepository
 
     private val testCategory = Category("A Test")
-    private val testTransaction = Transaction(value = 100, categoryId = testCategory.id)
+    private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
+
+    override fun launchFragment(): FragmentScenario<TransactionHistoryFragment> {
+        return launchFragmentInContainer(null, R.style.AppTheme)
+    }
 
     @Before
     fun setup() {
@@ -54,39 +60,47 @@ class TransactionHistoryFragmentTest {
     }
 
     @Test
-    fun clickTransactionItem_navigateToAddEditTransactionFragment() {
-        val navController = Mockito.mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+    fun shouldShowTransactionHistoryList() {
+        launchFragment()
 
-        Espresso.onView(withId(R.id.transaction_history_list))
+        onView(withId(R.id.transaction_history_list))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun clickTransactionItem_navigateToAddEditTransactionFragment() {
+        val navController = launchFragmentWithMockNavController()
+
+        onView(withId(R.id.transaction_history_list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<TransactionHistoryAdapter.TransactionItem>(
                     0, ViewActions.click()
                 )
             )
 
-        Mockito.verify(navController).navigate(
-            TransactionHistoryFragmentDirections.toAddEditTransactionFragment(testTransaction.id)
-        )
+        val destination = TransactionHistoryFragmentDirections
+            .toAddEditTransactionFragment(testTransaction.id)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Mockito.verify(navController).navigate(
+                Mockito.eq(destination),
+                Mockito.any(Navigator.Extras::class.java)
+            )
+        } else {
+            Mockito.verify(navController).navigate(Mockito.eq(destination))
+        }
+
     }
 
     @Test
     fun clickAddTransactionFab_navigateToAddEditTransactionFragment() {
-        val navController = Mockito.mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
+        val navController = launchFragmentWithMockNavController()
 
-        Espresso.onView(withId(R.id.transaction_history_add_trans_fab))
+        onView(withId(R.id.transaction_history_add_trans_fab))
             .perform(ViewActions.click())
 
         Mockito.verify(navController).navigate(Mockito.any<NavDirections>())
-    }
-
-    private fun launchFragment(): FragmentScenario<BudgetHistoryFragment> {
-        return launchFragmentInContainer<BudgetHistoryFragment>(null, R.style.AppTheme)
     }
 
 }
