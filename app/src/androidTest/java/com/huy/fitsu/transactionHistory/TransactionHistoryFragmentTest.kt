@@ -80,13 +80,16 @@ class TransactionHistoryFragmentTest {
 
         val destination = TransactionHistoryFragmentDirections
             .toAddEditTransactionFragment(testTransaction.id)
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Mockito.verify(navController)
-                .navigate(Mockito.eq(destination), Mockito.any(Navigator.Extras::class.java))
+            Mockito.verify(navController).navigate(
+                Mockito.eq(destination),
+                Mockito.any(Navigator.Extras::class.java)
+            )
         } else {
             Mockito.verify(navController).navigate(Mockito.eq(destination))
         }
-
 
     }
 
