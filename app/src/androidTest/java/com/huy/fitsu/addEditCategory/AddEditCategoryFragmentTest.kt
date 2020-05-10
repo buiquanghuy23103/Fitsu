@@ -53,6 +53,19 @@ class AddEditCategoryFragmentTest {
         verify(navController).navigateUp()
     }
 
+    @Test
+    fun saveCategory_shouldNavigateUp() {
+        val navController = mock(NavController::class.java)
+        launchFragment().onFragment {
+            Navigation.setViewNavController(it.requireView(), navController)
+        }
+
+        onView(withId(R.id.category_update_button))
+            .perform(click())
+
+        verify(navController).navigateUp()
+    }
+
     private fun launchFragment(): FragmentScenario<AddEditCategoryFragment> {
         val bundle = AddEditCategoryFragmentArgs(testCategory.id).toBundle()
         return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.AppTheme)
