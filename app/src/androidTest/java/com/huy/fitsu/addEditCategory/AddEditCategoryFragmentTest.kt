@@ -9,6 +9,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.huy.fitsu.BaseTest
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.Category
@@ -21,11 +22,16 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
-class AddEditCategoryFragmentTest {
+class AddEditCategoryFragmentTest : BaseTest<AddEditCategoryFragment>() {
 
     private lateinit var categoryRepository: CategoryRepository
 
     private val testCategory = Category("A Test")
+
+    override fun launchFragment(): FragmentScenario<AddEditCategoryFragment> {
+        val bundle = AddEditCategoryFragmentArgs(testCategory.id).toBundle()
+        return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.AppTheme)
+    }
 
     @Before
     fun setUp() {
@@ -40,10 +46,7 @@ class AddEditCategoryFragmentTest {
 
     @Test
     fun deleteCategory_shouldNavigateUp() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        val navController = launchFragmentWithMockNavController()
 
         onView(withId(R.id.category_delete_button))
             .perform(click())
@@ -55,10 +58,7 @@ class AddEditCategoryFragmentTest {
 
     @Test
     fun saveCategory_shouldNavigateUp() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
-        }
+        val navController = launchFragmentWithMockNavController()
 
         onView(withId(R.id.category_update_button))
             .perform(click())
@@ -66,8 +66,4 @@ class AddEditCategoryFragmentTest {
         verify(navController).navigateUp()
     }
 
-    private fun launchFragment(): FragmentScenario<AddEditCategoryFragment> {
-        val bundle = AddEditCategoryFragmentArgs(testCategory.id).toBundle()
-        return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.AppTheme)
-    }
 }
