@@ -1,10 +1,12 @@
 package com.huy.fitsu.transactionHistory
 
+import android.os.Build
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.navigation.Navigator
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
@@ -22,6 +24,7 @@ import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.TransactionRepository
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.any
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -68,7 +71,7 @@ class TransactionHistoryFragmentTest {
     fun clickTransactionItem_navigateToAddEditTransactionFragment() {
         val navController = Mockito.mock(NavController::class.java)
         launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
+            Navigation.setViewNavController(it.requireView(), navController)
         }
 
         onView(withId(R.id.transaction_history_list))
@@ -78,9 +81,16 @@ class TransactionHistoryFragmentTest {
                 )
             )
 
-        Mockito.verify(navController).navigate(
+        val destination =
             TransactionHistoryFragmentDirections.toAddEditTransactionFragment(testTransaction.id)
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Mockito.verify(navController)
+                .navigate(Mockito.eq(destination), Mockito.any(Navigator.Extras::class.java))
+        } else {
+            Mockito.verify(navController).navigate(Mockito.eq(destination))
+        }
+
+
     }
 
     @Test
