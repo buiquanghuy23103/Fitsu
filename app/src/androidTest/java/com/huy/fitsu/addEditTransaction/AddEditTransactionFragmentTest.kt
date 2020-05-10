@@ -102,45 +102,6 @@ class AddEditTransactionFragmentTest {
         verify(navController).navigateUp()
     }
 
-    @Test
-    fun updateTransaction_shouldDisplayOnDashboard() {
-        val navController = mock(NavController::class.java)
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.view!!, navController)
-        }
-
-        // Change transaction value
-        onView(withId(R.id.transaction_value_edit_text))
-            .perform(replaceText("123"))
-
-
-        // Change transaction's category
-        onView(withId(R.id.transaction_category_button))
-            .perform(click())
-        val appCompatCheckedTextView = onData(anything())
-            .inAdapterView(
-                allOf(
-                    withId(R.id.select_dialog_listview),
-                    childAtPosition(
-                        withId(R.id.contentPanel),
-                        1
-                    )
-                )
-            )
-            .atPosition(0)
-        appCompatCheckedTextView.perform(click())
-        onView(withId(android.R.id.button1))
-            .perform(click())
-
-        // Click "Update" fab
-        onView(withId(R.id.transaction_update_button))
-            .perform(click())
-
-        onView(withText(testCategory2.title))
-            .check(matches(isDisplayed()))
-
-    }
-
     private fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
         val bundle = AddEditTransactionFragmentArgs(testTransaction.id).toBundle()
         return launchFragmentInContainer<AddEditTransactionFragment>(bundle, R.style.AppTheme)
