@@ -7,8 +7,11 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.FitsuApplication
@@ -54,13 +57,21 @@ class TransactionHistoryFragmentTest {
     }
 
     @Test
+    fun shouldShowTransactionHistoryList() {
+        launchFragment()
+
+        onView(withId(R.id.transaction_history_list))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
     fun clickTransactionItem_navigateToAddEditTransactionFragment() {
         val navController = Mockito.mock(NavController::class.java)
         launchFragment().onFragment {
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        Espresso.onView(withId(R.id.transaction_history_list))
+        onView(withId(R.id.transaction_history_list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<TransactionHistoryAdapter.TransactionItem>(
                     0, ViewActions.click()
@@ -79,14 +90,14 @@ class TransactionHistoryFragmentTest {
             Navigation.setViewNavController(it.view!!, navController)
         }
 
-        Espresso.onView(withId(R.id.transaction_history_add_trans_fab))
+        onView(withId(R.id.transaction_history_add_trans_fab))
             .perform(ViewActions.click())
 
         Mockito.verify(navController).navigate(Mockito.any<NavDirections>())
     }
 
-    private fun launchFragment(): FragmentScenario<BudgetHistoryFragment> {
-        return launchFragmentInContainer<BudgetHistoryFragment>(null, R.style.AppTheme)
+    private fun launchFragment(): FragmentScenario<TransactionHistoryFragment> {
+        return launchFragmentInContainer<TransactionHistoryFragment>(null, R.style.AppTheme)
     }
 
 }
