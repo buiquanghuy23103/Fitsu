@@ -1,9 +1,12 @@
 package com.huy.fitsu.categories
 
+import android.os.Build
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
+import androidx.navigation.Navigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -23,6 +26,9 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito
+import org.mockito.Mockito.*
 
 @RunWith(AndroidJUnit4::class)
 class CategoriesFragmentTests {
@@ -30,8 +36,6 @@ class CategoriesFragmentTests {
     private lateinit var categoryRepository: CategoryRepository
 
     private val testCategory = Category(title = "ATest")
-
-    private lateinit var navController: NavController
 
     @Before
     fun setup() {
@@ -42,15 +46,6 @@ class CategoriesFragmentTests {
             runBlocking {
                 categoryRepository.insertNewCategory(testCategory)
             }
-        }
-
-        val appContext = ApplicationProvider.getApplicationContext<FitsuApplication>()
-        navController = TestNavHostController(appContext).apply {
-            setGraph(R.navigation.nav_graph)
-        }
-
-        launchFragment().onFragment {
-            Navigation.setViewNavController(it.requireView(), navController)
         }
     }
 
@@ -64,6 +59,8 @@ class CategoriesFragmentTests {
 
     @Test
     fun displayCategory() {
+        launchFragment()
+
         onView(withId(R.id.categories_list))
             .perform(RecyclerViewActions.scrollToPosition<CategoriesAdapter.CategoryItem>(0))
 
@@ -73,6 +70,10 @@ class CategoriesFragmentTests {
 
     @Test
     fun editCategory_shouldNavigate_toAddEditCategoryFragment() {
+        val navController = launchFragmentWithNavController()
+        val destination = CategoriesFragmentDirections
+            .toAddEditCategoryFragment(testCategory.id)
+
         onView(withId(R.id.categories_list))
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<CategoriesAdapter.CategoryItem>(
@@ -81,17 +82,37 @@ class CategoriesFragmentTests {
                 )
             )
 
-        Assert.assertEquals(navController.currentDestination?.id, R.id.addEditCategoryFragment)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            verify(navController).navigate(
+                eq(destination),
+                any(Navigator.Extras::class.java)
+            )
+        } else {
+            verify(navController).navigate(eq(destination))
+        }
     }
 
     @Test
     fun addCategory_shouldNavigate_toAddEditCategoryFragment() {
+        val navController = launchFragmentWithNavController()
+
         onView(withId(R.id.categories_add_button))
             .perform(click())
 
-        Assert.assertEquals(navController.currentDestination?.id, R.id.addEditCategoryFragment)
+        verify(navController).navigate(
+            ArgumentMatchers.any(NavDirections::class.java)
+        )
     }
 
+    private fun launchFragmentWithNavController(): NavController {
+        val navController = mock(NavController::class.java)
+        launchFragment().onFragment {
+            Navigation.setViewNavController(it.view!!, navController)
+        }
+        return navController
+    }
 
     private fun launchFragment(): FragmentScenario<CategoriesFragment> {
         return launchFragmentInContainer<CategoriesFragment>(null, R.style.AppTheme)
