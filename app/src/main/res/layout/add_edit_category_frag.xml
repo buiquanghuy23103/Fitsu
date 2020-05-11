@@ -75,28 +75,22 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/category_update_button"
-            android:layout_width="0dp"
+            style="@style/Widget.Fitsu.Button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin_large"
-            android:src="@drawable/ic_tick"
             android:text="@string/save"
-            app:icon="@drawable/ic_tick"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/category_delete_button"
             app:layout_constraintTop_toBottomOf="@id/category_change_color_divider" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/category_delete_button"
-            style="@style/AppTheme.OutlineButton"
-            android:layout_width="0dp"
+            style="@style/Widget.Fitsu.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin_large"
             android:text="@string/delete"
-            app:icon="@drawable/ic_delete"
             app:layout_constraintEnd_toStartOf="@+id/category_update_button"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/category_change_color_divider" />
 
 

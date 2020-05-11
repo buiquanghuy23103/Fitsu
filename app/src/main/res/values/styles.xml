@@ -24,9 +24,13 @@
     </style>
 
     <!--  BUTTON  -->
-    <style name="AppTheme.Button"
-        parent="Widget.MaterialComponents.Button">
-        <item name="background">?attr/colorAccent</item>
+    <style name="Widget.Fitsu.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="backgroundTint">@color/primaryDarkColor</item>
+    </style>
+
+    <style name="Widget.Fitsu.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
     <style name="AppTheme.Button.FloatingActionButton"

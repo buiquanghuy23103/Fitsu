@@ -80,27 +80,22 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_update_button"
-            android:layout_width="0dp"
+            style="@style/Widget.Fitsu.Button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin_large"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
-            app:icon="@drawable/ic_tick"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/transaction_delete_button"
             app:layout_constraintTop_toBottomOf="@id/transaction_category_divider" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_delete_button"
-            style="@style/AppTheme.OutlineButton"
-            android:layout_width="0dp"
+            style="@style/Widget.Fitsu.Button.TextButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin_large"
-            app:icon="@drawable/ic_delete"
             android:text="@string/delete"
             app:layout_constraintEnd_toStartOf="@+id/transaction_update_button"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transaction_category_divider" />
 
 

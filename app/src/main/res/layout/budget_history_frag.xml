@@ -29,8 +29,9 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/save_default_budget_button"
+            style="@style/Widget.Fitsu.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin_large"
