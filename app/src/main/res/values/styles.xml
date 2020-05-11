@@ -1,20 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Fitsu" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#FF5722</item>
-        <item name="colorPrimaryDark">#E64A19</item>
-        <item name="colorAccent">#FF9800</item>
-        <item name="colorSecondary">#FF9800</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="subtitleTextColor">@color/less_white</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorOnPrimarySurface">@color/white</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="divider">@color/less_white</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
     </style>
 
     <!--TEXT INPUT-->

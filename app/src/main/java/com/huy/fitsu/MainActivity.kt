@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavigationDrawer() {
-        drawer_layout.setStatusBarBackground(R.color.colorPrimaryDark)
+        drawer_layout.setStatusBarBackground(R.color.primaryDarkColor)
     }
 
     private fun setupNavigation() {
