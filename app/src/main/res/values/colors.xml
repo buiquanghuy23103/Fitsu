@@ -3,9 +3,7 @@
     <color name="primaryColor">#bbdefb</color>
     <color name="primaryLightColor">#eeffff</color>
     <color name="primaryDarkColor">#8aacc8</color>
-    <color name="secondaryColor">#e2f1fc</color>
-    <color name="secondaryLightColor">#ffffff</color>
-    <color name="secondaryDarkColor">#b0bec9</color>
+    <color name="accentColor">#e2f1fc</color>
     <color name="primaryTextColor">#2F3949</color>
 
 
