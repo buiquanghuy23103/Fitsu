@@ -1,4 +1,4 @@
-package com.huy.fitsu.data.local
+package com.huy.fitsu.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

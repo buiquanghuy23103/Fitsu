@@ -1,9 +1,9 @@
 package com.huy.fitsu.data.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.huy.fitsu.data.local.CategoryDao
-import com.huy.fitsu.data.local.FitsuDatabase
-import com.huy.fitsu.data.local.TransactionDao
+import com.huy.fitsu.data.local.database.CategoryDao
+import com.huy.fitsu.data.local.database.FitsuDatabase
+import com.huy.fitsu.data.local.database.TransactionDao
 import com.huy.fitsu.data.model.Category
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.whenever

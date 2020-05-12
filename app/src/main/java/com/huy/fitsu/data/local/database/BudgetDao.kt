@@ -1,4 +1,4 @@
-package com.huy.fitsu.data.local
+package com.huy.fitsu.data.local.database
 
 import androidx.paging.DataSource
 import androidx.room.Dao
@@ -31,5 +31,6 @@ interface BudgetDao {
     @Query("UPDATE budgets SET expense = expense + :newExpense WHERE year = :year AND month = :month")
     suspend fun addNewExpenseByYearAndMonth(newExpense: Float, year: Int, month: Int): Int
 
-
+    @Query("DELETE FROM budgets")
+    suspend fun deleteAll()
 }
