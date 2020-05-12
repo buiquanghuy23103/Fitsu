@@ -21,17 +21,12 @@
 
 
     <!--TEXT INPUT-->
-    <style name="AppTheme.TextInputLayout"
+    <style name="Widget.Fitsu.TextInputLayout" 
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-    </style>
-
-    <style name="AppTheme.ExposedDropdownMenu"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-    </style>
-
-    <!--BOTTOM NAVIGATION-->
-    <style name="AppTheme.BottomNavigationView"
-        parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+        <item name="boxStrokeColor">@color/primaryDarkColor</item>
+        <item name="hintTextAppearance">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="hintTextColor">@color/primaryTextColor</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 
     <!--  BUTTON  -->
@@ -44,16 +39,12 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
-    <style name="AppTheme.Button.FloatingActionButton"
+    <style name="Widget.Fitsu.Button.FloatingActionButton"
         parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="rippleColor">@color/white</item>
     </style>
 
-    <style name="AppTheme.OutlineButton"
-        parent="Widget.MaterialComponents.Button.OutlinedButton">
-    </style>
-
-    <style name="AppTheme.Button.Wide"
+    <style name="Widget.Fitsu.Button.Wide"
         parent="Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
@@ -64,21 +55,16 @@
         <item name="android:gravity">center_horizontal|start</item>
     </style>
 
-    <style name="AppTheme.DateButton"
-        parent="AppTheme.OutlineButton">
+    <style name="Widget.Fitsu.DateButton"
+        parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="textAllCaps">false</item>
         <item name="android:textColor">?attr/editTextColor</item>
         <item name="android:padding">@dimen/padding_large</item>
         <item name="android:textAlignment">viewStart</item>
     </style>
 
-    <style name="AppTheme.ImageButton"
-        parent="Widget.AppCompat.ImageButton">
-        <item name="backgroundColor">@android:color/transparent</item>
-    </style>
-
     <!--  EDIT TEXT  -->
-    <style name="AppTheme.TitleEditText"
+    <style name="Widget.Fitsu.EditText.Title"
         parent="Widget.AppCompat.EditText">
         <item name="android:padding">@dimen/padding_large</item>
         <item name="android:background">@null</item>
@@ -86,28 +72,19 @@
     </style>
 
     <!--  COLOR BADGE  -->
-    <style name="AppTheme.ColorBadge"
+    <style name="Widget.Fitsu.ColorBadge"
         parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_width">@dimen/icon_size</item>
         <item name="android:layout_height">@dimen/icon_size</item>
         <item name="elevation">@dimen/elevation_none</item>
     </style>
 
-
-    <!--  TEXT STYLE  -->
-    <style name="AppTheme.TextAppearance"
-        parent="TextAppearance.MaterialComponents.Body1"/>
-
-    <style name="AppTheme.TextAppearance.ItemTitle"
+    <style name="TextAppearance.Fitsu.ItemTitle"
         parent="TextAppearance.MaterialComponents.Subtitle1"/>
 
-    <style name="AppTheme.TextAppearance.ItemSubtitle"
+    <style name="TextAppearance.Fitsu.ItemSubtitle"
         parent="TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/less_white</item>
     </style>
-
-    <style name="AppTheme.TextAppearance.Caption"
-        parent="TextAppearance.MaterialComponents.Caption"/>
 
 
 </resources>

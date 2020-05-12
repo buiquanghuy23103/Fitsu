@@ -19,7 +19,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/category_title_edit_text"
-            style="@style/AppTheme.TitleEditText"
+            style="@style/Widget.Fitsu.EditText.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_marginStart_title_edit_text"
@@ -40,7 +40,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/category_budget_duration_button"
-            style="@style/AppTheme.Button.Wide"
+            style="@style/Widget.Fitsu.Button.Wide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:icon="@drawable/ic_repeat"
@@ -57,7 +57,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/category_change_color_button"
-            style="@style/AppTheme.Button.Wide"
+            style="@style/Widget.Fitsu.Button.Wide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/category_change_color_button_label"

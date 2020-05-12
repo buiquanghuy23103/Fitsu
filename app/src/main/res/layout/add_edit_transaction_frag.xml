@@ -23,7 +23,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transaction_value_edit_text"
-            style="@style/AppTheme.TitleEditText"
+            style="@style/Widget.Fitsu.EditText.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_marginStart_title_edit_text"
@@ -43,7 +43,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_date_button"
-            style="@style/AppTheme.Button.Wide"
+            style="@style/Widget.Fitsu.Button.Wide"
             showDateText="@{transaction.createdAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/transaction_category_button"
-            style="@style/AppTheme.Button.Wide"
+            style="@style/Widget.Fitsu.Button.Wide"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{category.title}"
