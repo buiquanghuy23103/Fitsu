@@ -40,5 +40,6 @@
     <!--  Warning  -->
     <string name="invalid_money_value">Invalid money value</string>
     <string name="invalid_date">Invalid date</string>
+    <string name="dashboard_account_label">Account</string>
 
 </resources>

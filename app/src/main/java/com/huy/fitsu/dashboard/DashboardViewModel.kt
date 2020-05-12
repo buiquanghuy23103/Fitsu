@@ -11,12 +11,5 @@ class DashboardViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository
 ) : ViewModel() {
 
-    val budgets: LiveData<PagedList<Budget>> =
-        budgetRepository.getAllBudgets()
-    val defaultBudget: Float = budgetRepository.getDefaultBudget()
-
-    fun updateDefaultBudget(newBudgetValue: Float) {
-        budgetRepository.updateDefaultBudget(newBudgetValue)
-    }
 
 }

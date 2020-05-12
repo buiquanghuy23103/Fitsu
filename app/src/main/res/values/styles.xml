@@ -79,6 +79,11 @@
         <item name="elevation">@dimen/elevation_none</item>
     </style>
 
+    <style name="Widget.Fitsu.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="elevation">0dp</item>
+        <item name="cardBackgroundColor">@color/cardViewBackgroundColor</item>
+    </style>
+
     <style name="TextAppearance.Fitsu.ItemTitle"
         parent="TextAppearance.MaterialComponents.Subtitle1"/>
 

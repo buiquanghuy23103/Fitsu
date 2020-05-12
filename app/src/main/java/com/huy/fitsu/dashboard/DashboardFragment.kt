@@ -44,33 +44,8 @@ class DashboardFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupBudgetList()
-        setupDefaultBudgetEditText()
-        setupSaveDefaultBudgetButton()
 
-    }
 
-    private fun setupBudgetList() {
-        val adapter = BudgetsAdapter(viewModel)
-        binding.budgetList.adapter = adapter
-
-        viewModel.budgets.observe(viewLifecycleOwner, Observer {
-            it?.let { list -> adapter.submitList(list) }
-        })
-    }
-
-    private fun setupDefaultBudgetEditText() {
-        binding.defaultBudgetEditText.setText(viewModel.defaultBudget.toString())
-    }
-
-    private fun setupSaveDefaultBudgetButton() {
-        binding.saveDefaultBudgetButton.setOnClickListener{
-            binding.defaultBudgetEditText.text
-                .toString()
-                .toFloatOrNull()?.let { newDefaultBudgetValue ->
-                    viewModel.updateDefaultBudget(newDefaultBudgetValue)
-                }
-        }
     }
 
 }

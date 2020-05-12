@@ -4,6 +4,7 @@
     <color name="primaryDarkColor">#bbdefb</color>
     <color name="accentColor">#e2f1fc</color>
     <color name="primaryTextColor">#2F3949</color>
+    <color name="cardViewBackgroundColor">#f0f0f0</color>
 
 
     <color name="white">#FFFFFF</color>
