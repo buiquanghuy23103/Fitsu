@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import java.time.YearMonth
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(
+class TransactionLocalDataSource @Inject constructor(
     db: FitsuDatabase,
     private val fitsuSharedPrefManager: FitsuSharedPrefManager,
     @DispatcherModule.IoDispatcher
