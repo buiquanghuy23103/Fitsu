@@ -1,4 +1,4 @@
-package com.huy.fitsu.budgetHistory
+package com.huy.fitsu.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.repository.BudgetRepository
 import javax.inject.Inject
 
-class BudgetHistoryViewModel @Inject constructor(
+class DashboardViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository
 ) : ViewModel() {
 

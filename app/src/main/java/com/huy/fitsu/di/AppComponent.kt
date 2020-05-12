@@ -3,7 +3,7 @@ package com.huy.fitsu.di
 import android.content.Context
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
-import com.huy.fitsu.budgetHistory.di.BudgetHistoryComponent
+import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
@@ -35,7 +35,7 @@ interface AppComponent {
 
     fun categoriesComponent(): CategoriesComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
-    fun dashboardComponent(): BudgetHistoryComponent.Factory
+    fun dashboardComponent(): DashboardComponent.Factory
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
     fun transactionHistoryComponent(): TransactionHistoryComponent.Factory
 
@@ -48,7 +48,7 @@ interface AppComponent {
     subcomponents = [
         CategoriesComponent::class,
         AddEditCategoryComponent::class,
-        BudgetHistoryComponent::class,
+        DashboardComponent::class,
         TransactionHistoryComponent::class
     ]
 )
