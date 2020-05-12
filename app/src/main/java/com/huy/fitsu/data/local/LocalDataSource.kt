@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
     private val db: FitsuDatabase,
-    private val budgetSharedPrefManager: BudgetSharedPrefManager,
+    private val fitsuSharedPrefManager: FitsuSharedPrefManager,
     @DispatcherModule.IoDispatcher
     private val ioDispatcher: CoroutineDispatcher
 ) {
@@ -22,7 +22,7 @@ class LocalDataSource @Inject constructor(
     private val transactionDao = db.transactionDao()
     private val transactionDetailDao = db.transactionDetailDao()
     private val budgetDao = db.budgetDao()
-    private val defaultBudget = budgetSharedPrefManager.getDefaultBudget()
+    private val defaultBudget = fitsuSharedPrefManager.getDefaultBudget()
 
     suspend fun getTransactionById(id: String): Transaction? = withContext(ioDispatcher) {
         transactionDao.findById(id)

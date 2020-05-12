@@ -5,7 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BudgetSharedPrefManager @Inject constructor(
+class FitsuSharedPrefManager @Inject constructor(
     private val sharedPref: SharedPreferences
 ) {
     private val MONTH_BUDGET_KEY = "month_budget"
