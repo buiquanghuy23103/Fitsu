@@ -13,7 +13,7 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
-    private val db: FitsuDatabase,
+    db: FitsuDatabase,
     private val fitsuSharedPrefManager: FitsuSharedPrefManager,
     @DispatcherModule.IoDispatcher
     private val ioDispatcher: CoroutineDispatcher
@@ -22,7 +22,6 @@ class LocalDataSource @Inject constructor(
     private val transactionDao = db.transactionDao()
     private val transactionDetailDao = db.transactionDetailDao()
     private val budgetDao = db.budgetDao()
-    private val defaultBudget = fitsuSharedPrefManager.getDefaultBudget()
 
     suspend fun getTransactionById(id: String): Transaction? = withContext(ioDispatcher) {
         transactionDao.findById(id)
@@ -40,12 +39,15 @@ class LocalDataSource @Inject constructor(
 
     suspend fun deleteTransaction(transaction: Transaction) = withContext(ioDispatcher) {
         transactionDao.delete(transaction)
+
         val date = transaction.createdAt
         addMonthExpense(-transaction.value, date.year, date.monthValue)
+
+        recalculateBalance(0f, transaction.value)
     }
 
     suspend fun updateTransaction(transaction: Transaction) = withContext(ioDispatcher) {
-        recalculateMonthBudget(transaction)
+        recalculate(transaction)
         transactionDao.update(transaction)
     }
 
@@ -61,38 +63,43 @@ class LocalDataSource @Inject constructor(
     fun getTransactionSumByCategory() =
         transactionDetailDao.transactionSumByCategory()
 
-    private suspend fun recalculateMonthBudget(newTransaction: Transaction) {
+    private suspend fun recalculate(newTransaction: Transaction) {
         transactionDao.findById(newTransaction.id)?.let { oldTransaction ->
-            val oldTransactionDate = oldTransaction.createdAt
-            val oldTransactionYearMonth =
-                YearMonth.of(oldTransactionDate.year, oldTransactionDate.month)
-
-            val newTransactionDate = newTransaction.createdAt
-            val newTransactionYearMonth =
-                YearMonth.of(newTransactionDate.year, newTransactionDate.monthValue)
-
-            if (oldTransactionYearMonth == newTransactionYearMonth) {
-                addMonthExpense(
-                    -oldTransaction.value,
-                    oldTransactionDate.year,
-                    oldTransactionDate.monthValue
-                )
-                addMonthExpense(
-                    newTransaction.value,
-                    newTransactionDate.year,
-                    newTransactionDate.monthValue
-                )
-            } else {
-                addMonthExpense(
-                    (newTransaction.value - oldTransaction.value).round(2),
-                    newTransactionDate.year,
-                    newTransactionDate.monthValue
-                )
-            }
+            recalculateMonthBudget(newTransaction, oldTransaction)
+            recalculateBalance(newTransaction.value, oldTransaction.value)
         }
     }
 
+    private suspend fun recalculateMonthBudget(
+        newTransaction: Transaction,
+        oldTransaction: Transaction
+    ) {
+        val oldDate = oldTransaction.createdAt
+        val oldYearMonth = YearMonth.of(oldDate.year, oldDate.month)
 
+        val newDate = newTransaction.createdAt
+        val newYearMonth = YearMonth.of(newDate.year, newDate.monthValue)
+
+        if (oldYearMonth == newYearMonth) {
+            addMonthExpense(
+                -oldTransaction.value,
+                oldDate.year,
+                oldDate.monthValue
+            )
+            addMonthExpense(
+                newTransaction.value,
+                newDate.year,
+                newDate.monthValue
+            )
+        } else {
+            val difference = newTransaction.value - oldTransaction.value
+            addMonthExpense(
+                difference.round(2),
+                newDate.year,
+                newDate.monthValue
+            )
+        }
+    }
 
     private suspend fun addMonthExpense(
         newExpense: Float,
@@ -102,6 +109,7 @@ class LocalDataSource @Inject constructor(
         val result = budgetDao.addNewExpenseByYearAndMonth(newExpense, year, month)
         if (result <= 0) {
             val semanticWeek = SemanticWeek(weekNumber = 0, month = month, year = year)
+            val defaultBudget = fitsuSharedPrefManager.getDefaultBudget()
             val newBudget = Budget(
                 value = defaultBudget,
                 expense = newExpense,
@@ -109,5 +117,12 @@ class LocalDataSource @Inject constructor(
             )
             budgetDao.insert(newBudget)
         }
+    }
+
+    private fun recalculateBalance(newTransactionValue: Float, oldTransactionValue: Float) {
+        val difference = newTransactionValue - oldTransactionValue
+        val oldBalance = fitsuSharedPrefManager.getAccountBalanceValue()
+        val newBalance = oldBalance + difference
+        fitsuSharedPrefManager.saveAccountBalance(newBalance)
     }
 }

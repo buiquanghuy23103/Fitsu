@@ -8,15 +8,24 @@ import javax.inject.Singleton
 class FitsuSharedPrefManager @Inject constructor(
     private val sharedPref: SharedPreferences
 ) {
-    private val MONTH_BUDGET_KEY = "month_budget"
+    private val monthBudgetKey = "month_budget"
+    private val accountBalanceKey = "account_balance"
     private val editor = sharedPref.edit()
 
     fun saveDefaultBudget(budgetValue: Float) = with(editor) {
-        putFloat(MONTH_BUDGET_KEY, budgetValue)
+        putFloat(monthBudgetKey, budgetValue)
         apply()
     }
 
     fun getDefaultBudget(): Float =
-        sharedPref.getFloat(MONTH_BUDGET_KEY, 0F)
+        sharedPref.getFloat(monthBudgetKey, 0F)
+
+    fun saveAccountBalance(accountBalanceValue: Float) = with(editor) {
+        putFloat(accountBalanceKey, accountBalanceValue)
+        apply()
+    }
+
+    fun getAccountBalanceValue(): Float =
+        sharedPref.getFloat(accountBalanceKey, Float.MIN_VALUE)
 
 }
