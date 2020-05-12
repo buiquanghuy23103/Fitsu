@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
+import com.huy.fitsu.data.model.CategoryReport
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
 import com.huy.fitsu.util.waitForTransition
@@ -90,73 +91,56 @@ class TransactionHistoryFragment: Fragment() {
 
     private fun setupCategoryPieChart() {
         viewModel.transactionCountByCategory.observe(viewLifecycleOwner, Observer { list ->
-            Timber.i(list.toString())
             list?.let {categoryReports ->
 
-                val yEntries = categoryReports.map {
-                    PieEntry(it.transactionSum, it.categoryTitle)
-                }
-
-                val pieDataSet = PieDataSet(yEntries, "Category sum").apply {
-                    setDrawIcons(false)
-                    sliceSpace = 3f
-                    iconsOffset = MPPointF.getInstance(0f, 40f)
-                    selectionShift = 50f
-                    colors = categoryReports.map { it.categoryColor }
-                }
-
-
-                with(binding.categoryPieChart) {
-
-                    setUsePercentValues(true)
-                    description.isEnabled = false
-                    setExtraOffsets(5f, 10f, 5f, 5f)
-
-                    dragDecelerationFrictionCoef = 0.95f
-
-                    setDrawCenterText(false)
-
-                    isRotationEnabled = true
-                    rotationAngle = 0f
-
-                    isDrawHoleEnabled = false
-
-                    setTransparentCircleColor(Color.WHITE)
-                    setTransparentCircleAlpha(50)
-                    transparentCircleRadius = 61f
-
-                    animateY(1400, Easing.EaseInOutQuad)
-
-                    setEntryLabelColor(Color.WHITE)
-                    setEntryLabelTypeface(Typeface.DEFAULT)
-                    setEntryLabelTextSize(12f)
-
-                    legend.apply {
-                        form = Legend.LegendForm.CIRCLE
-                        textSize = 14f
-                        textColor = Color.WHITE
-                        verticalAlignment = Legend.LegendVerticalAlignment.TOP
-                        horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-                        orientation = Legend.LegendOrientation.VERTICAL
-                        setDrawInside(false)
-                        xEntrySpace = 7f
-                        yEntrySpace = 0f
-                        yOffset = 0f
-                    }
-
-                    data = PieData(pieDataSet).apply {
-                        setValueFormatter(PercentFormatter(this@with))
-                        setValueTextSize(14f)
-                        setValueTextColor(Color.WHITE)
-                        setValueTypeface(Typeface.DEFAULT)
-                    }
-
-                    highlightValue(null)
-
-                    invalidate()
-                }
+                drawPieChart(categoryReports)
             }
         })
+    }
+
+    private fun drawPieChart(categoryReports: List<CategoryReport>) {
+        val yEntries = categoryReports.map {
+            PieEntry(it.transactionSum, it.categoryTitle)
+        }
+
+        val pieDataSet = PieDataSet(yEntries, "").apply {
+            setDrawIcons(false)
+            sliceSpace = 3f
+            iconsOffset = MPPointF.getInstance(0f, 40f)
+            selectionShift = 50f
+            colors = categoryReports.map { it.categoryColor }
+        }
+
+
+        with(binding.categoryPieChart) {
+
+            // This chart only shows the circle and the center text
+            description.isEnabled = false
+            setDrawEntryLabels(false)
+            legend.isEnabled = false
+            isHighlightPerTapEnabled = false
+            isClickable = false
+
+            // Set up center text
+            setDrawCenterText(true)
+            val sum = categoryReports
+                .map { it.transactionSum }
+                .reduce{ prev, next -> prev + next }
+            centerText = sum.toString()
+            setCenterTextSize(64f)
+
+            // Draw a big hole so that slices are thin
+            isDrawHoleEnabled = true
+            holeRadius = 90f
+
+            animateY(1400, Easing.EaseInOutQuad)
+
+            data = PieData(pieDataSet).apply {
+                setDrawValues(false)
+            }
+
+            invalidate()
+        }
     }
 
     private fun editTransaction(transactionId: String) {
