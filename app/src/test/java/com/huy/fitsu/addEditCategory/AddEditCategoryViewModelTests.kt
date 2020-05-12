@@ -78,7 +78,7 @@ class AddEditCategoryViewModelTests {
 
         viewModel.updateCategory(category)
 
-        verify(repository).updateCategory(eq(category))
+        verify(repository).updateCategory(any())
     }
 
     @Test

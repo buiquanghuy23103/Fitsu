@@ -1,4 +1,4 @@
-package com.huy.fitsu.data.local
+package com.huy.fitsu.data.local.database
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
@@ -14,8 +14,8 @@ interface TransactionDetailDao {
     fun findByIdLiveData(id: String): LiveData<TransactionDetail>
 
     @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
-    fun getPagedListLiveData(): DataSource.Factory<Int, TransactionDetail>
+    fun getDataSourceFactory(): DataSource.Factory<Int, TransactionDetail>
 
     @Query("SELECT SUM(value) as transactionSum, categoryTitle, categoryColor FROM TransactionDetail GROUP BY categoryId")
-    fun transactionCountByCategory(): LiveData<List<CategoryReport>>
+    fun transactionSumByCategory(): LiveData<List<CategoryReport>>
 }

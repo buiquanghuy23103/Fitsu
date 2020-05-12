@@ -6,6 +6,10 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.LiveDataTestUtil
+import com.huy.fitsu.data.local.database.CategoryDao
+import com.huy.fitsu.data.local.database.FitsuDatabase
+import com.huy.fitsu.data.local.database.TransactionDao
+import com.huy.fitsu.data.local.database.TransactionDetailDao
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Transaction
 import kotlinx.coroutines.runBlocking

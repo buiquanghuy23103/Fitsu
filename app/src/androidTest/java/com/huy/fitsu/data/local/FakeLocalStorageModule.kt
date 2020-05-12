@@ -3,6 +3,7 @@ package com.huy.fitsu.data.local
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.huy.fitsu.data.local.database.FitsuDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

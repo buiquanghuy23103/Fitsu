@@ -34,7 +34,7 @@ class CategoriesFragmentTests : BaseTest<CategoriesFragment>() {
     private val testCategory = Category(title = "ATest")
 
     override fun launchFragment(): FragmentScenario<CategoriesFragment> {
-        return launchFragmentInContainer(null, R.style.AppTheme)
+        return launchFragmentInContainer(null, R.style.Theme_Fitsu)
     }
 
     @Before

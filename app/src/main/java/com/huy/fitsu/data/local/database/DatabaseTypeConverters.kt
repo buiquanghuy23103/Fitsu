@@ -1,4 +1,4 @@
-package com.huy.fitsu.data.local
+package com.huy.fitsu.data.local.database
 
 import androidx.room.TypeConverter
 import com.huy.fitsu.data.model.BudgetDuration

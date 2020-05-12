@@ -1,7 +1,7 @@
 package com.huy.fitsu.data.repository
 
 import androidx.lifecycle.LiveData
-import com.huy.fitsu.data.local.FitsuDatabase
+import com.huy.fitsu.data.local.database.FitsuDatabase
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
