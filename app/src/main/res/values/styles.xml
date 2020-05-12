@@ -1,52 +1,50 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="Theme.Fitsu" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#FF5722</item>
-        <item name="colorPrimaryDark">#E64A19</item>
-        <item name="colorAccent">#FF9800</item>
-        <item name="colorSecondary">#FF9800</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="subtitleTextColor">@color/less_white</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorOnPrimarySurface">@color/white</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="divider">@color/less_white</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <!-- Use dark icons on status bar -->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
+
+    <style name="Widget.Fitsu.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/accentColor</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+    </style>
+
 
     <!--TEXT INPUT-->
-    <style name="AppTheme.TextInputLayout"
+    <style name="Widget.Fitsu.TextInputLayout" 
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-    </style>
-
-    <style name="AppTheme.ExposedDropdownMenu"
-        parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-    </style>
-
-    <!--BOTTOM NAVIGATION-->
-    <style name="AppTheme.BottomNavigationView"
-        parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+        <item name="boxStrokeColor">@color/primaryDarkColor</item>
+        <item name="hintTextAppearance">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="hintTextColor">@color/primaryTextColor</item>
+        <item name="android:paddingBottom">8dp</item>
     </style>
 
     <!--  BUTTON  -->
-    <style name="AppTheme.Button"
-        parent="Widget.MaterialComponents.Button">
-        <item name="background">?attr/colorAccent</item>
+    <style name="Widget.Fitsu.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="backgroundTint">@color/primaryDarkColor</item>
     </style>
 
-    <style name="AppTheme.Button.FloatingActionButton"
+    <style name="Widget.Fitsu.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="Widget.Fitsu.Button.FloatingActionButton"
         parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="rippleColor">@color/white</item>
     </style>
 
-    <style name="AppTheme.OutlineButton"
-        parent="Widget.MaterialComponents.Button.OutlinedButton">
-    </style>
-
-    <style name="AppTheme.Button.Wide"
+    <style name="Widget.Fitsu.Button.Wide"
         parent="Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
@@ -57,21 +55,16 @@
         <item name="android:gravity">center_horizontal|start</item>
     </style>
 
-    <style name="AppTheme.DateButton"
-        parent="AppTheme.OutlineButton">
+    <style name="Widget.Fitsu.DateButton"
+        parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="textAllCaps">false</item>
         <item name="android:textColor">?attr/editTextColor</item>
         <item name="android:padding">@dimen/padding_large</item>
         <item name="android:textAlignment">viewStart</item>
     </style>
 
-    <style name="AppTheme.ImageButton"
-        parent="Widget.AppCompat.ImageButton">
-        <item name="backgroundColor">@android:color/transparent</item>
-    </style>
-
     <!--  EDIT TEXT  -->
-    <style name="AppTheme.TitleEditText"
+    <style name="Widget.Fitsu.EditText.Title"
         parent="Widget.AppCompat.EditText">
         <item name="android:padding">@dimen/padding_large</item>
         <item name="android:background">@null</item>
@@ -79,28 +72,19 @@
     </style>
 
     <!--  COLOR BADGE  -->
-    <style name="AppTheme.ColorBadge"
+    <style name="Widget.Fitsu.ColorBadge"
         parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="android:layout_width">@dimen/icon_size</item>
         <item name="android:layout_height">@dimen/icon_size</item>
         <item name="elevation">@dimen/elevation_none</item>
     </style>
 
-
-    <!--  TEXT STYLE  -->
-    <style name="AppTheme.TextAppearance"
-        parent="TextAppearance.MaterialComponents.Body1"/>
-
-    <style name="AppTheme.TextAppearance.ItemTitle"
+    <style name="TextAppearance.Fitsu.ItemTitle"
         parent="TextAppearance.MaterialComponents.Subtitle1"/>
 
-    <style name="AppTheme.TextAppearance.ItemSubtitle"
+    <style name="TextAppearance.Fitsu.ItemSubtitle"
         parent="TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/less_white</item>
     </style>
-
-    <style name="AppTheme.TextAppearance.Caption"
-        parent="TextAppearance.MaterialComponents.Caption"/>
 
 
 </resources>

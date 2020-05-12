@@ -20,7 +20,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/transaction_category_icon"
-            style="@style/AppTheme.ColorBadge"
+            style="@style/Widget.Fitsu.ColorBadge"
             showColorBadge="@{transactionDetail.categoryColor}"
             app:layout_constraintBottom_toBottomOf="@id/transaction_item_subtitle"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin_extra_large"
             android:text="@{transactionDetail.categoryTitle}"
-            android:textAppearance="@style/AppTheme.TextAppearance.ItemTitle"
+            android:textAppearance="@style/TextAppearance.Fitsu.ItemTitle"
             app:layout_constraintEnd_toStartOf="@id/transaction_item_caption"
             app:layout_constraintStart_toEndOf="@id/transaction_category_icon"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
             showDateText="@{transactionDetail.createdAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/AppTheme.TextAppearance.ItemSubtitle"
+            android:textAppearance="@style/TextAppearance.Fitsu.ItemSubtitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/transaction_item_title"
             app:layout_constraintTop_toBottomOf="@id/transaction_item_title"
