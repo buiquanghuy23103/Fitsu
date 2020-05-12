@@ -9,6 +9,15 @@
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
     </style>
 
+    <style name="Widget.Fitsu.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/accentColor</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+    </style>
+
+
     <!--TEXT INPUT-->
     <style name="AppTheme.TextInputLayout"
         parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
