@@ -45,7 +45,7 @@ class AddEditTransactionFragmentTest : BaseTest<AddEditTransactionFragment>() {
 
     override fun launchFragment(): FragmentScenario<AddEditTransactionFragment> {
         val bundle = AddEditTransactionFragmentArgs(testTransaction.id).toBundle()
-        return launchFragmentInContainer<AddEditTransactionFragment>(bundle, R.style.AppTheme)
+        return launchFragmentInContainer<AddEditTransactionFragment>(bundle, R.style.Theme_Fitsu)
     }
 
     @Before

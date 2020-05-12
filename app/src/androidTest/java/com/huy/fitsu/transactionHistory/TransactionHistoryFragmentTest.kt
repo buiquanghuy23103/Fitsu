@@ -37,7 +37,7 @@ class TransactionHistoryFragmentTest : BaseTest<TransactionHistoryFragment>() {
     private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
 
     override fun launchFragment(): FragmentScenario<TransactionHistoryFragment> {
-        return launchFragmentInContainer(null, R.style.AppTheme)
+        return launchFragmentInContainer(null, R.style.Theme_Fitsu)
     }
 
     @Before

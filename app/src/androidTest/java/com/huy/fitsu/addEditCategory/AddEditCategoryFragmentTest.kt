@@ -30,7 +30,7 @@ class AddEditCategoryFragmentTest : BaseTest<AddEditCategoryFragment>() {
 
     override fun launchFragment(): FragmentScenario<AddEditCategoryFragment> {
         val bundle = AddEditCategoryFragmentArgs(testCategory.id).toBundle()
-        return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.AppTheme)
+        return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.Theme_Fitsu)
     }
 
     @Before
