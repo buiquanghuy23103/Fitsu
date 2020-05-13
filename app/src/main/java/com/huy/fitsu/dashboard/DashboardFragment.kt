@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -61,14 +62,13 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showAccountBalanceEditDialog() {
-        val dialogBinding = AccountBalanceEditDialogBinding.inflate(
-            layoutInflater, null, false
-        )
+        val dialogBinding: AccountBalanceEditDialogBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.account_balance_edit_dialog, null, false)
 
         dialogBinding.viewModel = viewModel
 
         MaterialAlertDialogBuilder(requireContext())
-            .setView(R.layout.account_balance_edit_dialog)
+            .setView(dialogBinding.root)
             .setPositiveButton(android.R.string.ok) {dialog, _ ->
                 dialogBinding.accountBalanceEditText.saveAccountBalance()
                 dialog.dismiss()

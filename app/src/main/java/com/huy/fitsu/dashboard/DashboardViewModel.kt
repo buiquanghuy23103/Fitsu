@@ -15,9 +15,10 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
 
     // Used by data binding
-    val accountBalanceString = transactionRepository.getAccountBalanceLiveData().map {
-        it.toCurrencyString()
-    }
+    val accountBalance = transactionRepository.getAccountBalanceLiveData()
+
+    // Used by data binding
+    val accountBalanceString = accountBalance.map { it.toCurrencyString() }
 
     fun saveAccountBalance(accountBalance: Float) {
         transactionRepository.saveAccountBalance(accountBalance)
