@@ -1,8 +1,10 @@
 package com.huy.fitsu.util
 
+import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Build
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -31,6 +33,10 @@ fun Float.toCurrencyString(): String {
     return format.format(this)
 }
 
+fun Fragment.hideKeyboardFromView(view: View) {
+    val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
 
 fun SharedPreferences.intLiveData(key: String, defValue: Int): SharedPreferenceLiveData<Int> {
     return SharedPreferenceIntLiveData(this, key, defValue)

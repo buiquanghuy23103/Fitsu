@@ -26,6 +26,7 @@ import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.databinding.AddEditTransactionFragBinding
 import com.huy.fitsu.util.DateConverter
+import com.huy.fitsu.util.hideKeyboardFromView
 import com.huy.fitsu.util.waitForTransition
 import java.time.LocalDate
 import javax.inject.Inject
@@ -120,12 +121,13 @@ class AddEditTransactionFragment : Fragment() {
 
     }
 
-    private fun setupValueEditText() {
-        binding.transactionValueEditText.setOnFocusChangeListener { _, hasFocus ->
+    private fun setupValueEditText() = with(binding.transactionValueEditText) {
+        setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val value = binding.transactionValueEditText.text.toString().toFloatOrNull()
+                hideKeyboardFromView(this)
+
                 binding.transaction = binding.transaction!!.copy(
-                    value = value ?: 0f
+                    value = text.toString().toFloatOrNull() ?: 0f
                 )
             }
         }
