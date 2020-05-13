@@ -28,4 +28,5 @@ class DashboardFragmentTest : BaseTest<DashboardFragment>() {
         onView(withId(R.id.dashboard_account_text))
             .check(matches(withText(DEFAULT_ACCOUNT_BALANCE.toCurrencyString())))
     }
+
 }

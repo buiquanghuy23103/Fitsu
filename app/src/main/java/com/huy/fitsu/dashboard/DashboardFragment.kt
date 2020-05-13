@@ -65,6 +65,8 @@ class DashboardFragment : Fragment() {
             layoutInflater, null, false
         )
 
+        dialogBinding.viewModel = viewModel
+
         MaterialAlertDialogBuilder(requireContext())
             .setView(R.layout.account_balance_edit_dialog)
             .setPositiveButton(android.R.string.ok) {dialog, _ ->
