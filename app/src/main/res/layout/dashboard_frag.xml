@@ -39,7 +39,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin_large"
-                    android:text="@{viewModel.accountBalanceString}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"

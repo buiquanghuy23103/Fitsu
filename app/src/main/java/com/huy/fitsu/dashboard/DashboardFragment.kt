@@ -17,8 +17,7 @@ import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.databinding.AccountBalanceEditDialogBinding
 import com.huy.fitsu.databinding.DashboardFragBinding
-import com.huy.fitsu.util.toCurrencyString
-import org.jetbrains.annotations.NotNull
+import timber.log.Timber
 import java.lang.NullPointerException
 import java.lang.NumberFormatException
 import javax.inject.Inject
@@ -55,6 +54,12 @@ class DashboardFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        viewModel.accountBalanceString.observe(viewLifecycleOwner, Observer {
+            it?.let { accountBalanceString ->
+                binding.dashboardAccountText.text = accountBalanceString
+            }
+        })
+
         binding.dashboardAccountText.setOnClickListener {
             showAccountBalanceEditDialog()
         }
@@ -83,7 +88,7 @@ class DashboardFragment : Fragment() {
 
     private fun EditText.saveAccountBalance() {
         try {
-            val accountBalance = this.toString().toFloat()
+            val accountBalance = this.text.toString().toFloat()
             viewModel.saveAccountBalance(accountBalance)
         } catch (e: NumberFormatException) {
             Snackbar.make(
