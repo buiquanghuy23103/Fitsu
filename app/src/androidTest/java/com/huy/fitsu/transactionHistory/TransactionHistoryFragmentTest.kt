@@ -30,33 +30,19 @@ import org.mockito.Mockito
 @RunWith(AndroidJUnit4::class)
 class TransactionHistoryFragmentTest : BaseTest<TransactionHistoryFragment>() {
 
-    private lateinit var transactionRepository: TransactionRepository
-    private lateinit var categoryRepository: CategoryRepository
-
-    private val testCategory = Category("A Test")
-    private val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
 
     override fun launchFragment(): FragmentScenario<TransactionHistoryFragment> {
         return launchFragmentInContainer(null, R.style.Theme_Fitsu)
     }
 
     @Before
-    fun setup() {
-        val appComponent = ApplicationProvider.getApplicationContext<FitsuApplication>()
-            .appComponent
-        transactionRepository = appComponent.transactionRepository
-        categoryRepository = appComponent.categoryRepository
-
-        runBlocking {
-            categoryRepository.insertNewCategory(testCategory)
-            transactionRepository.insertNewTransaction(testTransaction)
-        }
+    fun setUp() {
+        baseSetup()
     }
 
     @After
-    fun tearDown() = runBlocking {
-        categoryRepository.deleteAllCategories()
-        transactionRepository.deleteAllTransactions()
+    fun tearDown() {
+        baseTearDown()
     }
 
     @Test

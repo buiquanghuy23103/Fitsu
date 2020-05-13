@@ -1,10 +1,12 @@
 package com.huy.fitsu.di
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.huy.fitsu.addEditCategory.di.AddEditCategoryComponent
 import com.huy.fitsu.addEditTransaction.di.AddEditTransactionComponent
-import com.huy.fitsu.budgetHistory.di.BudgetHistoryComponent
+import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
+import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.data.repository.TransactionRepository
@@ -35,12 +37,14 @@ interface AppComponent {
 
     fun categoriesComponent(): CategoriesComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
-    fun dashboardComponent(): BudgetHistoryComponent.Factory
+    fun dashboardComponent(): DashboardComponent.Factory
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
     fun transactionHistoryComponent(): TransactionHistoryComponent.Factory
 
-    val categoryRepository : CategoryRepository
-    val transactionRepository: TransactionRepository
+
+    @VisibleForTesting val categoryRepository : CategoryRepository
+    @VisibleForTesting val transactionRepository: TransactionRepository
+    @VisibleForTesting val fitsuSharedPrefManager: FitsuSharedPrefManager
 
 }
 
@@ -48,7 +52,7 @@ interface AppComponent {
     subcomponents = [
         CategoriesComponent::class,
         AddEditCategoryComponent::class,
-        BudgetHistoryComponent::class,
+        DashboardComponent::class,
         TransactionHistoryComponent::class
     ]
 )

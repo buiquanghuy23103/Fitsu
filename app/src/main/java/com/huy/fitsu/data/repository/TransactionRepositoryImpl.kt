@@ -4,64 +4,73 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.huy.fitsu.data.local.LocalDataSource
+import com.huy.fitsu.data.local.FitsuSharedPrefManager
+import com.huy.fitsu.data.local.TransactionLocalDataSource
 import com.huy.fitsu.data.model.*
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val localDataSource: LocalDataSource
+    private val transactionLocalDataSource: TransactionLocalDataSource
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =
         wrapEspressoIdlingResource {
-            localDataSource.getTransactionById(id)
+            transactionLocalDataSource.getTransactionById(id)
         }
 
     override suspend fun insertNewTransaction(transaction: Transaction) =
         wrapEspressoIdlingResource {
-            localDataSource.insertTransaction(transaction)
+            transactionLocalDataSource.insertTransaction(transaction)
         }
 
     @VisibleForTesting
     override suspend fun deleteAllTransactions() =
         wrapEspressoIdlingResource {
-            localDataSource.deleteAllTransactions()
+            transactionLocalDataSource.deleteAllTransactions()
         }
 
     override suspend fun deleteTransaction(transaction: Transaction) =
         wrapEspressoIdlingResource {
-            localDataSource.deleteTransaction(transaction)
+            transactionLocalDataSource.deleteTransaction(transaction)
         }
 
 
     override suspend fun updateTransaction(transaction: Transaction) =
         wrapEspressoIdlingResource {
-            localDataSource.updateTransaction(transaction)
+            transactionLocalDataSource.updateTransaction(transaction)
         }
 
 
     override fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>>
         = wrapEspressoIdlingResource {
-            localDataSource.getTransactionDetailDataSourceFactory()
+            transactionLocalDataSource.getTransactionDetailDataSourceFactory()
                 .toLiveData(pageSize = 5)
         }
 
     override fun getTransactionDetailLiveData(id: String): LiveData<TransactionDetail> =
         wrapEspressoIdlingResource {
-            localDataSource.getTransactionDetailLiveData(id)
+            transactionLocalDataSource.getTransactionDetailLiveData(id)
         }
 
     override fun getTransactionLiveData(id: String): LiveData<Transaction> =
         wrapEspressoIdlingResource {
-            localDataSource.getTransactionLiveData(id)
+            transactionLocalDataSource.getTransactionLiveData(id)
         }
 
 
     override fun transactionCountByCategory(): LiveData<List<CategoryReport>> =
         wrapEspressoIdlingResource {
-            localDataSource.getTransactionSumByCategory()
+            transactionLocalDataSource.getTransactionSumByCategory()
         }
 
+    override fun getAccountBalanceLiveData(): LiveData<Float> =
+        wrapEspressoIdlingResource {
+            transactionLocalDataSource.getAccountBalanceLiveData()
+        }
 
+    override fun saveAccountBalance(accountBalance: Float) =
+        wrapEspressoIdlingResource {
+            transactionLocalDataSource.saveAccountBalance(accountBalance)
+        }
 }
