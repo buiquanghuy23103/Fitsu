@@ -3,10 +3,11 @@ package com.huy.fitsu.data.local
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.huy.fitsu.util.floatLiveData
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-val DEFAULT_ACCOUNT_BALANCE = 0f
+const val DEFAULT_ACCOUNT_BALANCE = 0f
 
 @Singleton
 class FitsuSharedPrefManager @Inject constructor(
