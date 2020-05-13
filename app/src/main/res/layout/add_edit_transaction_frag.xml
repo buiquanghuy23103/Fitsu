@@ -18,6 +18,8 @@
         android:id="@+id/transaction_edit_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:transitionName="@{@string/edit_transaction_transition(transaction.id)}"
         tools:targetApi="lollipop">
 
@@ -85,9 +87,9 @@
             android:layout_height="wrap_content"
             android:text="@string/outcome"
             app:icon="@drawable/ic_exposure"
-            app:layout_constraintTop_toBottomOf="@id/transaction_category_divider"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/transaction_category_divider" />
 
         <View
             android:id="@+id/transaction_sign_divider"
