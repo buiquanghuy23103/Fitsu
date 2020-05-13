@@ -44,12 +44,7 @@ class DashboardFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
-        viewModel.accountBalanceString.observe(viewLifecycleOwner, Observer {
-            it?.let { accountBalanceString ->
-                binding.accountBalanceString = accountBalanceString
-            }
-        })
+        binding.viewModel = viewModel
 
     }
 

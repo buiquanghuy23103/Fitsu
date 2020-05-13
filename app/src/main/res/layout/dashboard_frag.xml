@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="accountBalanceString"
-            type="String" />
+            name="viewModel"
+            type="com.huy.fitsu.dashboard.DashboardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/layout_margin_large"
-                    android:text="@{accountBalanceString}"
+                    android:text="@{viewModel.accountBalanceString}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"

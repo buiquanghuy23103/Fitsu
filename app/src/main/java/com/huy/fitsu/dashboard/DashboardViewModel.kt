@@ -14,6 +14,7 @@ class DashboardViewModel @Inject constructor(
     transactionRepository: TransactionRepository
 ) : ViewModel() {
 
+    // Used by data binding
     val accountBalanceString = transactionRepository.getAccountBalanceLiveData().map {
         it.toCurrencyString()
     }
