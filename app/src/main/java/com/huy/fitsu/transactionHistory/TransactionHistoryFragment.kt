@@ -91,9 +91,8 @@ class TransactionHistoryFragment: Fragment() {
 
     private fun setupCategoryPieChart() {
         viewModel.transactionCountByCategory.observe(viewLifecycleOwner, Observer { list ->
-            list?.let {categoryReports ->
-
-                drawPieChart(categoryReports)
+            if (list != null && list.isNotEmpty()) {
+                drawPieChart(list)
             }
         })
     }
