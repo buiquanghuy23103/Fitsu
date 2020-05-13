@@ -30,4 +30,6 @@ interface TransactionRepository {
 
     fun getAccountBalanceLiveData(): LiveData<Float>
 
+    fun saveAccountBalance(accountBalance: Float)
+
 }

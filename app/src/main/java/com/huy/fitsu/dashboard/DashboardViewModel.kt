@@ -11,12 +11,16 @@ import com.huy.fitsu.util.toCurrencyString
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
-    transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository
 ) : ViewModel() {
 
     // Used by data binding
     val accountBalanceString = transactionRepository.getAccountBalanceLiveData().map {
         it.toCurrencyString()
+    }
+
+    fun saveAccountBalance(accountBalance: Float) {
+        transactionRepository.saveAccountBalance(accountBalance)
     }
 
 }

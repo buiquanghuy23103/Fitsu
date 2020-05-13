@@ -69,4 +69,9 @@ class TransactionRepositoryImpl @Inject constructor(
         wrapEspressoIdlingResource {
             fitsuSharedPrefManager.getAccountBalanceLiveData()
         }
+
+    override fun saveAccountBalance(accountBalance: Float) =
+        wrapEspressoIdlingResource {
+            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
+        }
 }
