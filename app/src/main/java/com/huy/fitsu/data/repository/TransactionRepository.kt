@@ -28,4 +28,6 @@ interface TransactionRepository {
 
     fun transactionCountByCategory(): LiveData<List<CategoryReport>>
 
+    fun getAccountBalanceLiveData(): LiveData<Float>
+
 }

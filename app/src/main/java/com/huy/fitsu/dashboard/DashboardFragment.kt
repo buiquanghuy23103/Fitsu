@@ -11,9 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.databinding.DashboardFragBinding
+import com.huy.fitsu.util.toCurrencyString
 import javax.inject.Inject
 
-class DashboardFragment: Fragment() {
+class DashboardFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -44,7 +45,11 @@ class DashboardFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-
+        viewModel.accountBalanceString.observe(viewLifecycleOwner, Observer {
+            it?.let { accountBalanceString ->
+                binding.accountBalanceString = accountBalanceString
+            }
+        })
 
     }
 

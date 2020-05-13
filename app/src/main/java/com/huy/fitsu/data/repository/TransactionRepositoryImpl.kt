@@ -4,13 +4,15 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
+import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.TransactionLocalDataSource
 import com.huy.fitsu.data.model.*
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val transactionLocalDataSource: TransactionLocalDataSource
+    private val transactionLocalDataSource: TransactionLocalDataSource,
+    private val fitsuSharedPrefManager: FitsuSharedPrefManager
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =
@@ -63,5 +65,8 @@ class TransactionRepositoryImpl @Inject constructor(
             transactionLocalDataSource.getTransactionSumByCategory()
         }
 
-
+    override fun getAccountBalanceLiveData(): LiveData<Float> =
+        wrapEspressoIdlingResource {
+            fitsuSharedPrefManager.getAccountBalanceLiveData()
+        }
 }

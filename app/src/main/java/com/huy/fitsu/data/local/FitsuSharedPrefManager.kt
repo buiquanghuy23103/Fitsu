@@ -1,8 +1,12 @@
 package com.huy.fitsu.data.local
 
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import com.huy.fitsu.util.floatLiveData
 import javax.inject.Inject
 import javax.inject.Singleton
+
+val DEFAULT_ACCOUNT_BALANCE = 0f
 
 @Singleton
 class FitsuSharedPrefManager @Inject constructor(
@@ -26,6 +30,9 @@ class FitsuSharedPrefManager @Inject constructor(
     }
 
     fun getAccountBalanceValue(): Float =
-        sharedPref.getFloat(accountBalanceKey, Float.MIN_VALUE)
+        sharedPref.getFloat(accountBalanceKey, DEFAULT_ACCOUNT_BALANCE)
+
+    fun getAccountBalanceLiveData(): LiveData<Float> =
+        sharedPref.floatLiveData(accountBalanceKey, DEFAULT_ACCOUNT_BALANCE)
 
 }
