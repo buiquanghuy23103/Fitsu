@@ -20,15 +20,6 @@ class AddEditTransactionViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var transactionId = ""
-    var selectedCategoryIndex = -1
-        set(value) {
-            field = if (value < -1) {
-                -1
-            } else {
-                value
-            }
-        }
-
     private val _navigateUp = MutableLiveData<Event<Unit>>()
     val navigateUp : LiveData<Event<Unit>> = _navigateUp
 
@@ -46,44 +37,12 @@ class AddEditTransactionViewModel @Inject constructor(
 
     val transaction : LiveData<Transaction> = _transaction
 
-    private val category : LiveData<Category>
+    val category : LiveData<Category>
         get() = Transformations.switchMap(_transaction) {
             categoryRepository.getCategoryLiveData(it.categoryId)
         }
 
-    private val categories = categoryRepository.getCategoriesLiveData()
-
-    fun categoriesAndChosenCategory() : LiveData<Pair<List<Category>, Category>> {
-
-        val mediatorLiveData = MediatorLiveData<Pair<List<Category>, Category>>()
-
-        mediatorLiveData.addSource(categories) { categoriesValue ->
-            category.value?.let {categoryValue ->
-                mediatorLiveData.value = Pair(categoriesValue, categoryValue)
-            }
-        }
-
-        mediatorLiveData.addSource(category) { categoryValue ->
-            categories.value?.let {categoriesValue ->
-                mediatorLiveData.value = Pair(categoriesValue, categoryValue)
-            }
-        }
-
-        return mediatorLiveData
-    }
-
-    fun updateTransactionToDb() {
-        wrapEspressoIdlingResource {
-            viewModelScope.launch(mainDispatcher) {
-                _transaction.value?.let {
-                    transactionRepository.updateTransaction(it)
-                    _navigateUp.value = Event(Unit)
-                }
-
-            }
-        }
-    }
-
+    val categories = categoryRepository.getCategoriesLiveData()
 
     fun deleteTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
@@ -94,13 +53,10 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    fun updateTransaction(transactionFromUi: Transaction) {
-        val transactionGoToDb = transactionFromUi.copy(
-            id = transactionId
-        )
+    fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                transactionRepository.updateTransaction(transactionGoToDb)
+                transactionRepository.updateTransaction(transaction)
                 _navigateUp.postValue(Event(Unit))
             }
         }
