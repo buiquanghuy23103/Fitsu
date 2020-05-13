@@ -40,6 +40,7 @@ class FitsuSharedPrefManager @Inject constructor(
     @VisibleForTesting
     fun reset() = with(editor) {
         clear()
+        apply()
     }
 
 }
