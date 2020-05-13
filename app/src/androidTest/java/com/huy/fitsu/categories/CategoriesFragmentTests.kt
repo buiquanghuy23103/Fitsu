@@ -53,7 +53,9 @@ class CategoriesFragmentTests : BaseTest<CategoriesFragment>() {
 
         onView(withId(R.id.categories_list))
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
-            .check(matches(atPosition(0, hasDescendant(withText(testCategory.title)))))
+
+        onView(withText(testCategory.title))
+            .check(matches(isDisplayed()))
     }
 
     @Test

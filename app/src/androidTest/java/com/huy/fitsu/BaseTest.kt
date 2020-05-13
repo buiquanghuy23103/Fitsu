@@ -28,7 +28,7 @@ abstract class BaseTest<T: Fragment> {
     private lateinit var categoryRepository: CategoryRepository
     private lateinit var fitsuSharedPrefManager: FitsuSharedPrefManager
 
-    protected val testCategory = Category("A Test")
+    protected val testCategory = Category(title = "A Test")
     protected val testTransaction = Transaction(value = 100f, categoryId = testCategory.id)
 
     protected fun baseSetup() {
