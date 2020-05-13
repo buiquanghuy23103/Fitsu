@@ -5,16 +5,19 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.BaseTest
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
+import com.huy.fitsu.atPosition
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.repository.CategoryRepository
 import com.huy.fitsu.util.wrapEspressoIdlingResource
@@ -25,47 +28,32 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
+import timber.log.Timber
 
 @RunWith(AndroidJUnit4::class)
 class CategoriesFragmentTests : BaseTest<CategoriesFragment>() {
-
-    private lateinit var categoryRepository: CategoryRepository
-
-    private val testCategory = Category(title = "ATest")
 
     override fun launchFragment(): FragmentScenario<CategoriesFragment> {
         return launchFragmentInContainer(null, R.style.Theme_Fitsu)
     }
 
     @Before
-    fun setup() {
-        categoryRepository =
-            ApplicationProvider.getApplicationContext<FitsuApplication>().appComponent
-                .categoryRepository
-        wrapEspressoIdlingResource {
-            runBlocking {
-                categoryRepository.insertNewCategory(testCategory)
-            }
-        }
+    fun setUp() {
+        baseSetup()
     }
 
     @After
-    fun tearDown() = wrapEspressoIdlingResource {
-        runBlocking {
-            categoryRepository.deleteAllCategories()
-        }
+    fun tearDown() {
+        baseTearDown()
     }
-
 
     @Test
     fun displayCategory() {
         launchFragment()
 
         onView(withId(R.id.categories_list))
-            .perform(RecyclerViewActions.scrollToPosition<CategoriesAdapter.CategoryItem>(0))
-
-        onView(withText(testCategory.title))
-            .check(matches(isDisplayed()))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
+            .check(matches(atPosition(0, hasDescendant(withText(testCategory.title)))))
     }
 
     @Test

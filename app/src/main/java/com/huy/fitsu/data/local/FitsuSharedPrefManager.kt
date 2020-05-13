@@ -1,6 +1,7 @@
 package com.huy.fitsu.data.local
 
 import android.content.SharedPreferences
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import com.huy.fitsu.util.floatLiveData
 import timber.log.Timber
@@ -35,5 +36,10 @@ class FitsuSharedPrefManager @Inject constructor(
 
     fun getAccountBalanceLiveData(): LiveData<Float> =
         sharedPref.floatLiveData(accountBalanceKey, DEFAULT_ACCOUNT_BALANCE)
+
+    @VisibleForTesting
+    fun reset() = with(editor) {
+        clear()
+    }
 
 }

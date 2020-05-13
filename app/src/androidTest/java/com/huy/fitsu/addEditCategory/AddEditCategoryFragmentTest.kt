@@ -15,6 +15,7 @@ import com.huy.fitsu.R
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.repository.CategoryRepository
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,10 +25,6 @@ import org.mockito.Mockito.verify
 @RunWith(AndroidJUnit4::class)
 class AddEditCategoryFragmentTest : BaseTest<AddEditCategoryFragment>() {
 
-    private lateinit var categoryRepository: CategoryRepository
-
-    private val testCategory = Category("A Test")
-
     override fun launchFragment(): FragmentScenario<AddEditCategoryFragment> {
         val bundle = AddEditCategoryFragmentArgs(testCategory.id).toBundle()
         return launchFragmentInContainer<AddEditCategoryFragment>(bundle, R.style.Theme_Fitsu)
@@ -35,13 +32,12 @@ class AddEditCategoryFragmentTest : BaseTest<AddEditCategoryFragment>() {
 
     @Before
     fun setUp() {
-        val appComponent = ApplicationProvider.getApplicationContext<FitsuApplication>()
-            .appComponent
-        categoryRepository = appComponent.categoryRepository
+        baseSetup()
+    }
 
-        runBlocking {
-            categoryRepository.insertNewCategory(testCategory)
-        }
+    @After
+    fun tearDown() {
+        baseTearDown()
     }
 
     @Test
