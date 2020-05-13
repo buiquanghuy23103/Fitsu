@@ -1,17 +1,22 @@
 package com.huy.fitsu.data.local
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.local.database.FitsuDatabase
 import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.SemanticWeek
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.round
+import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.time.YearMonth
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TransactionLocalDataSource @Inject constructor(
     db: FitsuDatabase,
     private val fitsuSharedPrefManager: FitsuSharedPrefManager,
@@ -62,6 +67,16 @@ class TransactionLocalDataSource @Inject constructor(
 
     fun getTransactionSumByCategory() =
         transactionDetailDao.transactionSumByCategory()
+
+    fun getAccountBalanceLiveData(): LiveData<Float> =
+        wrapEspressoIdlingResource {
+            fitsuSharedPrefManager.getAccountBalanceLiveData()
+        }
+
+    fun saveAccountBalance(accountBalance: Float) =
+        wrapEspressoIdlingResource {
+            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
+        }
 
     private suspend fun recalculate(newTransaction: Transaction) {
         transactionDao.findById(newTransaction.id)?.let { oldTransaction ->
@@ -125,4 +140,5 @@ class TransactionLocalDataSource @Inject constructor(
         val newBalance = oldBalance + difference
         fitsuSharedPrefManager.saveAccountBalance(newBalance)
     }
+
 }

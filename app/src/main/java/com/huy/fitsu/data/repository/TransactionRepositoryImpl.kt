@@ -11,8 +11,7 @@ import com.huy.fitsu.util.wrapEspressoIdlingResource
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val transactionLocalDataSource: TransactionLocalDataSource,
-    private val fitsuSharedPrefManager: FitsuSharedPrefManager
+    private val transactionLocalDataSource: TransactionLocalDataSource
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =
@@ -67,11 +66,11 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override fun getAccountBalanceLiveData(): LiveData<Float> =
         wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.getAccountBalanceLiveData()
+            transactionLocalDataSource.getAccountBalanceLiveData()
         }
 
     override fun saveAccountBalance(accountBalance: Float) =
         wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
+            transactionLocalDataSource.saveAccountBalance(accountBalance)
         }
 }
