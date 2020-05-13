@@ -48,10 +48,10 @@
         parent="Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
-        <item name="android:textColor">?attr/editTextColor</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
         <item name="android:padding">@dimen/padding_large</item>
         <item name="iconPadding">@dimen/padding_extra_large</item>
-        <item name="iconTint">@color/white</item>
+        <item name="iconTint">@color/primaryTextColor</item>
         <item name="android:gravity">center_horizontal|start</item>
     </style>
 
