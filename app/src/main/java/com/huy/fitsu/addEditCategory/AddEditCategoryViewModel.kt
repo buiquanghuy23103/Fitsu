@@ -22,8 +22,6 @@ class AddEditCategoryViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var categoryId: String = ""
-    private var currentColorInt = -255
-    private var currentBudgetDuration = BudgetDuration.WEEKLY
     private val navigateBackLiveData = MutableLiveData<Event<Unit>>()
     private val loadingLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<String>()
@@ -36,14 +34,6 @@ class AddEditCategoryViewModel @Inject constructor(
         categoryId = id
     }
 
-    fun setColorInt(@ColorInt newColorInt: Int) {
-        currentColorInt = newColorInt
-    }
-
-    fun setCurrentBudgetDuration(duration: BudgetDuration) {
-        currentBudgetDuration = duration
-    }
-
     fun getCategory(): LiveData<Category> {
         return repository.getCategoryLiveData(categoryId)
     }
@@ -52,15 +42,10 @@ class AddEditCategoryViewModel @Inject constructor(
         loadingLiveData.value = true
         errorLiveData.value = ""
 
-        val newCategory = category.copy(
-            color = currentColorInt,
-            budgetDuration = currentBudgetDuration
-        )
-
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 try {
-                    repository.updateCategory(newCategory)
+                    repository.updateCategory(category)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
                 } catch (e: Exception) {
