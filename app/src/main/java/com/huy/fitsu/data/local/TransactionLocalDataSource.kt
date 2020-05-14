@@ -2,12 +2,15 @@ package com.huy.fitsu.data.local
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
+import com.huy.fitsu.data.local.database.DatabaseTypeConverters
 import com.huy.fitsu.data.local.database.FitsuDatabase
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.time.YearMonth
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,8 +59,15 @@ class TransactionLocalDataSource @Inject constructor(
     fun getTransactionLiveData(id: String) =
         transactionDao.findByIdLiveData(id)
 
-    fun getTransactionSumByCategory() =
-        transactionDetailDao.transactionSumByCategory()
+    fun getCategoryExpenseOfYearMonth(yearMonth: YearMonth): LiveData<List<CategoryExpense>> {
+        val startDateOfMonth = yearMonth.atDay(1)
+        val start = DatabaseTypeConverters.fromLocalDate(startDateOfMonth)
+
+        val endDateOfMonth = yearMonth.atEndOfMonth()
+        val end = DatabaseTypeConverters.fromLocalDate(endDateOfMonth)
+
+        return transactionDetailDao.getCategoryExpenseBetween(start, end)
+    }
 
     fun getAccountBalanceLiveData(): LiveData<Float> =
         wrapEspressoIdlingResource {

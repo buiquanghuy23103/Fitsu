@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
-import com.huy.fitsu.data.model.CategoryReport
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
 import com.huy.fitsu.util.waitForTransition
@@ -93,8 +93,8 @@ class TransactionHistoryFragment: Fragment() {
         })
     }
 
-    private fun drawPieChart(categoryReports: List<CategoryReport>) {
-        val yEntries = categoryReports.map {
+    private fun drawPieChart(categoryExpenses: List<CategoryExpense>) {
+        val yEntries = categoryExpenses.map {
             PieEntry(abs(it.totalExpense), it.categoryTitle)
         }
 
@@ -103,7 +103,7 @@ class TransactionHistoryFragment: Fragment() {
             sliceSpace = 3f
             iconsOffset = MPPointF.getInstance(0f, 40f)
             selectionShift = 50f
-            colors = categoryReports.map { it.categoryColor }
+            colors = categoryExpenses.map { it.categoryColor }
         }
 
 
@@ -118,7 +118,7 @@ class TransactionHistoryFragment: Fragment() {
 
             // Set up center text
             setDrawCenterText(true)
-            val sum = categoryReports
+            val sum = categoryExpenses
                 .map { it.totalExpense }
                 .reduce{ prev, next -> prev + next }
             centerText = sum.toString()

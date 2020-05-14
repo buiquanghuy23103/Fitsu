@@ -4,10 +4,12 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.TransactionLocalDataSource
-import com.huy.fitsu.data.model.*
+import com.huy.fitsu.data.model.CategoryExpense
+import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.util.wrapEspressoIdlingResource
+import java.time.YearMonth
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
@@ -59,9 +61,9 @@ class TransactionRepositoryImpl @Inject constructor(
         }
 
 
-    override fun transactionCountByCategory(): LiveData<List<CategoryReport>> =
+    override fun getCategoryExpenseByYearMonth(yearMonth: YearMonth): LiveData<List<CategoryExpense>> =
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.getTransactionSumByCategory()
+            transactionLocalDataSource.getCategoryExpenseOfYearMonth(yearMonth)
         }
 
     override fun getAccountBalanceLiveData(): LiveData<Float> =
