@@ -29,7 +29,7 @@ class TransactionHistoryViewModel @Inject constructor(
     val transactions: LiveData<PagedList<TransactionDetail>> =
         transactionRepository.getTransactionDetailPagedList()
 
-    val transactionCountByCategory: LiveData<List<CategoryExpense>> =
+    val categoryExpenseOfThisMonth: LiveData<List<CategoryExpense>> =
         transactionRepository.getCategoryExpenseByYearMonth(YearMonth.now())
 
     fun editTransaction(transactionId: String) {

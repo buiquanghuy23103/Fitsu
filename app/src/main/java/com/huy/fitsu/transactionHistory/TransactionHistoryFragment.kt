@@ -16,7 +16,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
-import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
 import com.huy.fitsu.util.waitForTransition
@@ -60,9 +59,13 @@ class TransactionHistoryFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupTransactionList()
-        setupAddTransactionFab()
-        setupCategoryPieChart()
+        setupCategoryExpenseList()
+        setupNewTransactionButton()
+        setupPieChart()
+        setupEditTransactionEvent()
+    }
 
+    private fun setupEditTransactionEvent() {
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
             editTransaction(it)
         })
@@ -79,36 +82,66 @@ class TransactionHistoryFragment: Fragment() {
         })
     }
 
-    private fun setupAddTransactionFab() {
+    private fun setupCategoryExpenseList() {
+        val categoryExpenseAdapter = CategoryExpenseAdapter()
+        binding.categoryExpenseList.adapter = categoryExpenseAdapter
+
+        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { list ->
+            if (list != null && list.isNotEmpty()) {
+                categoryExpenseAdapter.submitList(list)
+            }
+        })
+    }
+
+    private fun setupNewTransactionButton() {
         binding.transactionHistoryAddTransButton.setOnClickListener {
             viewModel.addTransaction()
         }
     }
 
-    private fun setupCategoryPieChart() {
-        viewModel.transactionCountByCategory.observe(viewLifecycleOwner, Observer { list ->
-            if (list != null && list.isNotEmpty()) {
-                drawPieChart(list)
+
+    private fun setupPieChart() {
+
+        designPieChart()
+
+        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { categoryExpenses ->
+            if (categoryExpenses != null && categoryExpenses.isNotEmpty()) {
+
+                val yEntries = categoryExpenses.map {
+                    PieEntry(abs(it.totalExpense), it.categoryTitle)
+                }
+
+                val pieDataSet = PieDataSet(yEntries, "").apply {
+                    setDrawIcons(false)
+                    sliceSpace = 3f
+                    iconsOffset = MPPointF.getInstance(0f, 40f)
+                    selectionShift = 50f
+                    colors = categoryExpenses.map { it.categoryColor }
+                }
+
+
+                with(binding.categoryPieChart) {
+
+                    val totalExpense = categoryExpenses
+                        .map { it.totalExpense }
+                        .reduce{ prev, next -> prev + next }
+                    centerText = totalExpense.toString()
+
+                    data = PieData(pieDataSet).apply {
+                        setDrawValues(false)
+                    }
+
+                    invalidate()
+                }
+
             }
         })
+
+
     }
 
-    private fun drawPieChart(categoryExpenses: List<CategoryExpense>) {
-        val yEntries = categoryExpenses.map {
-            PieEntry(abs(it.totalExpense), it.categoryTitle)
-        }
-
-        val pieDataSet = PieDataSet(yEntries, "").apply {
-            setDrawIcons(false)
-            sliceSpace = 3f
-            iconsOffset = MPPointF.getInstance(0f, 40f)
-            selectionShift = 50f
-            colors = categoryExpenses.map { it.categoryColor }
-        }
-
-
+    private fun designPieChart() {
         with(binding.categoryPieChart) {
-
             // This chart only shows the circle and the center text
             description.isEnabled = false
             setDrawEntryLabels(false)
@@ -118,10 +151,6 @@ class TransactionHistoryFragment: Fragment() {
 
             // Set up center text
             setDrawCenterText(true)
-            val sum = categoryExpenses
-                .map { it.totalExpense }
-                .reduce{ prev, next -> prev + next }
-            centerText = sum.toString()
             setCenterTextSize(64f)
 
             // Draw a big hole so that slices are thin
@@ -129,14 +158,9 @@ class TransactionHistoryFragment: Fragment() {
             holeRadius = 90f
 
             animateY(1400, Easing.EaseInOutQuad)
-
-            data = PieData(pieDataSet).apply {
-                setDrawValues(false)
-            }
-
-            invalidate()
         }
     }
+
 
     private fun editTransaction(transactionId: String) {
         val action = TransactionHistoryFragmentDirections.toAddEditTransactionFragment(transactionId)

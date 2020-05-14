@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="categoryExpense"
+            type="com.huy.fitsu.data.model.CategoryExpense" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_large">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/category_expense_icon"
+            style="@style/Widget.Fitsu.ColorBadge"
+            showColorBadge="@{categoryExpense.categoryColor}"
+            app:layout_constraintBottom_toBottomOf="@id/category_expense_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/category_expense_title" />
+
+        <TextView
+            android:id="@+id/category_expense_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin_extra_large"
+            android:text="@{categoryExpense.categoryTitle}"
+            android:textAppearance="@style/TextAppearance.Fitsu.ItemTitle"
+            app:layout_constraintStart_toEndOf="@id/category_expense_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Transportation" />
+
+        <TextView
+            android:id="@+id/category_expense_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@{String.valueOf(categoryExpense.totalExpense)}"
+            tools:text="-123.56" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
