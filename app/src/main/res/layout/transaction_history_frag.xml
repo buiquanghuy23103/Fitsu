@@ -34,22 +34,12 @@
                 app:layout_constraintTop_toBottomOf="@id/category_pie_chart" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/transaction_history_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/category_pie_chart"
-                tools:itemCount="5"
-                tools:listitem="@layout/transaction_item" />
-
-            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_expense_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_history_list"
+                app:layout_constraintTop_toBottomOf="@id/transaction_history_add_trans_button"
                 tools:itemCount="3"
                 tools:listitem="@layout/category_expense_item" />
 

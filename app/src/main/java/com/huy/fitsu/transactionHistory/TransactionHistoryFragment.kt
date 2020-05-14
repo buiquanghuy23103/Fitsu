@@ -18,7 +18,6 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
-import com.huy.fitsu.util.waitForTransition
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -58,7 +57,6 @@ class TransactionHistoryFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupTransactionList()
         setupCategoryExpenseList()
         setupNewTransactionButton()
         setupPieChart()
@@ -68,17 +66,6 @@ class TransactionHistoryFragment: Fragment() {
     private fun setupEditTransactionEvent() {
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
             editTransaction(it)
-        })
-    }
-
-    private fun setupTransactionList() {
-        val adapter = TransactionHistoryAdapter()
-        binding.transactionHistoryList.adapter = adapter
-
-        waitForTransition(binding.transactionHistoryList)
-
-        viewModel.transactions.observe(viewLifecycleOwner, Observer {
-            it?.let { list -> adapter.submitList(list) }
         })
     }
 
