@@ -5,7 +5,6 @@ import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -14,13 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.BaseTest
-import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.data.model.Category
-import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.data.repository.TransactionRepository
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -83,7 +76,7 @@ class TransactionHistoryFragmentTest : BaseTest<TransactionHistoryFragment>() {
     fun clickAddTransactionFab_navigateToAddEditTransactionFragment() {
         val navController = launchFragmentWithMockNavController()
 
-        onView(withId(R.id.transaction_history_add_trans_fab))
+        onView(withId(R.id.transaction_history_add_trans_button))
             .perform(ViewActions.click())
 
         Mockito.verify(navController).navigate(Mockito.any<NavDirections>())

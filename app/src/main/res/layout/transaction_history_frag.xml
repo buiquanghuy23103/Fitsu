@@ -33,16 +33,16 @@
                 tools:listitem="@layout/transaction_item" />
 
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/transaction_history_add_trans_fab"
-                style="@style/Widget.Fitsu.Button.FloatingActionButton"
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/transaction_history_add_trans_button"
+                style="@style/Widget.Fitsu.Button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/layout_margin_large"
-                android:contentDescription="@string/transaction_history_fab_content_description"
+                android:text="@string/add_transaction_button_text"
                 android:src="@drawable/ic_add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/category_pie_chart"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
