@@ -16,6 +16,9 @@ interface TransactionDetailDao {
     @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
     fun getDataSourceFactory(): DataSource.Factory<Int, TransactionDetail>
 
-    @Query("SELECT SUM(value) as transactionSum, categoryTitle, categoryColor FROM TransactionDetail GROUP BY categoryId")
+    @Query("SELECT SUM(value) as transactionSum, categoryTitle, categoryColor " +
+            "FROM TransactionDetail " +
+            "WHERE TransactionDetail.value < 0 " +
+            "GROUP BY categoryId")
     fun transactionSumByCategory(): LiveData<List<CategoryReport>>
 }
