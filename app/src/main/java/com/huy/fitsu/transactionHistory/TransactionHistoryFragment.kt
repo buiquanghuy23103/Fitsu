@@ -95,7 +95,7 @@ class TransactionHistoryFragment: Fragment() {
 
     private fun drawPieChart(categoryReports: List<CategoryReport>) {
         val yEntries = categoryReports.map {
-            PieEntry(abs(it.transactionSum), it.categoryTitle)
+            PieEntry(abs(it.totalExpense), it.categoryTitle)
         }
 
         val pieDataSet = PieDataSet(yEntries, "").apply {
@@ -119,7 +119,7 @@ class TransactionHistoryFragment: Fragment() {
             // Set up center text
             setDrawCenterText(true)
             val sum = categoryReports
-                .map { it.transactionSum }
+                .map { it.totalExpense }
                 .reduce{ prev, next -> prev + next }
             centerText = sum.toString()
             setCenterTextSize(64f)
