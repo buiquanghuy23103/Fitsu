@@ -10,13 +10,5 @@ data class Category(
     @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "title") var title: String = "",
     @ColumnInfo(name = "color") var color: Int = -65535,
-    @ColumnInfo(name = "budgetDuration") var budgetDuration: BudgetDuration = BudgetDuration.WEEKLY,
     @ColumnInfo(name = "isIncome") var isIncome: Boolean = false
 )
-
-enum class BudgetDuration {
-    WEEKLY,
-    MONTHLY,
-    ANNUAL,
-    NONE
-}

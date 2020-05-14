@@ -1,11 +1,9 @@
 package com.huy.fitsu.addEditCategory
 
-import androidx.annotation.ColorInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.huy.fitsu.data.model.BudgetDuration
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.repository.CategoryRepository

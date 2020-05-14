@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,12 +17,8 @@ import androidx.transition.TransitionInflater
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.data.model.BudgetDuration
-import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
 import com.huy.fitsu.util.hideKeyboardFromView
-import com.huy.fitsu.util.waitForTransition
-import kotlinx.android.synthetic.main.add_edit_category_frag.*
 import yuku.ambilwarna.AmbilWarnaDialog
 import javax.inject.Inject
 
@@ -94,7 +89,6 @@ class AddEditCategoryFragment : Fragment() {
                 binding.category = category
                 setupTitleEditText()
                 setupColorSelector()
-                setupDurationButton()
                 setupUpdateCategoryButton()
                 setupDeleteCategoryButton()
             }
@@ -111,29 +105,6 @@ class AddEditCategoryFragment : Fragment() {
                 )
             }
         }
-    }
-
-    private fun setupDurationButton() {
-        binding.categoryBudgetDurationButton.setOnClickListener {
-            clearFocusFromTitleEditText()
-            createDurationDialog().show()
-        }
-    }
-
-    private fun createDurationDialog(): MaterialAlertDialogBuilder {
-        val budgetDurations = BudgetDuration.values()
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.select_dialog_singlechoice,
-            budgetDurations
-        )
-        return MaterialAlertDialogBuilder(requireContext())
-            .setAdapter(adapter) { _, which ->
-                val selectedDuration = budgetDurations[which]
-                binding.category = binding.category!!.copy(
-                    budgetDuration = selectedDuration
-                )
-            }
     }
 
 
