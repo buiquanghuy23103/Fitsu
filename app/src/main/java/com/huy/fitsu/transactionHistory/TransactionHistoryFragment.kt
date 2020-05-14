@@ -1,8 +1,6 @@
 package com.huy.fitsu.transactionHistory
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,19 +11,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.data.model.CategoryReport
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
 import com.huy.fitsu.util.waitForTransition
-import timber.log.Timber
 import javax.inject.Inject
+import kotlin.math.abs
 
 class TransactionHistoryFragment: Fragment() {
 
@@ -99,7 +95,7 @@ class TransactionHistoryFragment: Fragment() {
 
     private fun drawPieChart(categoryReports: List<CategoryReport>) {
         val yEntries = categoryReports.map {
-            PieEntry(it.transactionSum, it.categoryTitle)
+            PieEntry(abs(it.transactionSum), it.categoryTitle)
         }
 
         val pieDataSet = PieDataSet(yEntries, "").apply {
