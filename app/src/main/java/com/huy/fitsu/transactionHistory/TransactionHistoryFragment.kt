@@ -102,7 +102,7 @@ class TransactionHistoryFragment: Fragment() {
                     setDrawIcons(false)
                     sliceSpace = 3f
                     iconsOffset = MPPointF.getInstance(0f, 40f)
-                    selectionShift = 50f
+                    selectionShift = 0f
                     colors = categoryExpenses.map { it.categoryColor }
                 }
 
@@ -142,7 +142,7 @@ class TransactionHistoryFragment: Fragment() {
 
             // Draw a big hole so that slices are thin
             isDrawHoleEnabled = true
-            holeRadius = 90f
+            holeRadius = 95f
 
             animateY(1400, Easing.EaseInOutQuad)
         }

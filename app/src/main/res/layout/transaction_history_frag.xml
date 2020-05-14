@@ -18,7 +18,8 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/category_pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
+                android:layout_margin="@dimen/layout_margin_large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
