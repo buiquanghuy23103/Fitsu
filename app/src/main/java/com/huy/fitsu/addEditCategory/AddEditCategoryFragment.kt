@@ -1,14 +1,11 @@
 package com.huy.fitsu.addEditCategory
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,15 +17,12 @@ import androidx.transition.TransitionInflater
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.data.model.BudgetDuration
-import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.databinding.AddEditCategoryFragBinding
-import com.huy.fitsu.util.waitForTransition
-import kotlinx.android.synthetic.main.add_edit_category_frag.*
+import com.huy.fitsu.util.hideKeyboardFromView
 import yuku.ambilwarna.AmbilWarnaDialog
 import javax.inject.Inject
 
-class AddEditCategoryFragment: Fragment() {
+class AddEditCategoryFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -66,10 +60,7 @@ class AddEditCategoryFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = AddEditCategoryFragBinding.inflate(inflater, container, false).apply {
-            executePendingBindings()
-        }
-        waitForTransition(binding.root)
+        binding = AddEditCategoryFragBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -96,78 +87,62 @@ class AddEditCategoryFragment: Fragment() {
         viewModel.getCategory().observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
-                setupColorSelector(category.color)
-                saveCategoryColorToUI(category.color)
-                changeTitleOfBudgetDurationButton(it.budgetDuration)
-                setupUpdateCategoryButton(it)
+                setupTitleEditText()
+                setupColorSelector()
+                setupUpdateCategoryButton()
+                setupDeleteCategoryButton()
             }
         })
 
-        setupCategoryButton()
-        setupDeleteCategoryButton()
     }
 
-    private fun saveCategoryColorToUI(@ColorInt colorInt: Int) {
-        binding.categoryChangeColorButton.iconTint = ColorStateList.valueOf(colorInt)
-    }
-
-    private fun setupCategoryButton() {
-        val budgetDurations = BudgetDuration.values()
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.dropdown_item_style,
-            budgetDurations
-        )
-        binding.categoryBudgetDurationButton.setOnClickListener {
-            MaterialAlertDialogBuilder(requireContext())
-                .setAdapter(adapter) { _, which ->
-                    val selectedDuration = budgetDurations[which]
-                    viewModel.setCurrentBudgetDuration(selectedDuration)
-                    changeTitleOfBudgetDurationButton(selectedDuration)
-                }
-                .show()
+    private fun setupTitleEditText() = with(binding.categoryTitleEditText) {
+        setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboardFromView(view)
+                binding.category = binding.category!!.copy(
+                    title = text.toString()
+                )
+            }
         }
     }
 
-    private fun changeTitleOfBudgetDurationButton(selectedDuration: BudgetDuration) {
-        val durationStr = selectedDuration.name.toLowerCase().capitalize()
-        val str = getString(R.string.category_budget_duration_button_label, durationStr)
-        binding.categoryBudgetDurationButton.text = str
-    }
 
-    private fun setupColorSelector(@ColorInt initColorInt: Int) {
+
+    private fun setupColorSelector() {
         binding.categoryChangeColorButton.setOnClickListener {
-            showColorPicker(initColorInt)
+            clearFocusFromTitleEditText()
+            showColorPicker()
         }
     }
 
-    private fun showColorPicker(initColorInt: Int) {
+    private fun showColorPicker() {
         AmbilWarnaDialog(
             requireContext(),
-            initColorInt,
+            binding.category!!.color,
             object : AmbilWarnaDialog.OnAmbilWarnaListener {
                 override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
-                    saveCategoryColorToUI(color)
-                    viewModel.setColorInt(color)
+                    binding.category = binding.category!!.copy(
+                        color = color
+                    )
                 }
 
-                override fun onCancel(dialog: AmbilWarnaDialog?) { /*DO NOTHING*/ }
+                override fun onCancel(dialog: AmbilWarnaDialog?) { /*DO NOTHING*/
+                }
             }
         ).show()
     }
 
-    private fun setupUpdateCategoryButton(category: Category) {
+    private fun setupUpdateCategoryButton() {
         binding.categoryUpdateButton.setOnClickListener {
-            val title = category_title_edit_text.text.toString()
-            val newCategory = category.copy(
-                title = title
-            )
-            viewModel.updateCategory(newCategory)
+            clearFocusFromTitleEditText()
+            viewModel.updateCategory(binding.category!!)
         }
     }
 
     private fun setupDeleteCategoryButton() {
         binding.categoryDeleteButton.setOnClickListener {
+            clearFocusFromTitleEditText()
             showDeleteWarningDialog()
         }
     }
@@ -176,11 +151,15 @@ class AddEditCategoryFragment: Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.delete_category_warning_dialog_title)
             .setMessage(R.string.delete_category_warning_dialog_message)
-            .setPositiveButton(R.string.delete_category_warning_dialog_positive_button) {dialog, _ ->
+            .setPositiveButton(R.string.delete) { dialog, _ ->
                 viewModel.deleteCategory()
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun clearFocusFromTitleEditText() {
+        binding.categoryTitleEditText.clearFocus()
     }
 
 }

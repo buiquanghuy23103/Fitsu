@@ -122,9 +122,9 @@ class AddEditTransactionFragment : Fragment() {
     }
 
     private fun setupValueEditText() = with(binding.transactionValueEditText) {
-        setOnFocusChangeListener { _, hasFocus ->
+        setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) {
-                hideKeyboardFromView(this)
+                hideKeyboardFromView(view)
 
                 binding.transaction = binding.transaction!!.copy(
                     value = text.toString().toFloatOrNull() ?: 0f
