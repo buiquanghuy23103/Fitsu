@@ -5,7 +5,7 @@
     <string name="drawer_menu_dashboard">Dashboard</string>
     <string name="drawer_menu_budget_history">Budget history</string>
     <string name="drawer_menu_categories">Categories</string>
-    <string name="drawer_menu_transaction_history">Transaction history</string>
+    <string name="drawer_menu_transaction_history">Transaction reports</string>
 
     <!--  Category item  -->
     <string name="category_item_subtitle_format">Included in %1$s budget</string>

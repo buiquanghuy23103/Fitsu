@@ -5,7 +5,7 @@
     <item
         android:id="@+id/dashboardFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_budget_history"
+        android:title="@string/drawer_menu_dashboard"
         android:icon="@drawable/ic_dashboard"
         app:showAsAction="ifRoom"/>
 
@@ -21,7 +21,7 @@
         android:id="@+id/categoriesFragment"
         android:enabled="true"
         android:title="@string/drawer_menu_categories"
-        android:icon="@drawable/ic_list"
+        android:icon="@drawable/ic_category"
         app:showAsAction="ifRoom"/>
 
 </menu>
