@@ -2,9 +2,13 @@ package com.huy.fitsu.transactionHistory
 
 import android.content.Context
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,8 +20,10 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
+import com.huy.fitsu.R
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
+import com.huy.fitsu.util.toCurrencyString
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -60,6 +66,7 @@ class TransactionHistoryFragment: Fragment() {
         setupCategoryExpenseList()
         setupNewTransactionButton()
         setupPieChart()
+        setupPieChartCenterText()
         setupEditTransactionEvent()
     }
 
@@ -73,7 +80,7 @@ class TransactionHistoryFragment: Fragment() {
         val categoryExpenseAdapter = CategoryExpenseAdapter()
         binding.categoryExpenseList.adapter = categoryExpenseAdapter
 
-        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.categoryExpensesLiveData.observe(viewLifecycleOwner, Observer { list ->
             if (list != null && list.isNotEmpty()) {
                 categoryExpenseAdapter.submitList(list)
             }
@@ -91,7 +98,7 @@ class TransactionHistoryFragment: Fragment() {
 
         designPieChart()
 
-        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { categoryExpenses ->
+        viewModel.categoryExpensesLiveData.observe(viewLifecycleOwner, Observer { categoryExpenses ->
             if (categoryExpenses != null && categoryExpenses.isNotEmpty()) {
 
                 val yEntries = categoryExpenses.map {
@@ -140,6 +147,36 @@ class TransactionHistoryFragment: Fragment() {
 
             animateY(1400, Easing.EaseInOutQuad)
         }
+    }
+
+    private fun setupPieChartCenterText() {
+        viewModel.budgetLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let { budget ->
+                binding.budget.text = budget.value.toCurrencyString()
+            }
+        })
+
+        viewModel.budgetLeftLiveData().observe(viewLifecycleOwner, Observer {
+            it?.let {budgetLeft ->
+                val spannableString = SpannableString(budgetLeft.toCurrencyString())
+
+                if (budgetLeft <= 0) {
+                    markAsErrorText(spannableString)
+                }
+
+                binding.budgetLeft.text = spannableString
+            }
+        })
+    }
+
+    private fun markAsErrorText(spannableString: SpannableString) {
+        val errorColor = ContextCompat.getColor(requireContext(), R.color.errorTextColor)
+        spannableString.setSpan(
+            ForegroundColorSpan(errorColor),
+            0,
+            spannableString.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
     private fun editTransaction(transactionId: String) {

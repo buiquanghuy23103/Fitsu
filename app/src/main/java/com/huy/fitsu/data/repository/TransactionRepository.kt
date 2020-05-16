@@ -3,6 +3,7 @@ package com.huy.fitsu.data.repository
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
@@ -32,5 +33,7 @@ interface TransactionRepository {
     fun getAccountBalanceLiveData(): LiveData<Float>
 
     fun saveAccountBalance(accountBalance: Float)
+
+    fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget>
 
 }

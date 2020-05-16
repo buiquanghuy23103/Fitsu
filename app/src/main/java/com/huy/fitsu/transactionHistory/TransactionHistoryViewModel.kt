@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
-import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.data.repository.TransactionRepository
 import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.combineWith
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -23,14 +21,26 @@ class TransactionHistoryViewModel @Inject constructor(
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private val currentYearMonth = YearMonth.now()
+
     private val _editTransactionEvent = MutableLiveData<Event<String>>()
     val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
-    val transactions: LiveData<PagedList<TransactionDetail>> =
-        transactionRepository.getTransactionDetailPagedList()
+    val transactions = transactionRepository.getTransactionDetailPagedList()
 
-    val categoryExpenseOfThisMonth: LiveData<List<CategoryExpense>> =
-        transactionRepository.getCategoryExpenseByYearMonth(YearMonth.now())
+    val categoryExpensesLiveData =
+        transactionRepository.getCategoryExpenseByYearMonth(currentYearMonth)
+
+    val budgetLiveData = transactionRepository.getBudgetLiveDataByYearMonth(currentYearMonth)
+
+    fun budgetLeftLiveData(): LiveData<Float> =
+        categoryExpensesLiveData.combineWith(budgetLiveData) { categoryExpenses, budget ->
+            val monthExpense = if (categoryExpenses.isEmpty()) 0f
+                else categoryExpenses.map { it.totalExpense }.reduce { a, b -> a + b }
+            val budgetValue = budget.value
+            budgetValue + monthExpense
+        }
+
 
     fun editTransaction(transactionId: String) {
         _editTransactionEvent.value = Event(transactionId)
