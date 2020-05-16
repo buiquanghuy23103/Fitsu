@@ -24,7 +24,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/transaction_history_add_trans_button"
+                android:id="@+id/add_trans_button"
                 style="@style/Widget.Fitsu.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transaction_history_add_trans_button"
+                app:layout_constraintTop_toBottomOf="@id/add_trans_button"
                 tools:itemCount="3"
                 tools:listitem="@layout/category_expense_item" />
 

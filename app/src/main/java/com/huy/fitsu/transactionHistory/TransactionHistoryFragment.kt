@@ -81,7 +81,7 @@ class TransactionHistoryFragment: Fragment() {
     }
 
     private fun setupNewTransactionButton() {
-        binding.transactionHistoryAddTransButton.setOnClickListener {
+        binding.addTransButton.setOnClickListener {
             viewModel.addTransaction()
         }
     }
