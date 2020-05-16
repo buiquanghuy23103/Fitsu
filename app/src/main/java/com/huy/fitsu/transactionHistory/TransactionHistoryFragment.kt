@@ -109,11 +109,6 @@ class TransactionHistoryFragment: Fragment() {
 
                 with(binding.categoryPieChart) {
 
-                    val totalExpense = categoryExpenses
-                        .map { it.totalExpense }
-                        .reduce{ prev, next -> prev + next }
-                    centerText = totalExpense.toString()
-
                     data = PieData(pieDataSet).apply {
                         setDrawValues(false)
                     }
@@ -136,9 +131,8 @@ class TransactionHistoryFragment: Fragment() {
             isHighlightPerTapEnabled = false
             isClickable = false
 
-            // Set up center text
-            setDrawCenterText(true)
-            setCenterTextSize(64f)
+            // No center text, use TextView instead
+            setDrawCenterText(false)
 
             // Draw a big hole so that slices are thin
             isDrawHoleEnabled = true
@@ -147,7 +141,6 @@ class TransactionHistoryFragment: Fragment() {
             animateY(1400, Easing.EaseInOutQuad)
         }
     }
-
 
     private fun editTransaction(transactionId: String) {
         val action = TransactionHistoryFragmentDirections.toAddEditTransactionFragment(transactionId)
