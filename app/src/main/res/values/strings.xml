@@ -32,8 +32,9 @@
     <string name="outcome">Outcome</string>
 
 
-    <!--  Transaction history  -->
+    <!--  Budgets  -->
     <string name="add_transaction_button_text">New transaction</string>
+    <string name="budget_format">from %s</string>
 
     <!--  Warning  -->
     <string name="invalid_money_value">Invalid money value</string>

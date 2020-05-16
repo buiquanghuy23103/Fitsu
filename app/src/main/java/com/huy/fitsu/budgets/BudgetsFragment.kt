@@ -152,7 +152,9 @@ class BudgetsFragment: Fragment() {
     private fun setupPieChartCenterText() {
         viewModel.budgetLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { budget ->
-                binding.budget.text = budget.value.toCurrencyString()
+                val budgetStr = budget.value.toCurrencyString()
+                val str = getString(R.string.budget_format, budgetStr)
+                binding.budget.text = str
             }
         })
 
