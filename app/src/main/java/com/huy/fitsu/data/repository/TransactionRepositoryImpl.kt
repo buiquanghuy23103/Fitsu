@@ -4,7 +4,9 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
+import com.huy.fitsu.data.local.BudgetLocalDataSource
 import com.huy.fitsu.data.local.TransactionLocalDataSource
+import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
@@ -13,7 +15,8 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val transactionLocalDataSource: TransactionLocalDataSource
+    private val transactionLocalDataSource: TransactionLocalDataSource,
+    private val budgetLocalDataSource: BudgetLocalDataSource
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =
@@ -74,5 +77,10 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun saveAccountBalance(accountBalance: Float) =
         wrapEspressoIdlingResource {
             transactionLocalDataSource.saveAccountBalance(accountBalance)
+        }
+
+    override fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget> =
+        wrapEspressoIdlingResource {
+            budgetLocalDataSource.getBudgetLiveDataByYearMonth(yearMonth)
         }
 }

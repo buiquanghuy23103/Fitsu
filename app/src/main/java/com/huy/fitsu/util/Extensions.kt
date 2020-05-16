@@ -8,15 +8,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import java.text.NumberFormat
 import java.util.*
-import kotlin.math.round
 
-fun Float.round(decimals: Int): Float {
-    var multiplier = 1.0F
-    repeat(decimals) { multiplier *= 10 }
-    return round(this * multiplier) / multiplier
-}
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.toTransitionMap() = this to transitionName
@@ -36,6 +32,35 @@ fun Float.toCurrencyString(): String {
 fun Fragment.hideKeyboardFromView(view: View) {
     val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun <A, B, C> LiveData<A>.combineWith(otherLiveData: LiveData<B>, combineOperation: (A, B) -> C)
+    : LiveData<C>
+{
+    var sourceA_emitted = false
+    var sourceB_emitted = false
+
+    val result = MediatorLiveData<C>()
+
+    val calculateResult = {
+        val sourceA_value = this.value
+        val sourceB_value = otherLiveData.value
+
+        if (sourceA_emitted && sourceB_emitted) {
+            result.value = combineOperation.invoke(sourceA_value!!, sourceB_value!!)
+        }
+    }
+
+    result.addSource(this) {
+        sourceA_emitted = true
+        calculateResult.invoke()
+    }
+    result.addSource(otherLiveData) {
+        sourceB_emitted = true
+        calculateResult.invoke()
+    }
+
+    return result
 }
 
 fun SharedPreferences.intLiveData(key: String, defValue: Int): SharedPreferenceLiveData<Int> {

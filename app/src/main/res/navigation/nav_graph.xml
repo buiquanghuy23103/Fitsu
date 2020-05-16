@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.huy.fitsu.dashboard.DashboardFragment"
-        android:label="Budget history" >
+        android:label="Dashboard" >
         <action
             android:id="@+id/to_addEditTransactionFragment"
             app:destination="@id/addEditTransactionFragment" />
@@ -37,9 +37,9 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/transactionHistoryFragment"
-        android:name="com.huy.fitsu.transactionHistory.TransactionHistoryFragment"
-        android:label="Transaction History" >
+        android:id="@+id/budgetsFragment"
+        android:name="com.huy.fitsu.budgets.BudgetsFragment"
+        android:label="Budgets" >
         <action
             android:id="@+id/to_addEditTransactionFragment"
             app:destination="@id/addEditTransactionFragment" />

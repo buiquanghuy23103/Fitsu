@@ -1,4 +1,4 @@
-package com.huy.fitsu.transactionHistory
+package com.huy.fitsu.budgets
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
