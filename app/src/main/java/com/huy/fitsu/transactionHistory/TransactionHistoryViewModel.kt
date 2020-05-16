@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.huy.fitsu.data.model.CategoryReport
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
@@ -14,6 +14,7 @@ import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.time.YearMonth
 import javax.inject.Inject
 
 class TransactionHistoryViewModel @Inject constructor(
@@ -28,8 +29,8 @@ class TransactionHistoryViewModel @Inject constructor(
     val transactions: LiveData<PagedList<TransactionDetail>> =
         transactionRepository.getTransactionDetailPagedList()
 
-    val transactionCountByCategory: LiveData<List<CategoryReport>> =
-        transactionRepository.transactionCountByCategory()
+    val categoryExpenseOfThisMonth: LiveData<List<CategoryExpense>> =
+        transactionRepository.getCategoryExpenseByYearMonth(YearMonth.now())
 
     fun editTransaction(transactionId: String) {
         _editTransactionEvent.value = Event(transactionId)

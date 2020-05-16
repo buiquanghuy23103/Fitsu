@@ -16,10 +16,8 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
-import com.huy.fitsu.data.model.CategoryReport
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionHistoryFragBinding
-import com.huy.fitsu.util.waitForTransition
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -59,56 +57,78 @@ class TransactionHistoryFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setupTransactionList()
-        setupAddTransactionFab()
-        setupCategoryPieChart()
+        setupCategoryExpenseList()
+        setupNewTransactionButton()
+        setupPieChart()
+        setupEditTransactionEvent()
+    }
 
+    private fun setupEditTransactionEvent() {
         viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
             editTransaction(it)
         })
     }
 
-    private fun setupTransactionList() {
-        val adapter = TransactionHistoryAdapter()
-        binding.transactionHistoryList.adapter = adapter
+    private fun setupCategoryExpenseList() {
+        val categoryExpenseAdapter = CategoryExpenseAdapter()
+        binding.categoryExpenseList.adapter = categoryExpenseAdapter
 
-        waitForTransition(binding.transactionHistoryList)
-
-        viewModel.transactions.observe(viewLifecycleOwner, Observer {
-            it?.let { list -> adapter.submitList(list) }
-        })
-    }
-
-    private fun setupAddTransactionFab() {
-        binding.transactionHistoryAddTransFab.setOnClickListener {
-            viewModel.addTransaction()
-        }
-    }
-
-    private fun setupCategoryPieChart() {
-        viewModel.transactionCountByCategory.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { list ->
             if (list != null && list.isNotEmpty()) {
-                drawPieChart(list)
+                categoryExpenseAdapter.submitList(list)
             }
         })
     }
 
-    private fun drawPieChart(categoryReports: List<CategoryReport>) {
-        val yEntries = categoryReports.map {
-            PieEntry(abs(it.transactionSum), it.categoryTitle)
+    private fun setupNewTransactionButton() {
+        binding.transactionHistoryAddTransButton.setOnClickListener {
+            viewModel.addTransaction()
         }
-
-        val pieDataSet = PieDataSet(yEntries, "").apply {
-            setDrawIcons(false)
-            sliceSpace = 3f
-            iconsOffset = MPPointF.getInstance(0f, 40f)
-            selectionShift = 50f
-            colors = categoryReports.map { it.categoryColor }
-        }
+    }
 
 
+    private fun setupPieChart() {
+
+        designPieChart()
+
+        viewModel.categoryExpenseOfThisMonth.observe(viewLifecycleOwner, Observer { categoryExpenses ->
+            if (categoryExpenses != null && categoryExpenses.isNotEmpty()) {
+
+                val yEntries = categoryExpenses.map {
+                    PieEntry(abs(it.totalExpense), it.categoryTitle)
+                }
+
+                val pieDataSet = PieDataSet(yEntries, "").apply {
+                    setDrawIcons(false)
+                    sliceSpace = 3f
+                    iconsOffset = MPPointF.getInstance(0f, 40f)
+                    selectionShift = 0f
+                    colors = categoryExpenses.map { it.categoryColor }
+                }
+
+
+                with(binding.categoryPieChart) {
+
+                    val totalExpense = categoryExpenses
+                        .map { it.totalExpense }
+                        .reduce{ prev, next -> prev + next }
+                    centerText = totalExpense.toString()
+
+                    data = PieData(pieDataSet).apply {
+                        setDrawValues(false)
+                    }
+
+                    invalidate()
+                }
+
+            }
+        })
+
+
+    }
+
+    private fun designPieChart() {
         with(binding.categoryPieChart) {
-
             // This chart only shows the circle and the center text
             description.isEnabled = false
             setDrawEntryLabels(false)
@@ -118,25 +138,16 @@ class TransactionHistoryFragment: Fragment() {
 
             // Set up center text
             setDrawCenterText(true)
-            val sum = categoryReports
-                .map { it.transactionSum }
-                .reduce{ prev, next -> prev + next }
-            centerText = sum.toString()
             setCenterTextSize(64f)
 
             // Draw a big hole so that slices are thin
             isDrawHoleEnabled = true
-            holeRadius = 90f
+            holeRadius = 95f
 
             animateY(1400, Easing.EaseInOutQuad)
-
-            data = PieData(pieDataSet).apply {
-                setDrawValues(false)
-            }
-
-            invalidate()
         }
     }
+
 
     private fun editTransaction(transactionId: String) {
         val action = TransactionHistoryFragmentDirections.toAddEditTransactionFragment(transactionId)

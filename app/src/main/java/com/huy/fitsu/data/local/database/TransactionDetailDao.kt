@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
-import com.huy.fitsu.data.model.CategoryReport
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.TransactionDetail
 
 @Dao
@@ -16,9 +16,11 @@ interface TransactionDetailDao {
     @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
     fun getDataSourceFactory(): DataSource.Factory<Int, TransactionDetail>
 
-    @Query("SELECT SUM(value) as transactionSum, categoryTitle, categoryColor " +
+    @Query("SELECT SUM(value) as totalExpense, categoryTitle, categoryColor " +
             "FROM TransactionDetail " +
             "WHERE TransactionDetail.value < 0 " +
-            "GROUP BY categoryId")
-    fun transactionSumByCategory(): LiveData<List<CategoryReport>>
+            "AND (TransactionDetail.createdAt BETWEEN :startEpochDay AND :endEpochDay) " +
+            "GROUP BY categoryId " +
+            "ORDER BY categoryTitle")
+    fun getCategoryExpenseBetween(startEpochDay: Long?, endEpochDay: Long?): LiveData<List<CategoryExpense>>
 }

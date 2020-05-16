@@ -3,9 +3,10 @@ package com.huy.fitsu.data.repository
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.huy.fitsu.data.model.CategoryReport
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
+import java.time.YearMonth
 
 interface TransactionRepository {
 
@@ -26,7 +27,7 @@ interface TransactionRepository {
 
     suspend fun updateTransaction(transaction: Transaction)
 
-    fun transactionCountByCategory(): LiveData<List<CategoryReport>>
+    fun getCategoryExpenseByYearMonth(yearMonth: YearMonth): LiveData<List<CategoryExpense>>
 
     fun getAccountBalanceLiveData(): LiveData<Float>
 
