@@ -1,4 +1,4 @@
-package com.huy.fitsu.transactionHistory
+package com.huy.fitsu.budgets
 
 import android.content.Context
 import android.os.Bundle
@@ -22,19 +22,19 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.EventObserver
-import com.huy.fitsu.databinding.TransactionHistoryFragBinding
+import com.huy.fitsu.databinding.BudgetsFragBinding
 import com.huy.fitsu.util.toCurrencyString
 import javax.inject.Inject
 import kotlin.math.abs
 
-class TransactionHistoryFragment: Fragment() {
+class BudgetsFragment: Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: TransactionHistoryViewModel by viewModels { viewModelFactory }
+    private val viewModel: BudgetsViewModel by viewModels { viewModelFactory }
 
-    private lateinit var binding: TransactionHistoryFragBinding
+    private lateinit var binding: BudgetsFragBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,7 +53,7 @@ class TransactionHistoryFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = TransactionHistoryFragBinding.inflate(inflater, container, false)
+        binding = BudgetsFragBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -180,7 +180,7 @@ class TransactionHistoryFragment: Fragment() {
     }
 
     private fun editTransaction(transactionId: String) {
-        val action = TransactionHistoryFragmentDirections.toAddEditTransactionFragment(transactionId)
+        val action = BudgetsFragmentDirections.toAddEditTransactionFragment(transactionId)
         findNavController().navigate(action)
     }
 

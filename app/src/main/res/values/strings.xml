@@ -3,9 +3,8 @@
     
     <!--  Drawer menu  -->
     <string name="drawer_menu_dashboard">Dashboard</string>
-    <string name="drawer_menu_budget_history">Budget history</string>
     <string name="drawer_menu_categories">Categories</string>
-    <string name="drawer_menu_transaction_history">Transaction reports</string>
+    <string name="drawer_menu_budgets">Budgets</string>
 
     <!--  Category item  -->
     <string name="category_item_subtitle_format">Included in %1$s budget</string>
@@ -51,5 +50,6 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="budget_left_label">Left</string>
 
 </resources>

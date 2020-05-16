@@ -1,4 +1,4 @@
-package com.huy.fitsu.transactionHistory
+package com.huy.fitsu.budgets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import java.time.YearMonth
 import javax.inject.Inject
 
-class TransactionHistoryViewModel @Inject constructor(
+class BudgetsViewModel @Inject constructor(
     private val transactionRepository: TransactionRepository,
     @DispatcherModule.MainDispatcher
     private val mainDispatcher: CoroutineDispatcher

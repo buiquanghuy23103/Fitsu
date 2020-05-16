@@ -10,9 +10,9 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/transactionHistoryFragment"
+        android:id="@+id/budgetsFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_transaction_history"
+        android:title="@string/drawer_menu_budgets"
         android:icon="@drawable/ic_history"
         app:showAsAction="ifRoom"/>
 
