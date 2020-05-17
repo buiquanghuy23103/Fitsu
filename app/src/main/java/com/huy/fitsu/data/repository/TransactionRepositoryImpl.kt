@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.BudgetLocalDataSource
+import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.TransactionLocalDataSource
 import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
     private val transactionLocalDataSource: TransactionLocalDataSource,
-    private val budgetLocalDataSource: BudgetLocalDataSource
+    private val budgetLocalDataSource: BudgetLocalDataSource,
+    private val fitsuSharedPrefManager: FitsuSharedPrefManager
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =
@@ -71,12 +73,12 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override fun getAccountBalanceLiveData(): LiveData<Float> =
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.getAccountBalanceLiveData()
+            fitsuSharedPrefManager.getAccountBalanceLiveData()
         }
 
     override fun saveAccountBalance(accountBalance: Float) =
         wrapEspressoIdlingResource {
-            transactionLocalDataSource.saveAccountBalance(accountBalance)
+            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
         }
 
     override fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget> =

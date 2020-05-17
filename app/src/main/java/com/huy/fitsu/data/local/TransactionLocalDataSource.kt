@@ -8,7 +8,6 @@ import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.round
-import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.time.YearMonth
@@ -69,16 +68,6 @@ class TransactionLocalDataSource @Inject constructor(
 
         return transactionDetailDao.getCategoryExpenseBetween(start, end)
     }
-
-    fun getAccountBalanceLiveData(): LiveData<Float> =
-        wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.getAccountBalanceLiveData()
-        }
-
-    fun saveAccountBalance(accountBalance: Float) =
-        wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
-        }
 
     private fun recalculateBalance(newTransactionValue: Float, oldTransactionValue: Float) {
         val difference = newTransactionValue - oldTransactionValue
