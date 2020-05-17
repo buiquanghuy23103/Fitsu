@@ -8,9 +8,7 @@ import com.huy.fitsu.budgets.di.BudgetsComponent
 import com.huy.fitsu.categories.di.CategoriesComponent
 import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.local.FitsuSharedPrefManager
-import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.data.repository.RepositoryModule
-import com.huy.fitsu.data.repository.TransactionRepository
+import com.huy.fitsu.data.local.database.FitsuDatabase
 import com.huy.fitsu.scheduler.SchedulerModule
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +21,6 @@ import javax.inject.Singleton
         LocalStorageModule::class,
         SubComponentModule::class,
         ViewModelBuilderModule::class,
-        RepositoryModule::class,
         SchedulerModule::class,
         DispatcherModule::class
     ]
@@ -41,10 +38,11 @@ interface AppComponent {
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
     fun transactionHistoryComponent(): BudgetsComponent.Factory
 
+    @VisibleForTesting
+    val db: FitsuDatabase
 
-    @VisibleForTesting val categoryRepository : CategoryRepository
-    @VisibleForTesting val transactionRepository: TransactionRepository
-    @VisibleForTesting val fitsuSharedPrefManager: FitsuSharedPrefManager
+    @VisibleForTesting
+    val fitsuSharedPrefManager: FitsuSharedPrefManager
 
 }
 
