@@ -64,7 +64,6 @@ class BudgetsFragment: Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupCategoryExpenseList()
-        setupNewTransactionButton()
         setupPieChart()
         setupPieChartCenterText()
         setupEditTransactionEvent()
@@ -85,12 +84,6 @@ class BudgetsFragment: Fragment() {
                 categoryExpenseAdapter.submitList(list)
             }
         })
-    }
-
-    private fun setupNewTransactionButton() {
-        binding.addTransButton.setOnClickListener {
-            viewModel.addTransaction()
-        }
     }
 
 
