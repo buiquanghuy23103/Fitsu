@@ -43,7 +43,7 @@ class CategoriesViewModelTests {
 
     @Test
     fun getAllCategories_shouldGetFromRepository() {
-        viewModel.getAllCategories()
+        viewModel.getCategoriesLiveData()
 
         verify(repository).getCategoriesLiveData()
     }

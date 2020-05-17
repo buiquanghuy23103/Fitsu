@@ -60,7 +60,7 @@ class CategoriesFragment : Fragment() {
 
         waitForTransition(binding.categoriesList)
 
-        viewModel.getAllCategories().observe(viewLifecycleOwner, Observer {
+        viewModel.getCategoriesLiveData().observe(viewLifecycleOwner, Observer {
             if (it.isEmpty()) Timber.i("category list is empty")
             it?.let { categories ->
                 listAdapter.submitList(categories)
