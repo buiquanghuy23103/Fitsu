@@ -15,8 +15,4 @@ abstract class RepositoryModule {
     @Binds
     abstract fun transactionRepository(repo: TransactionRepositoryImpl): TransactionRepository
 
-    @Singleton
-    @Binds
-    abstract fun dashboardRepository(repo: DashboardRepositoryImpl): DashboardRepository
-
 }
