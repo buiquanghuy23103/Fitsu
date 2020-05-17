@@ -2,16 +2,16 @@ package com.huy.fitsu.addEditTransaction
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.data.repository.TransactionRepository
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.notNull
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
-
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,39 +28,34 @@ class AddEditTransactionViewModelTest {
     private lateinit var viewModel: AddEditTransactionViewModel
 
     @Mock
-    private lateinit var categoryRepository: CategoryRepository
-
-    @Mock
-    private lateinit var transactionRepository: TransactionRepository
+    private lateinit var repository: AddEditTransactionRepository
 
     @Mock
     private lateinit var navigateUpObserver: Observer<Event<Unit>>
 
+    @Mock
+    private lateinit var categoryObserver: Observer<Category?>
+
+    @Mock
+    private lateinit var categoriesObserver: Observer<List<Category>>
+
     private val testDispatcher = TestCoroutineDispatcher()
 
-    private val testTransaction = Transaction(categoryId = "")
+    private val testCategory = Category()
+    private val testCategories = listOf(testCategory)
+    private val testTransaction = Transaction(categoryId = testCategory.id)
 
 
     @Before
     fun setUp() = testDispatcher.runBlockingTest {
 
-        whenever(transactionRepository.getTransaction(any()))
-            .thenReturn(testTransaction)
+        viewModel = AddEditTransactionViewModel(repository, testDispatcher)
 
-        viewModel = AddEditTransactionViewModel(transactionRepository, categoryRepository, testDispatcher)
-
-        viewModel.loadTransactionWithId(testTransaction.categoryId)
         viewModel.navigateUp.observeForever(navigateUpObserver)
+        viewModel.getCategoryByTransactionId(any()).observeForever(categoryObserver)
+        viewModel.categoriesLiveData.observeForever(categoriesObserver)
     }
 
-    @Test
-    fun deleteTransaction_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
-        viewModel.loadTransactionWithId(testTransaction.id)
-
-        viewModel.deleteTransaction(testTransaction)
-
-        verify(transactionRepository).deleteTransaction(eq(testTransaction))
-    }
 
     @Test
     fun deleteTransaction_shouldNavigateUp() {
@@ -69,4 +64,12 @@ class AddEditTransactionViewModelTest {
 
         verify(navigateUpObserver).onChanged(notNull())
     }
+
+    @Test
+    fun updateTransaction_shouldNavigateUp() {
+        viewModel.updateTransaction(testTransaction)
+
+        verify(navigateUpObserver).onChanged(notNull())
+    }
+
 }

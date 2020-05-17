@@ -1,20 +1,20 @@
 package com.huy.fitsu.addEditTransaction
 
-import androidx.lifecycle.*
-import com.huy.fitsu.data.model.Category
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.data.repository.TransactionRepository
 import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.combineWith
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditTransactionViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository,
-    private val categoryRepository: CategoryRepository,
+    private val repository: AddEditTransactionRepository,
     @DispatcherModule.MainDispatcher
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -22,22 +22,20 @@ class AddEditTransactionViewModel @Inject constructor(
     private val _navigateUp = MutableLiveData<Event<Unit>>()
     val navigateUp : LiveData<Event<Unit>> = _navigateUp
 
-    private val _transaction = MutableLiveData<Transaction>()
+    val categoriesLiveData = repository.getCategoriesLiveData()
 
-    fun getTransactionLiveDataById(id: String) : LiveData<Transaction> =
-        transactionRepository.getTransactionLiveDataById(id)
+    fun getTransactionLiveDataById(id: String) =
+        repository.getTransactionLiveDataById(id)
 
-    val category : LiveData<Category>
-        get() = Transformations.switchMap(_transaction) {
-            categoryRepository.getCategoryLiveData(it.categoryId)
+    fun getCategoryByTransactionId(id: String) =
+        getTransactionLiveDataById(id).combineWith(categoriesLiveData) {transaction, categories ->
+            categories.find { it.id == transaction.categoryId }
         }
-
-    val categories = categoryRepository.getCategoriesLiveData()
 
     fun deleteTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                transactionRepository.deleteTransaction(transaction)
+                repository.deleteTransaction(transaction)
                 navigateUp()
             }
         }
@@ -46,7 +44,7 @@ class AddEditTransactionViewModel @Inject constructor(
     fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                transactionRepository.updateTransaction(transaction)
+                repository.updateTransaction(transaction)
                 navigateUp()
             }
         }

@@ -86,7 +86,9 @@ class AddEditTransactionFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.getTransactionLiveDataById(navArgs.transactionId)
+        val transactionId = navArgs.transactionId
+
+        viewModel.getTransactionLiveDataById(transactionId)
             .observe(viewLifecycleOwner, Observer {
                 it?.let { transaction ->
                     binding.transaction = transaction
@@ -97,13 +99,13 @@ class AddEditTransactionFragment : Fragment() {
                 }
             })
 
-        viewModel.categories.observe(viewLifecycleOwner, Observer {
+        viewModel.categoriesLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 setupCategoryPicker(categories)
             }
         })
 
-        viewModel.category.observe(viewLifecycleOwner, Observer {
+        viewModel.getCategoryByTransactionId(transactionId).observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
             }
