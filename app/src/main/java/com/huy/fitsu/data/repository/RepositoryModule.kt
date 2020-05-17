@@ -9,10 +9,14 @@ abstract class RepositoryModule {
 
     @Singleton
     @Binds
-    abstract fun categoriesRepository(repository: CategoryRepositoryImpl): CategoryRepository
+    abstract fun categoryRepository(repo: CategoryRepositoryImpl): CategoryRepository
 
     @Singleton
     @Binds
-    abstract fun transactionsRepository(repo: TransactionRepositoryImpl): TransactionRepository
+    abstract fun transactionRepository(repo: TransactionRepositoryImpl): TransactionRepository
+
+    @Singleton
+    @Binds
+    abstract fun dashboardRepository(repo: DashboardRepositoryImpl): DashboardRepository
 
 }

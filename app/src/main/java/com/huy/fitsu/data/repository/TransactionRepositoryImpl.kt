@@ -71,16 +71,6 @@ class TransactionRepositoryImpl @Inject constructor(
             transactionLocalDataSource.getCategoryExpenseOfYearMonth(yearMonth)
         }
 
-    override fun getAccountBalanceLiveData(): LiveData<Float> =
-        wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.getAccountBalanceLiveData()
-        }
-
-    override fun saveAccountBalance(accountBalance: Float) =
-        wrapEspressoIdlingResource {
-            fitsuSharedPrefManager.saveAccountBalance(accountBalance)
-        }
-
     override fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget> =
         wrapEspressoIdlingResource {
             budgetLocalDataSource.getBudgetLiveDataByYearMonth(yearMonth)

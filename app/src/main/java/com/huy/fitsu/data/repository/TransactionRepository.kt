@@ -30,10 +30,6 @@ interface TransactionRepository {
 
     fun getCategoryExpenseByYearMonth(yearMonth: YearMonth): LiveData<List<CategoryExpense>>
 
-    fun getAccountBalanceLiveData(): LiveData<Float>
-
-    fun saveAccountBalance(accountBalance: Float)
-
     fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget>
 
 }
