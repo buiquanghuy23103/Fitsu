@@ -7,6 +7,7 @@ import com.huy.fitsu.data.local.database.FitsuDatabase
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.di.DispatcherModule
+import com.huy.fitsu.util.round
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -83,7 +84,7 @@ class TransactionLocalDataSource @Inject constructor(
         val difference = newTransactionValue - oldTransactionValue
         val oldBalance = fitsuSharedPrefManager.getAccountBalanceValue()
         val newBalance = oldBalance + difference
-        fitsuSharedPrefManager.saveAccountBalance(newBalance)
+        fitsuSharedPrefManager.saveAccountBalance(newBalance.round(2))
     }
 
 }

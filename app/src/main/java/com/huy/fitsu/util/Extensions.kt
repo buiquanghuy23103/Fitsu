@@ -13,6 +13,11 @@ import androidx.lifecycle.MediatorLiveData
 import java.text.NumberFormat
 import java.util.*
 
+fun Float.round(decimals: Int): Float {
+    var multiplier = 1.0F
+    repeat(decimals) { multiplier *= 10 }
+    return kotlin.math.round(this * multiplier) / multiplier
+}
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.toTransitionMap() = this to transitionName
