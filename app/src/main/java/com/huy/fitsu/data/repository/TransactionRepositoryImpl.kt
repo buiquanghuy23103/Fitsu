@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.BudgetLocalDataSource
-import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.TransactionLocalDataSource
 import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
     private val transactionLocalDataSource: TransactionLocalDataSource,
-    private val budgetLocalDataSource: BudgetLocalDataSource,
-    private val fitsuSharedPrefManager: FitsuSharedPrefManager
+    private val budgetLocalDataSource: BudgetLocalDataSource
 ) : TransactionRepository {
 
     override suspend fun getTransaction(id: String): Transaction? =

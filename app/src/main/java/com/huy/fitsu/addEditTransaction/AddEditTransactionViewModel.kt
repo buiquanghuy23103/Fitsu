@@ -19,23 +19,13 @@ class AddEditTransactionViewModel @Inject constructor(
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private var transactionId = ""
     private val _navigateUp = MutableLiveData<Event<Unit>>()
     val navigateUp : LiveData<Event<Unit>> = _navigateUp
 
     private val _transaction = MutableLiveData<Transaction>()
 
-    fun loadTransactionWithId(id: String) {
-        this.transactionId = id
-        wrapEspressoIdlingResource {
-            viewModelScope.launch(mainDispatcher) {
-                val transaction = transactionRepository.getTransaction(id)
-                _transaction.postValue(transaction)
-            }
-        }
-    }
-
-    val transaction : LiveData<Transaction> = _transaction
+    fun getTransactionLiveDataById(id: String) : LiveData<Transaction> =
+        transactionRepository.getTransactionLiveData(id)
 
     val category : LiveData<Category>
         get() = Transformations.switchMap(_transaction) {
@@ -48,7 +38,7 @@ class AddEditTransactionViewModel @Inject constructor(
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 transactionRepository.deleteTransaction(transaction)
-                _navigateUp.postValue(Event(Unit))
+                navigateUp()
             }
         }
     }
@@ -57,9 +47,13 @@ class AddEditTransactionViewModel @Inject constructor(
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 transactionRepository.updateTransaction(transaction)
-                _navigateUp.postValue(Event(Unit))
+                navigateUp()
             }
         }
+    }
+
+    private fun navigateUp() {
+        _navigateUp.postValue(Event(Unit))
     }
 
 }
