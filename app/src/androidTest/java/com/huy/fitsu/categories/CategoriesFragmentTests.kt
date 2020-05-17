@@ -6,7 +6,6 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigator
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -15,20 +14,13 @@ import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.huy.fitsu.BaseTest
-import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.atPosition
-import com.huy.fitsu.data.model.Category
-import com.huy.fitsu.data.repository.CategoryRepository
-import com.huy.fitsu.util.wrapEspressoIdlingResource
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
-import timber.log.Timber
 
 @RunWith(AndroidJUnit4::class)
 class CategoriesFragmentTests : BaseTest<CategoriesFragment>() {
