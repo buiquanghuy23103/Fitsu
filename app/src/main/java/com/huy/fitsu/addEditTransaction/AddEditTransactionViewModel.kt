@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditTransactionViewModel @Inject constructor(
-    private val repository: AddEditTransactionRepository,
+    private val repositoryDefault: AddEditTransactionRepository,
     @DispatcherModule.MainDispatcher
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -22,10 +22,10 @@ class AddEditTransactionViewModel @Inject constructor(
     private val _navigateUp = MutableLiveData<Event<Unit>>()
     val navigateUp : LiveData<Event<Unit>> = _navigateUp
 
-    val categoriesLiveData = repository.getCategoriesLiveData()
+    val categoriesLiveData = repositoryDefault.getCategoriesLiveData()
 
     fun getTransactionLiveDataById(id: String) =
-        repository.getTransactionLiveDataById(id)
+        repositoryDefault.getTransactionLiveDataById(id)
 
     fun getCategoryByTransactionId(id: String) =
         getTransactionLiveDataById(id).combineWith(categoriesLiveData) {transaction, categories ->
@@ -35,7 +35,7 @@ class AddEditTransactionViewModel @Inject constructor(
     fun deleteTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                repository.deleteTransaction(transaction)
+                repositoryDefault.deleteTransaction(transaction)
                 navigateUp()
             }
         }
@@ -44,7 +44,7 @@ class AddEditTransactionViewModel @Inject constructor(
     fun updateTransaction(transaction: Transaction) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                repository.updateTransaction(transaction)
+                repositoryDefault.updateTransaction(transaction)
                 navigateUp()
             }
         }

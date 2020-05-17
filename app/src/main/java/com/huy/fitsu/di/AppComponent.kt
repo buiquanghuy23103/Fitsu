@@ -20,6 +20,7 @@ import javax.inject.Singleton
     modules = [
         LocalStorageModule::class,
         SubComponentModule::class,
+        RepositoryModule::class,
         ViewModelBuilderModule::class,
         SchedulerModule::class,
         DispatcherModule::class

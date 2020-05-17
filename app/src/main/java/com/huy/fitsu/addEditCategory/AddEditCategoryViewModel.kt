@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AddEditCategoryViewModel @Inject constructor(
-    private val repository: AddEditCategoryRepository,
+    private val repositoryDefault: AddEditCategoryRepository,
     @DispatcherModule.MainDispatcher
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
@@ -28,7 +28,7 @@ class AddEditCategoryViewModel @Inject constructor(
 
 
     fun getCategoryLiveDataById(id: String) =
-        repository.getCategoryLiveDataById(id)
+        repositoryDefault.getCategoryLiveDataById(id)
 
     fun updateCategory(category: Category) {
         loadingLiveData.value = true
@@ -37,7 +37,7 @@ class AddEditCategoryViewModel @Inject constructor(
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
                 try {
-                    repository.updateCategory(category)
+                    repositoryDefault.updateCategory(category)
                     loadingLiveData.postValue(false)
                     navigateBackLiveData.postValue(Event(Unit))
                 } catch (e: Exception) {
@@ -51,7 +51,7 @@ class AddEditCategoryViewModel @Inject constructor(
     fun deleteCategoryById(id: String) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                repository.deleteCategoryById(id)
+                repositoryDefault.deleteCategoryById(id)
                 navigateBackLiveData.postValue(Event(Unit))
             }
         }

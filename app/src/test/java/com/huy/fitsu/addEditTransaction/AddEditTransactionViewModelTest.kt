@@ -28,7 +28,7 @@ class AddEditTransactionViewModelTest {
     private lateinit var viewModel: AddEditTransactionViewModel
 
     @Mock
-    private lateinit var repository: AddEditTransactionRepository
+    private lateinit var repositoryDefault: DefaultAddEditTransactionRepository
 
     @Mock
     private lateinit var navigateUpObserver: Observer<Event<Unit>>
@@ -49,7 +49,7 @@ class AddEditTransactionViewModelTest {
     @Before
     fun setUp() = testDispatcher.runBlockingTest {
 
-        viewModel = AddEditTransactionViewModel(repository, testDispatcher)
+        viewModel = AddEditTransactionViewModel(repositoryDefault, testDispatcher)
 
         viewModel.navigateUp.observeForever(navigateUpObserver)
         viewModel.getCategoryByTransactionId(any()).observeForever(categoryObserver)

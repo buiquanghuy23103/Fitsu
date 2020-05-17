@@ -1,37 +1,17 @@
 package com.huy.fitsu.addEditTransaction
 
-import com.huy.fitsu.data.local.database.FitsuDatabase
+import androidx.lifecycle.LiveData
+import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.di.DispatcherModule
-import com.huy.fitsu.util.wrapEspressoIdlingResource
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class AddEditTransactionRepository @Inject constructor(
-    db: FitsuDatabase,
-    @DispatcherModule.IoDispatcher
-    private val ioDispatcher: CoroutineDispatcher
-) {
-    private val transactionDao = db.transactionDao()
-    private val categoryDao = db.categoryDao()
+interface AddEditTransactionRepository {
 
-    fun getTransactionLiveDataById(id: String) =
-        transactionDao.findByIdLiveData(id)
+    fun getTransactionLiveDataById(id: String) : LiveData<Transaction>
 
-    fun getCategoriesLiveData() =
-        categoryDao.getAllLiveData()
+    fun getCategoriesLiveData() : LiveData<List<Category>>
 
-    suspend fun deleteTransaction(transaction: Transaction) = withContext(ioDispatcher) {
-        wrapEspressoIdlingResource {
-            transactionDao.delete(transaction)
-        }
-    }
+    suspend fun deleteTransaction(transaction: Transaction)
 
-    suspend fun updateTransaction(transaction: Transaction) = withContext(ioDispatcher) {
-        wrapEspressoIdlingResource {
-            transactionDao.update(transaction)
-        }
-    }
+    suspend fun updateTransaction(transaction: Transaction)
 
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.data.model.TransactionDetail
-import com.huy.fitsu.data.repository.TransactionRepository
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.notNull
 import com.nhaarman.mockitokotlin2.verify

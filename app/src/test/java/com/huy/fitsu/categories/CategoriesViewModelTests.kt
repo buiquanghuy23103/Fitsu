@@ -25,7 +25,7 @@ class CategoriesViewModelTests {
     private lateinit var viewModel: CategoriesViewModel
 
     @Mock
-    private lateinit var repository: CategoriesRepository
+    private lateinit var repositoryDefault: DefaultCategoriesRepository
 
     @Mock
     private lateinit var editCategoryEventObserver: Observer<Event<String>>
@@ -34,7 +34,7 @@ class CategoriesViewModelTests {
 
     @Before
     fun setup() {
-        viewModel = CategoriesViewModel(repository, testDispatcher)
+        viewModel = CategoriesViewModel(repositoryDefault, testDispatcher)
 
         viewModel.editCategoryEventLiveData()
             .observeForever(editCategoryEventObserver)
@@ -44,7 +44,7 @@ class CategoriesViewModelTests {
     fun getAllCategories_shouldGetFromRepository() {
         viewModel.getCategoriesLiveData()
 
-        verify(repository).getCategoriesLiveData()
+        verify(repositoryDefault).getCategoriesLiveData()
     }
 
     @Test

@@ -27,7 +27,7 @@ class AddEditCategoryViewModelTests {
     val taskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var repository: AddEditCategoryRepository
+    private lateinit var repositoryDefault: DefaultAddEditCategoryRepository
 
     @Mock
     private lateinit var navigateBackObserver: Observer<Event<Unit>>
@@ -47,7 +47,7 @@ class AddEditCategoryViewModelTests {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = AddEditCategoryViewModel(repository, testDispatcher)
+        viewModel = AddEditCategoryViewModel(repositoryDefault, testDispatcher)
 
         viewModel.navigateBackLiveData().observeForever(navigateBackObserver)
         viewModel.loadingLiveData().observeForever(loadingObserver)
@@ -67,7 +67,7 @@ class AddEditCategoryViewModelTests {
 
         viewModel.updateCategory(category)
 
-        verify(repository).updateCategory(any())
+        verify(repositoryDefault).updateCategory(any())
     }
 
     @Test
@@ -128,7 +128,7 @@ class AddEditCategoryViewModelTests {
     }
 
     private suspend fun updateCategory_withError() {
-        whenever(repository.updateCategory(any()))
+        whenever(repositoryDefault.updateCategory(any()))
             .thenThrow(Exception(errorMessage))
     }
 

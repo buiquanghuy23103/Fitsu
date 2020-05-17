@@ -9,7 +9,7 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 class BudgetsViewModel @Inject constructor(
-    budgetsRepository: BudgetsRepository
+    defaultBudgetsRepository: BudgetsRepository
 ) : ViewModel() {
 
     private val currentYearMonth = YearMonth.now()
@@ -18,9 +18,9 @@ class BudgetsViewModel @Inject constructor(
     val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
     val categoryExpensesLiveData =
-        budgetsRepository.getCategoryExpenseOfYearMonth(currentYearMonth)
+        defaultBudgetsRepository.getCategoryExpenseOfYearMonth(currentYearMonth)
 
-    val budgetLiveData = budgetsRepository.getBudgetLiveDataByYearMonth(currentYearMonth)
+    val budgetLiveData = defaultBudgetsRepository.getBudgetLiveDataByYearMonth(currentYearMonth)
 
     fun budgetLeftLiveData(): LiveData<Float> =
         categoryExpensesLiveData.combineWith(budgetLiveData) { categoryExpenses, budget ->
