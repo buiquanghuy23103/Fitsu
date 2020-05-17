@@ -2,10 +2,10 @@ package com.huy.fitsu.addEditTransaction
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.huy.fitsu.categoryFood
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
-import com.huy.fitsu.data.model.Transaction
-import com.nhaarman.mockitokotlin2.any
+import com.huy.fitsu.transactionFoodMay
 import com.nhaarman.mockitokotlin2.notNull
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,8 +27,7 @@ class AddEditTransactionViewModelTest {
 
     private lateinit var viewModel: AddEditTransactionViewModel
 
-    @Mock
-    private lateinit var repositoryDefault: DefaultAddEditTransactionRepository
+    private lateinit var repository: FakeAddEditTransactionRepository
 
     @Mock
     private lateinit var navigateUpObserver: Observer<Event<Unit>>
@@ -36,38 +35,38 @@ class AddEditTransactionViewModelTest {
     @Mock
     private lateinit var categoryObserver: Observer<Category?>
 
-    @Mock
-    private lateinit var categoriesObserver: Observer<List<Category>>
-
     private val testDispatcher = TestCoroutineDispatcher()
-
-    private val testCategory = Category()
-    private val testCategories = listOf(testCategory)
-    private val testTransaction = Transaction(categoryId = testCategory.id)
 
 
     @Before
     fun setUp() = testDispatcher.runBlockingTest {
+        repository = FakeAddEditTransactionRepository()
 
-        viewModel = AddEditTransactionViewModel(repositoryDefault, testDispatcher)
+        viewModel = AddEditTransactionViewModel(repository, testDispatcher)
 
         viewModel.navigateUp.observeForever(navigateUpObserver)
-        viewModel.getCategoryByTransactionId(any()).observeForever(categoryObserver)
-        viewModel.categoriesLiveData.observeForever(categoriesObserver)
+
+        val transaction = repository.transaction
+        viewModel.getCategoryByTransactionId(transaction.id).observeForever(categoryObserver)
+
     }
 
+    @Test
+    fun getCategoryByTransactionId() {
+        verify(categoryObserver).onChanged(categoryFood)
+    }
 
     @Test
     fun deleteTransaction_shouldNavigateUp() {
 
-        viewModel.deleteTransaction(testTransaction)
+        viewModel.deleteTransaction(transactionFoodMay)
 
         verify(navigateUpObserver).onChanged(notNull())
     }
 
     @Test
     fun updateTransaction_shouldNavigateUp() {
-        viewModel.updateTransaction(testTransaction)
+        viewModel.updateTransaction(transactionFoodMay)
 
         verify(navigateUpObserver).onChanged(notNull())
     }
