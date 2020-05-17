@@ -2,16 +2,12 @@ package com.huy.fitsu.data.repository
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
 import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.model.TransactionDetail
 import java.time.YearMonth
 
 interface TransactionRepository {
-
-    suspend fun getTransaction(id: String) : Transaction?
 
     suspend fun insertNewTransaction(transaction: Transaction)
 
@@ -20,11 +16,7 @@ interface TransactionRepository {
 
     suspend fun deleteTransaction(transaction: Transaction)
 
-    fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>>
-
-    fun getTransactionDetailLiveData(id: String): LiveData<TransactionDetail>
-
-    fun getTransactionLiveData(id: String): LiveData<Transaction>
+    fun getTransactionLiveDataById(id: String): LiveData<Transaction>
 
     suspend fun updateTransaction(transaction: Transaction)
 

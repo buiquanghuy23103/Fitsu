@@ -2,14 +2,11 @@ package com.huy.fitsu.data.repository
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
 import com.huy.fitsu.data.local.BudgetLocalDataSource
 import com.huy.fitsu.data.local.TransactionLocalDataSource
 import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.data.model.Transaction
-import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import java.time.YearMonth
 import javax.inject.Inject
@@ -19,10 +16,6 @@ class TransactionRepositoryImpl @Inject constructor(
     private val budgetLocalDataSource: BudgetLocalDataSource
 ) : TransactionRepository {
 
-    override suspend fun getTransaction(id: String): Transaction? =
-        wrapEspressoIdlingResource {
-            transactionLocalDataSource.getTransactionById(id)
-        }
 
     override suspend fun insertNewTransaction(transaction: Transaction) =
         wrapEspressoIdlingResource {
@@ -46,19 +39,7 @@ class TransactionRepositoryImpl @Inject constructor(
             transactionLocalDataSource.updateTransaction(transaction)
         }
 
-
-    override fun getTransactionDetailPagedList(): LiveData<PagedList<TransactionDetail>>
-        = wrapEspressoIdlingResource {
-            transactionLocalDataSource.getTransactionDetailDataSourceFactory()
-                .toLiveData(pageSize = 5)
-        }
-
-    override fun getTransactionDetailLiveData(id: String): LiveData<TransactionDetail> =
-        wrapEspressoIdlingResource {
-            transactionLocalDataSource.getTransactionDetailLiveData(id)
-        }
-
-    override fun getTransactionLiveData(id: String): LiveData<Transaction> =
+    override fun getTransactionLiveDataById(id: String): LiveData<Transaction> =
         wrapEspressoIdlingResource {
             transactionLocalDataSource.getTransactionLiveData(id)
         }

@@ -25,7 +25,7 @@ class AddEditTransactionViewModel @Inject constructor(
     private val _transaction = MutableLiveData<Transaction>()
 
     fun getTransactionLiveDataById(id: String) : LiveData<Transaction> =
-        transactionRepository.getTransactionLiveData(id)
+        transactionRepository.getTransactionLiveDataById(id)
 
     val category : LiveData<Category>
         get() = Transformations.switchMap(_transaction) {

@@ -26,8 +26,6 @@ class BudgetsViewModel @Inject constructor(
     private val _editTransactionEvent = MutableLiveData<Event<String>>()
     val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
-    val transactions = transactionRepository.getTransactionDetailPagedList()
-
     val categoryExpensesLiveData =
         transactionRepository.getCategoryExpenseByYearMonth(currentYearMonth)
 
