@@ -57,12 +57,16 @@ fun <A, B, C> LiveData<A>.combineWith(otherLiveData: LiveData<B>, combineOperati
     }
 
     result.addSource(this) {
-        sourceA_emitted = true
-        calculateResult.invoke()
+        it?.let {
+            sourceA_emitted = true
+            calculateResult.invoke()
+        }
     }
     result.addSource(otherLiveData) {
-        sourceB_emitted = true
-        calculateResult.invoke()
+        it?.let {
+            sourceB_emitted = true
+            calculateResult.invoke()
+        }
     }
 
     return result
