@@ -2,10 +2,12 @@ package com.huy.fitsu.dashboard
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,9 +17,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.databinding.AccountBalanceEditDialogBinding
 import com.huy.fitsu.databinding.DashboardFragBinding
-import timber.log.Timber
+import com.huy.fitsu.databinding.SimpleEditDialogBinding
 import java.lang.NullPointerException
 import java.lang.NumberFormatException
 import javax.inject.Inject
@@ -67,15 +68,22 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showAccountBalanceEditDialog() {
-        val dialogBinding: AccountBalanceEditDialogBinding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.account_balance_edit_dialog, null, false)
+        val dialogBinding: SimpleEditDialogBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.simple_edit_dialog, null, false)
 
-        dialogBinding.viewModel = viewModel
+        dialogBinding.editDialogLabel.setText(R.string.account_balance_label)
+        dialogBinding.editDialogEditText.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
+
+        viewModel.accountBalance.observe(viewLifecycleOwner, Observer {
+            it?.let {accountFloatValue ->
+                dialogBinding.currentString = accountFloatValue.toString()
+            }
+        })
 
         MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
             .setPositiveButton(android.R.string.ok) {dialog, _ ->
-                dialogBinding.accountBalanceEditText.saveAccountBalance()
+                dialogBinding.editDialogEditText.saveAccountBalance()
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) {dialog, _ ->

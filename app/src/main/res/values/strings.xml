@@ -45,7 +45,8 @@
     <!--  Dashboard Fragment -->
     <string name="dashboard_account_label">Account</string>
 
-
+    <!--  Simple edit dialog  -->
+    <string name="account_balance_label">Account Balance</string>
 
     <!--  Other string  -->
     <string name="save">Save</string>
