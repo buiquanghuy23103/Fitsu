@@ -1,19 +1,13 @@
 package com.huy.fitsu.budgets
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
-import com.huy.fitsu.data.model.Event
-import com.huy.fitsu.data.model.TransactionDetail
-import com.huy.fitsu.data.repository.TransactionRepository
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.notNull
+import com.huy.fitsu.budgetMay
+import com.huy.fitsu.transactionFoodMay
+import com.huy.fitsu.transactionFoodMay2
+import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,49 +24,22 @@ class BudgetsViewModelTest {
 
     private lateinit var viewModel: BudgetsViewModel
 
-    @Mock
-    private lateinit var transactionRepository: TransactionRepository
+    private lateinit var repository: BudgetsRepository
 
     @Mock
-    private lateinit var editTransactionEventObserver: Observer<Event<String>>
-
-    @Mock
-    private lateinit var transactionDetailPagedListObserver: Observer<PagedList<TransactionDetail>>
-
-    private val testDispatcher = TestCoroutineDispatcher()
+    private lateinit var budgetLeftObserver: Observer<Float>
 
     @Before
     fun setUp() {
-        whenever(transactionRepository.getTransactionDetailPagedList())
-            .thenReturn(MutableLiveData())
-        viewModel = BudgetsViewModel(transactionRepository, testDispatcher)
+        repository = FakeBudgetsRepository()
+        viewModel = BudgetsViewModel(repository)
 
-        viewModel.editTransactionEvent.observeForever(editTransactionEventObserver)
-        viewModel.transactions.observeForever(transactionDetailPagedListObserver)
+        viewModel.budgetLeftLiveData().observeForever(budgetLeftObserver)
     }
 
     @Test
-    fun editTransaction_shouldNavigate_toAddEditTransactionFragment() {
-        val transactionId = "id"
-
-        viewModel.editTransaction(transactionId)
-
-        verify(editTransactionEventObserver).onChanged(notNull())
-
+    fun budgetLeftLiveData() {
+        val result = budgetMay.value + transactionFoodMay.value + transactionFoodMay2.value
+        verify(budgetLeftObserver).onChanged(eq(result))
     }
-
-    @Test
-    fun addTransaction_shouldCreateNewTransaction() = testDispatcher.runBlockingTest {
-        viewModel.addTransaction()
-
-        verify(transactionRepository).insertNewTransaction(any())
-    }
-
-    @Test
-    fun addTransaction_shouldNavigate_toAddEditTransactionFragment() {
-        viewModel.addTransaction()
-
-        verify(editTransactionEventObserver).onChanged(notNull())
-    }
-
 }

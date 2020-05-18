@@ -11,7 +11,7 @@ interface CategoryDao {
     fun findByIdLiveData(id: String): LiveData<Category>
 
     @Query("SELECT * FROM categories WHERE id = :id")
-    fun findById(id: String): Category?
+    suspend fun findById(id: String): Category?
 
     @Query("SELECT * FROM categories ORDER BY title")
     fun getAllLiveData(): LiveData<List<Category>>

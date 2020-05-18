@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.huy.fitsu.data.model.Category
 import com.huy.fitsu.data.model.Event
-import com.huy.fitsu.data.repository.CategoryRepository
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,7 +27,7 @@ class AddEditCategoryViewModelTests {
     val taskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var repository: CategoryRepository
+    private lateinit var repositoryDefault: DefaultAddEditCategoryRepository
 
     @Mock
     private lateinit var navigateBackObserver: Observer<Event<Unit>>
@@ -48,7 +47,7 @@ class AddEditCategoryViewModelTests {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        viewModel = AddEditCategoryViewModel(repository, testDispatcher)
+        viewModel = AddEditCategoryViewModel(repositoryDefault, testDispatcher)
 
         viewModel.navigateBackLiveData().observeForever(navigateBackObserver)
         viewModel.loadingLiveData().observeForever(loadingObserver)
@@ -63,22 +62,12 @@ class AddEditCategoryViewModelTests {
     }
 
     @Test
-    fun getCategory_shouldUseInjectedId() {
-        val id = "id"
-        viewModel.setCategoryId(id)
-
-        viewModel.getCategory()
-
-        verify(repository).getCategoryLiveData(eq(id))
-    }
-
-    @Test
     fun updateCategory_shouldDelegateToRepository() = testDispatcher.runBlockingTest {
         val category = Category()
 
         viewModel.updateCategory(category)
 
-        verify(repository).updateCategory(any())
+        verify(repositoryDefault).updateCategory(any())
     }
 
     @Test
@@ -133,23 +122,13 @@ class AddEditCategoryViewModelTests {
 
     @Test
     fun deleteCategory_shouldNavigateUp() = testDispatcher.runBlockingTest {
-        viewModel.deleteCategory()
+        viewModel.deleteCategoryById("id")
 
         verify(navigateBackObserver).onChanged(notNull())
     }
 
-    @Test
-    fun deleteCategory_shouldDelegateToRepo() = testDispatcher.runBlockingTest {
-        val id = "id"
-        viewModel.setCategoryId(id)
-
-        viewModel.deleteCategory()
-
-        verify(repository).deleteCategory(eq(id))
-    }
-
     private suspend fun updateCategory_withError() {
-        whenever(repository.updateCategory(any()))
+        whenever(repositoryDefault.updateCategory(any()))
             .thenThrow(Exception(errorMessage))
     }
 

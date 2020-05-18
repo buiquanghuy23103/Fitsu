@@ -3,7 +3,6 @@ package com.huy.fitsu.categories
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.huy.fitsu.data.model.Event
-import com.huy.fitsu.data.repository.CategoryRepository
 import com.nhaarman.mockitokotlin2.notNull
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,7 +25,7 @@ class CategoriesViewModelTests {
     private lateinit var viewModel: CategoriesViewModel
 
     @Mock
-    private lateinit var repository: CategoryRepository
+    private lateinit var repositoryDefault: DefaultCategoriesRepository
 
     @Mock
     private lateinit var editCategoryEventObserver: Observer<Event<String>>
@@ -35,7 +34,7 @@ class CategoriesViewModelTests {
 
     @Before
     fun setup() {
-        viewModel = CategoriesViewModel(repository, testDispatcher)
+        viewModel = CategoriesViewModel(repositoryDefault, testDispatcher)
 
         viewModel.editCategoryEventLiveData()
             .observeForever(editCategoryEventObserver)
@@ -43,9 +42,9 @@ class CategoriesViewModelTests {
 
     @Test
     fun getAllCategories_shouldGetFromRepository() {
-        viewModel.getAllCategories()
+        viewModel.getCategoriesLiveData()
 
-        verify(repository).getCategoriesLiveData()
+        verify(repositoryDefault).getCategoriesLiveData()
     }
 
     @Test

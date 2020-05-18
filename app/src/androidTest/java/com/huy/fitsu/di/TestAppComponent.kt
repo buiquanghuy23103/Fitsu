@@ -2,7 +2,6 @@ package com.huy.fitsu.di
 
 import android.content.Context
 import com.huy.fitsu.data.local.FakeLocalStorageModule
-import com.huy.fitsu.data.repository.RepositoryModule
 import com.huy.fitsu.scheduler.SchedulerModule
 import dagger.BindsInstance
 import dagger.Component
@@ -13,8 +12,8 @@ import javax.inject.Singleton
     modules = [
         FakeLocalStorageModule::class,
         SubComponentModule::class,
-        ViewModelBuilderModule::class,
         RepositoryModule::class,
+        ViewModelBuilderModule::class,
         SchedulerModule::class,
         DispatcherModule::class
     ]

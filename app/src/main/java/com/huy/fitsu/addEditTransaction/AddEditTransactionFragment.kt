@@ -84,27 +84,28 @@ class AddEditTransactionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.loadTransactionWithId(navArgs.transactionId)
-
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.transaction.observe(viewLifecycleOwner, Observer {
-            it?.let { transaction ->
-                binding.transaction = transaction
-                setupValueEditText()
-                setupDateButton()
-                setupUpdateButton()
-                setupDeleteButton()
-            }
-        })
+        val transactionId = navArgs.transactionId
 
-        viewModel.categories.observe(viewLifecycleOwner, Observer {
+        viewModel.getTransactionLiveDataById(transactionId)
+            .observe(viewLifecycleOwner, Observer {
+                it?.let { transaction ->
+                    binding.transaction = transaction
+                    setupValueEditText()
+                    setupDateButton()
+                    setupUpdateButton()
+                    setupDeleteButton()
+                }
+            })
+
+        viewModel.categoriesLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { categories ->
                 setupCategoryPicker(categories)
             }
         })
 
-        viewModel.category.observe(viewLifecycleOwner, Observer {
+        viewModel.getCategoryByTransactionId(transactionId).observe(viewLifecycleOwner, Observer {
             it?.let { category ->
                 binding.category = category
             }

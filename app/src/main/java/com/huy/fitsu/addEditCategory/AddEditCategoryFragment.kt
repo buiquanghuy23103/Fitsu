@@ -69,8 +69,6 @@ class AddEditCategoryFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
 
-        setCategoryId()
-
         loadView()
 
         viewModel.navigateBackLiveData().observe(viewLifecycleOwner, Observer {
@@ -78,21 +76,17 @@ class AddEditCategoryFragment : Fragment() {
         })
     }
 
-    private fun setCategoryId() {
-        val categoryId = args.categoryId
-        viewModel.setCategoryId(categoryId)
-    }
-
     private fun loadView() {
-        viewModel.getCategory().observe(viewLifecycleOwner, Observer {
-            it?.let { category ->
-                binding.category = category
-                setupTitleEditText()
-                setupColorSelector()
-                setupUpdateCategoryButton()
-                setupDeleteCategoryButton()
-            }
-        })
+        viewModel.getCategoryLiveDataById(args.categoryId)
+            .observe(viewLifecycleOwner, Observer {
+                it?.let { category ->
+                    binding.category = category
+                    setupTitleEditText()
+                    setupColorSelector()
+                    setupUpdateCategoryButton()
+                    setupDeleteCategoryButton()
+                }
+            })
 
     }
 
@@ -106,7 +100,6 @@ class AddEditCategoryFragment : Fragment() {
             }
         }
     }
-
 
 
     private fun setupColorSelector() {
@@ -152,7 +145,8 @@ class AddEditCategoryFragment : Fragment() {
             .setTitle(R.string.delete_category_warning_dialog_title)
             .setMessage(R.string.delete_category_warning_dialog_message)
             .setPositiveButton(R.string.delete) { dialog, _ ->
-                viewModel.deleteCategory()
+                val categoryId = binding.category!!.id
+                viewModel.deleteCategoryById(categoryId)
                 dialog.dismiss()
             }
             .show()

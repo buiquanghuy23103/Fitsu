@@ -62,24 +62,13 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_trans_button"
-                style="@style/Widget.Fitsu.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/layout_margin_large"
-                android:src="@drawable/ic_add"
-                android:text="@string/add_transaction_button_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/category_pie_chart" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_expense_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_trans_button"
+                app:layout_constraintTop_toBottomOf="@id/category_pie_chart"
                 tools:itemCount="3"
                 tools:listitem="@layout/category_expense_item" />
 
