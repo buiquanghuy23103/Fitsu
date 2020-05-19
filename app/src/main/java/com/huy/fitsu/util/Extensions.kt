@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
@@ -40,6 +41,11 @@ fun YearMonth.toReadableString(): String {
         .capitalize()
     val year = this.year.toString()
     return "$readableMonth $year"
+}
+
+fun EditText.toFloat() : Float {
+    val text = this.text.toString()
+    return text.toFloat()
 }
 
 fun Fragment.hideKeyboardFromView(view: View) {

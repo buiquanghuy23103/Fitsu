@@ -6,8 +6,17 @@
     <data>
 
         <variable
-            name="currentString"
+            name="title"
             type="String" />
+
+        <variable
+            name="editTextString"
+            type="String" />
+
+        <variable
+            name="errorText"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +28,7 @@
             android:id="@+id/edit_dialog_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{title}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,9 +39,16 @@
             style="@style/Widget.Fitsu.EditText.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{currentString}"
+            android:text="@{editTextString}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_dialog_label" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{errorText}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_dialog_edit_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
