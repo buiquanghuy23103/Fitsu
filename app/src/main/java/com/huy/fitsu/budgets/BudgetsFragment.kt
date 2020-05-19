@@ -189,27 +189,33 @@ class BudgetsFragment: Fragment() {
             it?.let { budget ->
                 dialogBinding.title = budget.yearMonth.toReadableString()
                 dialogBinding.editTextString = budget.value.toString()
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setView(dialogBinding.root)
+                    .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                        try {
+                            val newValue = dialogBinding.editDialogEditText.toFloat()
+                            val newBudget = budget.copy(
+                                value = newValue
+                            )
+                            viewModel.updateBudget(newBudget)
+
+                            dialog.dismiss()
+                        } catch (e: java.lang.NumberFormatException) {
+                            dialogBinding.errorText = getString(R.string.field_must_be_a_number)
+                        } catch (e: java.lang.NullPointerException) {
+                            dialogBinding.errorText = getString(R.string.field_must_not_be_empty)
+                        }
+                    }
+                    .setNegativeButton(R.string.cancel) { dialog, _ ->
+                        dialog.cancel()
+                    }
+                    .create()
+                    .show()
             }
         })
 
-        MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogBinding.root)
-            .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                try {
-                    val newValue = dialogBinding.editDialogEditText.toFloat()
-                    viewModel.updateBudgetValue(newValue)
-                    dialog.dismiss()
-                } catch (e: java.lang.NumberFormatException) {
-                    dialogBinding.errorText = getString(R.string.field_must_be_a_number)
-                } catch (e: java.lang.NullPointerException) {
-                    dialogBinding.errorText = getString(R.string.field_must_not_be_empty)
-                }
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.cancel()
-            }
-            .create()
-            .show()
+
 
 
 

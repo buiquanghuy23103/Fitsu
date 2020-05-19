@@ -1,9 +1,6 @@
 package com.huy.fitsu.data.local.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.huy.fitsu.data.model.Budget
 import java.time.YearMonth
 
@@ -19,6 +16,6 @@ interface BudgetDao {
     @Query("DELETE FROM budgets")
     suspend fun deleteAll()
 
-    @Query("UPDATE budgets SET value = :value WHERE year_month = :yearMonth")
-    suspend fun updateBudgetValueByYearMonth(value: Float, yearMonth: YearMonth)
+    @Update
+    suspend fun update(budget: Budget)
 }

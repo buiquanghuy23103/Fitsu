@@ -47,8 +47,8 @@ class DefaultBudgetsRepository @Inject constructor(
             emit(budget!!)
         }
 
-    override suspend fun updateBudgetValueByYearMonth(value: Float, yearMonth: YearMonth) =
+    override suspend fun updateBudget(budget: Budget) =
         withContext(ioDispatcher) {
-            budgetDao.updateBudgetValueByYearMonth(value, yearMonth)
+            budgetDao.update(budget)
         }
 }

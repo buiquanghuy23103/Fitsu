@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.combineWith
@@ -37,10 +38,10 @@ class BudgetsViewModel @Inject constructor(
             budgetValue + monthExpense
         }
 
-    fun updateBudgetValue(value: Float) {
+    fun updateBudget(budget: Budget) {
         wrapEspressoIdlingResource {
             viewModelScope.launch(mainDispatcher) {
-                repository.updateBudgetValueByYearMonth(value, currentYearMonth)
+                repository.updateBudget(budget)
             }
         }
     }
