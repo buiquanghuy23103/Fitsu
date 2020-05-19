@@ -47,6 +47,7 @@
 
     <!--  Simple edit dialog  -->
     <string name="account_balance_label">Account Balance</string>
+    <string name="edit_budget_dialog_title_format">Budget of %s</string>
 
     <!--  Other string  -->
     <string name="save">Save</string>

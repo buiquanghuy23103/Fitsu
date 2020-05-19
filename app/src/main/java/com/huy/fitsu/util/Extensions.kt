@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.text.NumberFormat
+import java.time.YearMonth
 import java.util.*
 
 fun Float.round(decimals: Int): Float {
@@ -32,6 +33,13 @@ fun Float.toCurrencyString(): String {
     format.maximumFractionDigits = 2
     format.currency = Currency.getInstance("EUR")
     return format.format(this)
+}
+
+fun YearMonth.toReadableString(): String {
+    val readableMonth = this.month.name.toLowerCase()
+        .capitalize()
+    val year = this.year.toString()
+    return "$readableMonth $year"
 }
 
 fun Fragment.hideKeyboardFromView(view: View) {

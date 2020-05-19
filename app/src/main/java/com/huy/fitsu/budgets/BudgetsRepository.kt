@@ -11,4 +11,6 @@ interface BudgetsRepository {
 
     fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth) : LiveData<Budget>
 
+    suspend fun updateBudgetValueByYearMonth(value: Float, yearMonth: YearMonth)
+
 }

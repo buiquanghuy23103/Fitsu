@@ -2,13 +2,17 @@ package com.huy.fitsu.budgets
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,11 +23,14 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.MPPointF
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.BudgetsFragBinding
+import com.huy.fitsu.databinding.SimpleEditDialogBinding
 import com.huy.fitsu.util.toCurrencyString
+import com.huy.fitsu.util.toReadableString
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -66,6 +73,7 @@ class BudgetsFragment: Fragment() {
         setupCategoryExpenseList()
         setupPieChart()
         setupPieChartCenterText()
+        setupPieChartClickListener()
         setupEditTransactionEvent()
     }
 
@@ -162,6 +170,60 @@ class BudgetsFragment: Fragment() {
                 binding.budgetLeft.text = spannableString
             }
         })
+
+    }
+
+    private fun setupPieChartClickListener() {
+        binding.budgetContainer.setOnClickListener {
+            showEditBudgetDialog()
+        }
+    }
+
+    private fun showEditBudgetDialog() {
+
+        val dialogBinding: SimpleEditDialogBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.simple_edit_dialog, null, false)
+
+        dialogBinding.editDialogEditText.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
+
+        viewModel.budgetLiveData.observe(viewLifecycleOwner, Observer {
+            it?.let { budget ->
+                val yearMonthText = budget.yearMonth.toReadableString()
+                dialogBinding.editDialogLabel.text = yearMonthText
+
+                val budgetText = budget.value.toString()
+                dialogBinding.currentString = budgetText
+            }
+        })
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialogBinding.editDialogEditText.updateBudgetValue()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                dialog.cancel()
+            }
+            .create()
+            .show()
+
+
+
+
+    }
+
+    private fun EditText.updateBudgetValue() {
+        try {
+            val budgetValue = this.text.toString().toFloat()
+            viewModel.updateBudgetValue(budgetValue)
+        } catch (e: NumberFormatException) {
+            Toast.makeText(this.context, R.string.field_must_be_a_number, Toast.LENGTH_SHORT)
+                .show()
+        } catch (e: NullPointerException) {
+            Toast.makeText(this.context, R.string.field_must_not_be_empty, Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
     private fun markAsErrorText(spannableString: SpannableString) {

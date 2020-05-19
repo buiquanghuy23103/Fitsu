@@ -3,13 +3,20 @@ package com.huy.fitsu.budgets
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Event
+import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.combineWith
+import com.huy.fitsu.util.wrapEspressoIdlingResource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import java.time.YearMonth
 import javax.inject.Inject
 
 class BudgetsViewModel @Inject constructor(
-    defaultBudgetsRepository: BudgetsRepository
+    private val repository: BudgetsRepository,
+    @DispatcherModule.MainDispatcher
+    private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val currentYearMonth = YearMonth.now()
@@ -18,9 +25,9 @@ class BudgetsViewModel @Inject constructor(
     val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
     val categoryExpensesLiveData =
-        defaultBudgetsRepository.getCategoryExpenseOfYearMonth(currentYearMonth)
+        repository.getCategoryExpenseOfYearMonth(currentYearMonth)
 
-    val budgetLiveData = defaultBudgetsRepository.getBudgetLiveDataByYearMonth(currentYearMonth)
+    val budgetLiveData = repository.getBudgetLiveDataByYearMonth(currentYearMonth)
 
     fun budgetLeftLiveData(): LiveData<Float> =
         categoryExpensesLiveData.combineWith(budgetLiveData) { categoryExpenses, budget ->
@@ -30,4 +37,11 @@ class BudgetsViewModel @Inject constructor(
             budgetValue + monthExpense
         }
 
+    fun updateBudgetValue(value: Float) {
+        wrapEspressoIdlingResource {
+            viewModelScope.launch(mainDispatcher) {
+                repository.updateBudgetValueByYearMonth(value, currentYearMonth)
+            }
+        }
+    }
 }

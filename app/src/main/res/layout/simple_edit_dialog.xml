@@ -29,7 +29,6 @@
             style="@style/Widget.Fitsu.EditText.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberSigned"
             android:text="@{currentString}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_dialog_label" />

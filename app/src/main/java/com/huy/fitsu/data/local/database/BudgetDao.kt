@@ -18,4 +18,7 @@ interface BudgetDao {
 
     @Query("DELETE FROM budgets")
     suspend fun deleteAll()
+
+    @Query("UPDATE budgets SET value = :value WHERE year_month = :yearMonth")
+    suspend fun updateBudgetValueByYearMonth(value: Float, yearMonth: YearMonth)
 }
