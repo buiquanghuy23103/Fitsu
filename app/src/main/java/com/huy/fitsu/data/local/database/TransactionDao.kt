@@ -3,9 +3,13 @@ package com.huy.fitsu.data.local.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.huy.fitsu.data.model.Transaction
+import com.huy.fitsu.data.model.TransactionDetail
 
 @Dao
 interface TransactionDao {
+
+    @Query("SELECT * FROM TransactionDetail")
+    fun getAllLiveData(): LiveData<List<TransactionDetail>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaction: Transaction)
