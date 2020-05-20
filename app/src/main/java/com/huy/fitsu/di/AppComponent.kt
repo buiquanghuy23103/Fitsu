@@ -10,6 +10,7 @@ import com.huy.fitsu.dashboard.di.DashboardComponent
 import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.database.FitsuDatabase
 import com.huy.fitsu.scheduler.SchedulerModule
+import com.huy.fitsu.transactions.di.TransactionsComponent
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -34,6 +35,7 @@ interface AppComponent {
     }
 
     fun categoriesComponent(): CategoriesComponent.Factory
+    fun transactionsComponent(): TransactionsComponent.Factory
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
     fun dashboardComponent(): DashboardComponent.Factory
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
@@ -50,6 +52,7 @@ interface AppComponent {
 @Module(
     subcomponents = [
         CategoriesComponent::class,
+        TransactionsComponent::class,
         AddEditCategoryComponent::class,
         DashboardComponent::class,
         BudgetsComponent::class
