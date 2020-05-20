@@ -33,7 +33,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavigation() {
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration.Builder(
-            R.id.categoriesFragment, R.id.dashboardFragment, R.id.budgetsFragment
+            R.id.categoriesFragment,
+            R.id.dashboardFragment,
+            R.id.budgetsFragment,
+            R.id.transactionsFragment
         )
             .setOpenableLayout(drawer_layout)
             .build()

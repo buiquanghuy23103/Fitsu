@@ -44,4 +44,8 @@
             android:id="@+id/to_addEditTransactionFragment"
             app:destination="@id/addEditTransactionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/transactionsFragment"
+        android:name="com.huy.fitsu.TransactionsFragment"
+        android:label="Transactions" />
 </navigation>

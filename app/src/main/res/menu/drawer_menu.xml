@@ -5,23 +5,30 @@
     <item
         android:id="@+id/dashboardFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_dashboard"
         android:icon="@drawable/ic_dashboard"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/drawer_menu_dashboard"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/budgetsFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_budgets"
         android:icon="@drawable/ic_history"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/drawer_menu_budgets"
+        app:showAsAction="ifRoom" />
 
 
     <item
         android:id="@+id/categoriesFragment"
         android:enabled="true"
-        android:title="@string/drawer_menu_categories"
         android:icon="@drawable/ic_category"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/drawer_menu_categories"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/transactionsFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_category"
+        android:title="@string/drawer_menu_transactions"
+        app:showAsAction="ifRoom" />
 
 </menu>
