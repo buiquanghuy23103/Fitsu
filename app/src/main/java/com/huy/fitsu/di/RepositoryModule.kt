@@ -10,6 +10,8 @@ import com.huy.fitsu.categories.CategoriesRepository
 import com.huy.fitsu.categories.DefaultCategoriesRepository
 import com.huy.fitsu.dashboard.DashboardRepository
 import com.huy.fitsu.dashboard.DefaultDashboardRepository
+import com.huy.fitsu.transactions.DefaultTransactionRepository
+import com.huy.fitsu.transactions.TransactionsRepository
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -41,5 +43,10 @@ abstract class RepositoryModule {
     @Binds
     abstract fun dashboardRepo(repo: DefaultDashboardRepository)
             : DashboardRepository
+
+    @Singleton
+    @Binds
+    abstract fun transactionRepo(repo: DefaultTransactionRepository)
+            : TransactionsRepository
 
 }

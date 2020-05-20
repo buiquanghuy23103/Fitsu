@@ -5,6 +5,7 @@
     <string name="drawer_menu_dashboard">Dashboard</string>
     <string name="drawer_menu_categories">Categories</string>
     <string name="drawer_menu_budgets">Budgets</string>
+    <string name="drawer_menu_transactions">Transactions</string>
 
     <!--  Category item  -->
     <string name="category_item_subtitle_format">Included in %1$s budget</string>
@@ -49,10 +50,15 @@
     <string name="account_balance_label">Account Balance</string>
     <string name="edit_budget_dialog_title_format">Budget of %s</string>
 
+    <!--  Transactions  -->
+    <string name="add_transaction_content_description">Add a new transaction</string>
+
     <!--  Other string  -->
     <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="budget_left_label">Left</string>
+
+
 
 </resources>
