@@ -1,11 +1,9 @@
 package com.huy.fitsu.budgets
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Budget
-import com.huy.fitsu.data.model.Event
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.combineWith
 import com.huy.fitsu.util.wrapEspressoIdlingResource
@@ -21,9 +19,6 @@ class BudgetsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val currentYearMonth = YearMonth.now()
-
-    private val _editTransactionEvent = MutableLiveData<Event<String>>()
-    val editTransactionEvent: LiveData<Event<String>> = _editTransactionEvent
 
     val categoryExpensesLiveData =
         repository.getCategoryExpenseOfYearMonth(currentYearMonth)

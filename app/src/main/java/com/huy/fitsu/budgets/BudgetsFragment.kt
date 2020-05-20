@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -24,7 +23,6 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.R
-import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.BudgetsFragBinding
 import com.huy.fitsu.databinding.SimpleEditDialogBinding
 import com.huy.fitsu.util.toCurrencyString
@@ -73,13 +71,6 @@ class BudgetsFragment: Fragment() {
         setupPieChart()
         setupPieChartCenterText()
         setupPieChartClickListener()
-        setupEditTransactionEvent()
-    }
-
-    private fun setupEditTransactionEvent() {
-        viewModel.editTransactionEvent.observe(viewLifecycleOwner, EventObserver {
-            editTransaction(it)
-        })
     }
 
     private fun setupCategoryExpenseList() {
@@ -232,9 +223,5 @@ class BudgetsFragment: Fragment() {
         )
     }
 
-    private fun editTransaction(transactionId: String) {
-        val action = BudgetsFragmentDirections.toAddEditTransactionFragment(transactionId)
-        findNavController().navigate(action)
-    }
 
 }
