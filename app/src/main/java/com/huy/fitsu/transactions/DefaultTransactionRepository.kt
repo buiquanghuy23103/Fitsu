@@ -2,11 +2,17 @@ package com.huy.fitsu.transactions
 
 import androidx.lifecycle.LiveData
 import com.huy.fitsu.data.local.database.FitsuDatabase
+import com.huy.fitsu.data.model.Transaction
 import com.huy.fitsu.data.model.TransactionDetail
+import com.huy.fitsu.di.DispatcherModule
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultTransactionRepository @Inject constructor(
-    db: FitsuDatabase
+    db: FitsuDatabase,
+    @DispatcherModule.IoDispatcher
+    private val ioDispatcher: CoroutineDispatcher
 ): TransactionsRepository {
 
     private val transactionDao = db.transactionDao()
@@ -14,4 +20,9 @@ class DefaultTransactionRepository @Inject constructor(
     override fun getTransactionsLiveData(): LiveData<List<TransactionDetail>> {
         return transactionDao.getAllLiveData()
     }
+
+    override suspend fun insertNewTransaction(transaction: Transaction) =
+        withContext(ioDispatcher) {
+            transactionDao.insert(transaction)
+        }
 }

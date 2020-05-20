@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.huy.fitsu.FitsuApplication
+import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.TransactionsFragBinding
 import javax.inject.Inject
 
@@ -48,6 +50,8 @@ class TransactionsFragment: Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         setupTransactionsList()
+        setupAddTransactionFab()
+        setupEditTransactionEvent()
     }
 
     private fun setupTransactionsList() {
@@ -58,6 +62,23 @@ class TransactionsFragment: Fragment() {
                 adapter.submitList(transactions)
             }
         })
+    }
+
+    private fun setupAddTransactionFab() {
+        binding.addTransactionFab.setOnClickListener {
+            viewModel.addTransaction()
+        }
+    }
+
+    private fun setupEditTransactionEvent() {
+        viewModel.editTransaction.observe(viewLifecycleOwner, EventObserver {
+            navigateToAddEditTransactionFrag(it)
+        })
+    }
+
+    private fun navigateToAddEditTransactionFrag(transactionId: String) {
+        val destination = TransactionsFragmentDirections.toAddEditTransactionFragment(transactionId)
+        findNavController().navigate(destination)
     }
 
 }
