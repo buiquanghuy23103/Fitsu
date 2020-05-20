@@ -1,4 +1,4 @@
-package com.huy.fitsu
+package com.huy.fitsu.transactions
 
 import android.os.Bundle
 import android.view.LayoutInflater

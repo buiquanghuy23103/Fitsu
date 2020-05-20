@@ -46,6 +46,6 @@
     </fragment>
     <fragment
         android:id="@+id/transactionsFragment"
-        android:name="com.huy.fitsu.TransactionsFragment"
+        android:name="com.huy.fitsu.transactions.TransactionsFragment"
         android:label="Transactions" />
 </navigation>
