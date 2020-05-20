@@ -9,6 +9,7 @@ import com.huy.fitsu.data.model.Budget
 import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.di.DispatcherModule
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.time.YearMonth
 import javax.inject.Inject
 
@@ -44,5 +45,10 @@ class DefaultBudgetsRepository @Inject constructor(
                 budgetDao.insert(budget)
             }
             emit(budget!!)
+        }
+
+    override suspend fun updateBudget(budget: Budget) =
+        withContext(ioDispatcher) {
+            budgetDao.update(budget)
         }
 }

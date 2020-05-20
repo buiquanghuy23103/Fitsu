@@ -5,12 +5,14 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.text.NumberFormat
+import java.time.YearMonth
 import java.util.*
 
 fun Float.round(decimals: Int): Float {
@@ -32,6 +34,18 @@ fun Float.toCurrencyString(): String {
     format.maximumFractionDigits = 2
     format.currency = Currency.getInstance("EUR")
     return format.format(this)
+}
+
+fun YearMonth.toReadableString(): String {
+    val readableMonth = this.month.name.toLowerCase()
+        .capitalize()
+    val year = this.year.toString()
+    return "$readableMonth $year"
+}
+
+fun EditText.toFloat() : Float {
+    val text = this.text.toString()
+    return text.toFloat()
 }
 
 fun Fragment.hideKeyboardFromView(view: View) {
