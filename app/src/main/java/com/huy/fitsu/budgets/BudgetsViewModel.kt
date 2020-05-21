@@ -2,14 +2,15 @@ package com.huy.fitsu.budgets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.huy.fitsu.data.model.Budget
+import com.huy.fitsu.data.model.CategoryExpense
 import com.huy.fitsu.di.DispatcherModule
 import com.huy.fitsu.util.combineWith
 import com.huy.fitsu.util.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import java.time.YearMonth
 import javax.inject.Inject
 
 class BudgetsViewModel @Inject constructor(
@@ -18,12 +19,19 @@ class BudgetsViewModel @Inject constructor(
     private val mainDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val currentYearMonth = YearMonth.now()
+    private var budgetId = ""
 
-    val categoryExpensesLiveData =
-        repository.getCategoryExpenseOfYearMonth(currentYearMonth)
+    fun setBudgetId(id: String) {
+        this.budgetId = id
+    }
 
-    val budgetLiveData = repository.getBudgetLiveDataByYearMonth(currentYearMonth)
+    val budgetLiveData : LiveData<Budget>
+        get() = repository.getBudgetLiveDataById(budgetId)
+
+    val categoryExpensesLiveData : LiveData<List<CategoryExpense>>
+        get() = budgetLiveData.switchMap { budget ->
+            repository.getCategoryExpenseOfYearMonth(budget.yearMonth)
+        }
 
     fun budgetLeftLiveData(): LiveData<Float> =
         categoryExpensesLiveData.combineWith(budgetLiveData) { categoryExpenses, budget ->

@@ -31,7 +31,7 @@ import com.huy.fitsu.util.toReadableString
 import javax.inject.Inject
 import kotlin.math.abs
 
-class BudgetsFragment: Fragment() {
+class BudgetsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -47,7 +47,7 @@ class BudgetsFragment: Fragment() {
 
     private fun injectDagger() {
         (requireActivity().application as FitsuApplication).appComponent
-            .transactionHistoryComponent()
+            .budgetsComponent()
             .create()
             .inject(this)
     }
@@ -67,10 +67,16 @@ class BudgetsFragment: Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.setBudgetId(getBudgetId())
+
         setupCategoryExpenseList()
         setupPieChart()
         setupPieChartCenterText()
         setupPieChartClickListener()
+    }
+
+    private fun getBudgetId(): String {
+        return requireArguments().getString(BUDGET_ID_ARG_KEY, "")
     }
 
     private fun setupCategoryExpenseList() {
@@ -89,33 +95,35 @@ class BudgetsFragment: Fragment() {
 
         designPieChart()
 
-        viewModel.categoryExpensesLiveData.observe(viewLifecycleOwner, Observer { categoryExpenses ->
-            if (categoryExpenses != null && categoryExpenses.isNotEmpty()) {
+        viewModel.categoryExpensesLiveData.observe(
+            viewLifecycleOwner,
+            Observer { categoryExpenses ->
+                if (categoryExpenses != null && categoryExpenses.isNotEmpty()) {
 
-                val yEntries = categoryExpenses.map {
-                    PieEntry(abs(it.totalExpense), it.categoryTitle)
-                }
-
-                val pieDataSet = PieDataSet(yEntries, "").apply {
-                    setDrawIcons(false)
-                    sliceSpace = 3f
-                    iconsOffset = MPPointF.getInstance(0f, 40f)
-                    selectionShift = 0f
-                    colors = categoryExpenses.map { it.categoryColor }
-                }
-
-
-                with(binding.categoryPieChart) {
-
-                    data = PieData(pieDataSet).apply {
-                        setDrawValues(false)
+                    val yEntries = categoryExpenses.map {
+                        PieEntry(abs(it.totalExpense), it.categoryTitle)
                     }
 
-                    invalidate()
-                }
+                    val pieDataSet = PieDataSet(yEntries, "").apply {
+                        setDrawIcons(false)
+                        sliceSpace = 3f
+                        iconsOffset = MPPointF.getInstance(0f, 40f)
+                        selectionShift = 0f
+                        colors = categoryExpenses.map { it.categoryColor }
+                    }
 
-            }
-        })
+
+                    with(binding.categoryPieChart) {
+
+                        data = PieData(pieDataSet).apply {
+                            setDrawValues(false)
+                        }
+
+                        invalidate()
+                    }
+
+                }
+            })
 
 
     }
@@ -150,7 +158,7 @@ class BudgetsFragment: Fragment() {
         })
 
         viewModel.budgetLeftLiveData().observe(viewLifecycleOwner, Observer {
-            it?.let {budgetLeft ->
+            it?.let { budgetLeft ->
                 val spannableString = SpannableString(budgetLeft.toCurrencyString())
 
                 if (budgetLeft <= 0) {
@@ -207,10 +215,6 @@ class BudgetsFragment: Fragment() {
         })
 
 
-
-
-
-
     }
 
     private fun markAsErrorText(spannableString: SpannableString) {
@@ -223,5 +227,15 @@ class BudgetsFragment: Fragment() {
         )
     }
 
+    companion object {
+        private const val BUDGET_ID_ARG_KEY = "budget_id"
+        fun getInstanceByBudgetId(id: String): BudgetsFragment {
+            return BudgetsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(BUDGET_ID_ARG_KEY, id)
+                }
+            }
+        }
+    }
 
 }

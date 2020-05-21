@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/budgetsFragment"
         android:name="com.huy.fitsu.budgets.BudgetsFragment"
-        android:label="Budgets" />
+        android:label="Budget" />
     <fragment
         android:id="@+id/transactionsFragment"
         android:name="com.huy.fitsu.transactions.TransactionsFragment"
@@ -44,4 +44,8 @@
             android:id="@+id/to_addEditTransactionFragment"
             app:destination="@id/addEditTransactionFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/budgetsViewPagerFragment"
+        android:name="com.huy.fitsu.budgets.BudgetsViewPagerFragment"
+        android:label="Budgets" />
 </navigation>

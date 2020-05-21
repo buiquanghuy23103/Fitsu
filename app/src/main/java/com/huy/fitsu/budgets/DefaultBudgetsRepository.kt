@@ -1,7 +1,6 @@
 package com.huy.fitsu.budgets
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.huy.fitsu.data.local.FitsuSharedPrefManager
 import com.huy.fitsu.data.local.database.DatabaseTypeConverters
 import com.huy.fitsu.data.local.database.FitsuDatabase
@@ -33,22 +32,16 @@ class DefaultBudgetsRepository @Inject constructor(
         return transactionDetailDao.getCategoryExpenseBetween(start, end)
     }
 
-    override fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth): LiveData<Budget> =
-        liveData(ioDispatcher) {
-            var budget = budgetDao.findByYearMonth(yearMonth)
-            if (budget == null) {
-                val defaultBudgetValue = fitsuSharedPrefManager.getDefaultBudget()
-                budget = Budget(
-                    yearMonth = yearMonth,
-                    value = defaultBudgetValue
-                )
-                budgetDao.insert(budget)
-            }
-            emit(budget!!)
-        }
+    override fun getBudgetLiveDataById(id: String): LiveData<Budget> {
+        return budgetDao.getLiveDataById(id)
+    }
 
     override suspend fun updateBudget(budget: Budget) =
         withContext(ioDispatcher) {
             budgetDao.update(budget)
         }
+
+    override fun getAllBudgetsLiveData(): LiveData<List<Budget>> {
+        return budgetDao.getAllLiveData()
+    }
 }
