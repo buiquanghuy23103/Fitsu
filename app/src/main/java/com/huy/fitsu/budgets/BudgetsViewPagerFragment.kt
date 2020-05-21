@@ -49,6 +49,8 @@ class BudgetsViewPagerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel.budgetsLiveData.observe(viewLifecycleOwner, Observer { budgets ->
+            binding.noBudgets = budgets.isNullOrEmpty()
+
             if (!budgets.isNullOrEmpty()) {
                 setupViewPager(budgets)
                 setupTabTitle(budgets)

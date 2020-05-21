@@ -42,6 +42,8 @@
     <string name="invalid_date">Invalid date</string>
     <string name="field_must_be_a_number">Field must be a number</string>
     <string name="field_must_not_be_empty">Field must not be empty</string>
+    <string name="no_budgets_warning">No budgets. Please add transactions</string>
+    <string name="no_transactions_warning">No transactions. Please click the + button to add transactions</string>
 
     <!--  Dashboard Fragment -->
     <string name="dashboard_account_label">Account</string>
