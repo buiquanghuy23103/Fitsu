@@ -14,7 +14,6 @@ import com.huy.fitsu.FitsuApplication
 import com.huy.fitsu.data.model.EventObserver
 import com.huy.fitsu.databinding.CategoriesFragBinding
 import com.huy.fitsu.util.waitForTransition
-import timber.log.Timber
 import javax.inject.Inject
 
 class CategoriesFragment : Fragment() {
@@ -61,9 +60,10 @@ class CategoriesFragment : Fragment() {
         waitForTransition(binding.categoriesList)
 
         viewModel.getCategoriesLiveData().observe(viewLifecycleOwner, Observer {
-            if (it.isEmpty()) Timber.i("category list is empty")
-            it?.let { categories ->
-                listAdapter.submitList(categories)
+            binding.noCategories = it.isNullOrEmpty()
+
+            if (!it.isNullOrEmpty()) {
+                listAdapter.submitList(it)
             }
         })
     }
