@@ -8,7 +8,7 @@ import java.time.format.FormatStyle
 
 object DateConverter {
 
-    private val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+    private val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     private val zoneId = ZoneId.systemDefault()
 
     fun localDateToString(localDate: LocalDate?): String? = localDate?.format(dateFormatter)

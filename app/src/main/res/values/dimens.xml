@@ -29,4 +29,7 @@
     <!--  Elevation  -->
     <dimen name="elevation_none">0dp</dimen>
 
+    <!--  Category flag  -->
+    <dimen name="category_flag_width">5dp</dimen>
+
 </resources>

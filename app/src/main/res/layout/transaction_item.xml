@@ -14,51 +14,63 @@
         android:id="@+id/transaction_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin_large"
         android:transitionName="@{@string/edit_transaction_transition(transactionDetail.id)}"
         tools:targetApi="lollipop">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <View
             android:id="@+id/transaction_category_icon"
-            style="@style/Widget.Fitsu.ColorBadge"
-            showColorBadge="@{transactionDetail.categoryColor}"
-            app:layout_constraintBottom_toBottomOf="@id/transaction_item_subtitle"
+            backgroundByColorInt="@{transactionDetail.categoryColor}"
+            android:layout_width="@dimen/category_flag_width"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/layout_margin_large"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_item_date"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/transaction_item_title" />
+            app:layout_constraintTop_toTopOf="@id/transaction_item_category"
+            tools:background="@color/primaryDarkColor" />
 
         <TextView
-            android:id="@+id/transaction_item_title"
+            android:id="@+id/transaction_item_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin_extra_large"
+            android:layout_margin="@dimen/layout_margin_large"
+            android:layout_marginStart="@dimen/layout_margin_large"
             android:text="@{transactionDetail.categoryTitle}"
-            android:textAppearance="@style/TextAppearance.Fitsu.ItemTitle"
-            app:layout_constraintEnd_toStartOf="@id/transaction_item_caption"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toStartOf="@id/transaction_item_money_value"
             app:layout_constraintStart_toEndOf="@id/transaction_category_icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Transportation" />
 
         <TextView
-            android:id="@+id/transaction_item_caption"
+            android:id="@+id/transaction_item_money_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(transactionDetail.value)}"
-            app:layout_constraintBottom_toBottomOf="@id/transaction_item_subtitle"
+            android:layout_margin="@dimen/layout_margin_large"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_item_date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/transaction_item_title"
-            app:layout_constraintTop_toTopOf="@id/transaction_item_title"
-            tools:text="-100" />
+            app:layout_constraintStart_toEndOf="@id/transaction_item_category"
+            app:layout_constraintTop_toTopOf="@id/transaction_item_category"
+            tools:text="-\u20ac100" />
 
         <TextView
-            android:id="@+id/transaction_item_subtitle"
+            android:id="@+id/transaction_item_date"
             showDateText="@{transactionDetail.createdAt}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.Fitsu.ItemSubtitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/transaction_item_title"
-            app:layout_constraintTop_toBottomOf="@id/transaction_item_title"
+            app:layout_constraintStart_toStartOf="@id/transaction_item_category"
+            app:layout_constraintTop_toBottomOf="@id/transaction_item_category"
             tools:text="Friday, April 10 2020" />
+
+        <View
+            android:id="@+id/transaction_item_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/layout_margin_large"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/transaction_item_date" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
