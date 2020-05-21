@@ -12,6 +12,6 @@ interface AddEditTransactionRepository {
 
     suspend fun deleteTransaction(transaction: Transaction)
 
-    suspend fun updateTransaction(transaction: Transaction)
+    suspend fun updateTransaction(newTransaction: Transaction)
 
 }
