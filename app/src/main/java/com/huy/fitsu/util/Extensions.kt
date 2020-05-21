@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import java.text.NumberFormat
+import java.time.LocalDate
 import java.time.YearMonth
 import java.util.*
 
@@ -43,7 +44,13 @@ fun YearMonth.toReadableString(): String {
     return "$readableMonth $year"
 }
 
-fun EditText.toFloat() : Float {
+fun LocalDate.toYearMonth(): YearMonth {
+    val year = this.year
+    val month = this.monthValue
+    return YearMonth.of(year, month)
+}
+
+fun EditText.toFloat(): Float {
     val text = this.text.toString()
     return text.toFloat()
 }
@@ -54,8 +61,7 @@ fun Fragment.hideKeyboardFromView(view: View) {
 }
 
 fun <A, B, C> LiveData<A>.combineWith(otherLiveData: LiveData<B>, combineOperation: (A, B) -> C)
-    : LiveData<C>
-{
+        : LiveData<C> {
     var sourceA_emitted = false
     var sourceB_emitted = false
 
