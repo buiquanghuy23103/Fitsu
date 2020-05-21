@@ -36,11 +36,12 @@
 
         <TextView
             android:id="@+id/category_expense_value"
+            showMoneyValue="@{categoryExpense.totalExpense}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            showMoneyValue="@{categoryExpense.totalExpense}"
             tools:text="-123.56" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
