@@ -2,7 +2,6 @@ package com.huy.fitsu.dashboard
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +75,6 @@ class DashboardFragment : Fragment() {
             DataBindingUtil.inflate(layoutInflater, R.layout.simple_edit_dialog, null, false)
 
         dialogBinding.title = getString(R.string.account_balance_label)
-        dialogBinding.editDialogEditText.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
 
         viewModel.accountBalance.observe(viewLifecycleOwner, Observer {
             it?.let {accountFloatValue ->
