@@ -22,6 +22,7 @@ import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.hideKeyboardFromView
 import com.huy.fitsu.util.waitForTransition
 import javax.inject.Inject
+import kotlin.math.abs
 
 class AddEditTransactionFragment : Fragment() {
 
@@ -74,6 +75,7 @@ class AddEditTransactionFragment : Fragment() {
                     binding.transaction = transaction
                     setupValueEditText()
                     setupDateButton()
+                    setupIncomeOutcomeToggleButton()
                     setupUpdateButton()
                     setupDeleteButton()
                 }
@@ -102,8 +104,9 @@ class AddEditTransactionFragment : Fragment() {
             if (!hasFocus) {
                 hideKeyboardFromView(view)
 
+                val floatValue = text.toString().toFloatOrNull() ?: 0f
                 binding.transaction = binding.transaction!!.copy(
-                    value = text.toString().toFloatOrNull() ?: 0f
+                    value = -abs(floatValue)
                 )
             }
         }
@@ -153,6 +156,29 @@ class AddEditTransactionFragment : Fragment() {
             datePicker.showNow(this.childFragmentManager, datePickerTag)
         }
 
+    }
+
+    private fun setupIncomeOutcomeToggleButton() {
+        binding.incomeOutcomeToggleGroup.addOnButtonCheckedListener { group, _, _ ->
+            when (group.checkedButtonId) {
+                R.id.outcome -> markAsNegative()
+                R.id.income -> markAsPositive()
+            }
+
+        }
+    }
+
+    private fun markAsNegative() = markSignOfTransaction(false)
+
+    private fun markAsPositive() = markSignOfTransaction(true)
+
+    private fun markSignOfTransaction(positive: Boolean) {
+        val sign = if (positive) 1 else -1
+        val currentValue = binding.transaction!!.value
+        val newValue = sign * abs(currentValue)
+        binding.transaction = binding.transaction!!.copy(
+            value = newValue
+        )
     }
 
     private fun setupUpdateButton() {
