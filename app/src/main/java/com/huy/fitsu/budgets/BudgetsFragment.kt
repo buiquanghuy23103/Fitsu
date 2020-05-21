@@ -183,7 +183,13 @@ class BudgetsFragment : Fragment() {
 
         viewModel.budgetLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { budget ->
-                dialogBinding.title = budget.yearMonth.toReadableString()
+
+                val readableYearMonth = budget.yearMonth.toReadableString()
+                dialogBinding.title = getString(
+                    R.string.edit_budget_dialog_title_format,
+                    readableYearMonth
+                )
+
                 dialogBinding.editTextString = budget.value.toString()
 
                 MaterialAlertDialogBuilder(requireContext())
