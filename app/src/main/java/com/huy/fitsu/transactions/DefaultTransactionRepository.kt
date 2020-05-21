@@ -16,9 +16,10 @@ class DefaultTransactionRepository @Inject constructor(
 ): TransactionsRepository {
 
     private val transactionDao = db.transactionDao()
+    private val transactionDetailDao = db.transactionDetailDao()
 
     override fun getTransactionsLiveData(): LiveData<List<TransactionDetail>> {
-        return transactionDao.getAllLiveData()
+        return transactionDetailDao.getAllLiveData()
     }
 
     override suspend fun insertNewTransaction(transaction: Transaction) =

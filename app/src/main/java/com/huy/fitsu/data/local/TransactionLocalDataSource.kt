@@ -51,7 +51,7 @@ class TransactionLocalDataSource @Inject constructor(
     }
 
     fun getTransactionDetailDataSourceFactory() =
-        transactionDetailDao.getDataSourceFactory()
+        transactionDetailDao.getAllLiveData()
 
     fun getTransactionDetailLiveData(id: String) =
         transactionDetailDao.findByIdLiveData(id)

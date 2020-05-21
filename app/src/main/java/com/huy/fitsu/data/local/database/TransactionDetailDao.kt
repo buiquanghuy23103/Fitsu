@@ -1,7 +1,6 @@
 package com.huy.fitsu.data.local.database
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.huy.fitsu.data.model.CategoryExpense
@@ -10,11 +9,11 @@ import com.huy.fitsu.data.model.TransactionDetail
 @Dao
 interface TransactionDetailDao {
 
+    @Query("SELECT * FROM TransactionDetail")
+    fun getAllLiveData(): LiveData<List<TransactionDetail>>
+
     @Query("SELECT * FROM TransactionDetail WHERE id = :id")
     fun findByIdLiveData(id: String): LiveData<TransactionDetail>
-
-    @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
-    fun getDataSourceFactory(): DataSource.Factory<Int, TransactionDetail>
 
     @Query("SELECT SUM(value) as totalExpense, categoryTitle, categoryColor " +
             "FROM TransactionDetail " +
