@@ -35,7 +35,6 @@
 
 
     <!--  Budgets  -->
-    <string name="add_transaction_button_text">New transaction</string>
     <string name="budget_format">from %s</string>
 
     <!--  Warning  -->

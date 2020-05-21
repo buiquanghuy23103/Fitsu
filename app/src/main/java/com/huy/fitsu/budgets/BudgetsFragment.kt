@@ -2,7 +2,6 @@ package com.huy.fitsu.budgets
 
 import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
@@ -182,11 +181,15 @@ class BudgetsFragment : Fragment() {
         val dialogBinding: SimpleEditDialogBinding =
             DataBindingUtil.inflate(layoutInflater, R.layout.simple_edit_dialog, null, false)
 
-        dialogBinding.editDialogEditText.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
-
         viewModel.budgetLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { budget ->
-                dialogBinding.title = budget.yearMonth.toReadableString()
+
+                val readableYearMonth = budget.yearMonth.toReadableString()
+                dialogBinding.title = getString(
+                    R.string.edit_budget_dialog_title_format,
+                    readableYearMonth
+                )
+
                 dialogBinding.editTextString = budget.value.toString()
 
                 MaterialAlertDialogBuilder(requireContext())

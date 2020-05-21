@@ -28,6 +28,7 @@
             android:id="@+id/edit_dialog_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:labelFor="@id/edit_dialog_edit_text"
             android:text="@{title}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +40,8 @@
             style="@style/Widget.Fitsu.EditText.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="true"
+            android:inputType="numberDecimal"
             android:text="@{editTextString}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edit_dialog_label" />
