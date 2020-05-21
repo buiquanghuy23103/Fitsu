@@ -28,6 +28,7 @@ class DefaultAddEditTransactionRepository @Inject constructor(
     override suspend fun deleteTransaction(transaction: Transaction) = withContext(ioDispatcher) {
         wrapEspressoIdlingResource {
             transactionDao.delete(transaction)
+            recalculateBalance(0f, transaction.value)
         }
     }
 
