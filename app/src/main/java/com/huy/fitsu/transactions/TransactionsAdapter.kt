@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.huy.fitsu.data.model.TransactionDetail
 import com.huy.fitsu.databinding.TransactionItemBinding
-import com.huy.fitsu.util.toCurrencyString
 
 class TransactionsAdapter: ListAdapter<TransactionDetail, TransactionsAdapter.TransactionItem>(TransactionDiffCallback()) {
 
@@ -32,7 +31,6 @@ class TransactionsAdapter: ListAdapter<TransactionDetail, TransactionsAdapter.Tr
         fun bind(transactionDetail: TransactionDetail) {
             this.transactionDetail = transactionDetail
             binding.transactionDetail = transactionDetail
-            binding.transactionItemMoneyValue.text = transactionDetail.value.toCurrencyString()
             binding.root.setOnClickListener {
                 navigateToAddEditTransactionFrag()
             }

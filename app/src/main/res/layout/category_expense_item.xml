@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{String.valueOf(categoryExpense.totalExpense)}"
+            showMoneyValue="@{categoryExpense.totalExpense}"
             tools:text="-123.56" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

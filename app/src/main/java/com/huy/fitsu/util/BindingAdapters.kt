@@ -25,6 +25,12 @@ fun setBackgroundByColorInt(view: View, @ColorInt colorInt: Int) {
     view.setBackgroundColor(colorInt)
 }
 
+
+@BindingAdapter("showMoneyValue")
+fun showMoneyValue(textView: TextView, moneyValue: Float) {
+    textView.text = moneyValue.toCurrencyString()
+}
+
 @BindingAdapter("showColorIcon")
 fun showColorIcon(button: MaterialButton, @ColorInt colorInt: Int) {
     button.iconTint = ColorStateList.valueOf(colorInt)
