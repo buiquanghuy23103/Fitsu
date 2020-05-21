@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration.Builder(
             R.id.categoriesFragment,
             R.id.dashboardFragment,
-            R.id.budgetsFragment,
+            R.id.budgetsViewPagerFragment,
             R.id.transactionsFragment
         )
             .setOpenableLayout(drawer_layout)

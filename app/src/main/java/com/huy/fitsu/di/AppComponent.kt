@@ -39,7 +39,7 @@ interface AppComponent {
     fun addEditCategoryComponent(): AddEditCategoryComponent.Factory
     fun dashboardComponent(): DashboardComponent.Factory
     fun addEditTransactionComponent(): AddEditTransactionComponent.Factory
-    fun transactionHistoryComponent(): BudgetsComponent.Factory
+    fun budgetsComponent(): BudgetsComponent.Factory
 
     @VisibleForTesting
     val db: FitsuDatabase

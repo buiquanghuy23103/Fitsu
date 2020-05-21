@@ -9,8 +9,10 @@ interface BudgetsRepository {
 
     fun getCategoryExpenseOfYearMonth(yearMonth: YearMonth): LiveData<List<CategoryExpense>>
 
-    fun getBudgetLiveDataByYearMonth(yearMonth: YearMonth) : LiveData<Budget>
+    fun getBudgetLiveDataById(id: String): LiveData<Budget>
 
     suspend fun updateBudget(budget: Budget)
+
+    fun getAllBudgetsLiveData(): LiveData<List<Budget>>
 
 }

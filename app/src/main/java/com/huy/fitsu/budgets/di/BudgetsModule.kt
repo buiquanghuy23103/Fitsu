@@ -2,6 +2,7 @@ package com.huy.fitsu.budgets.di
 
 import androidx.lifecycle.ViewModel
 import com.huy.fitsu.budgets.BudgetsViewModel
+import com.huy.fitsu.budgets.BudgetsViewPagerViewModel
 import com.huy.fitsu.di.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -15,4 +16,8 @@ abstract class BudgetsModule {
     @ViewModelKey(BudgetsViewModel::class)
     abstract fun viewModel(viewModel: BudgetsViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(BudgetsViewPagerViewModel::class)
+    abstract fun viewPagerViewModel(viewModel: BudgetsViewPagerViewModel): ViewModel
 }

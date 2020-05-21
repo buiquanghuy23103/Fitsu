@@ -10,7 +10,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/budgetsFragment"
+        android:id="@+id/budgetsViewPagerFragment"
         android:enabled="true"
         android:icon="@drawable/ic_history"
         android:title="@string/drawer_menu_budgets"
