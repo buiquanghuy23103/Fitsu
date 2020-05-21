@@ -9,7 +9,7 @@ import com.huy.fitsu.data.model.TransactionDetail
 @Dao
 interface TransactionDetailDao {
 
-    @Query("SELECT * FROM TransactionDetail")
+    @Query("SELECT * FROM TransactionDetail ORDER BY createdAt DESC")
     fun getAllLiveData(): LiveData<List<TransactionDetail>>
 
     @Query("SELECT * FROM TransactionDetail WHERE id = :id")
