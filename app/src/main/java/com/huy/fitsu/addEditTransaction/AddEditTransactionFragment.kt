@@ -22,6 +22,7 @@ import com.huy.fitsu.util.DateConverter
 import com.huy.fitsu.util.hideKeyboardFromView
 import com.huy.fitsu.util.waitForTransition
 import javax.inject.Inject
+import kotlin.math.abs
 
 class AddEditTransactionFragment : Fragment() {
 
@@ -102,8 +103,9 @@ class AddEditTransactionFragment : Fragment() {
             if (!hasFocus) {
                 hideKeyboardFromView(view)
 
+                val floatValue = text.toString().toFloatOrNull() ?: 0f
                 binding.transaction = binding.transaction!!.copy(
-                    value = text.toString().toFloatOrNull() ?: 0f
+                    value = -abs(floatValue)
                 )
             }
         }
