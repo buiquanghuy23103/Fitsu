@@ -31,6 +31,11 @@ fun showMoneyValue(textView: TextView, moneyValue: Float) {
     textView.text = moneyValue.toCurrencyString()
 }
 
+@BindingAdapter("showViewIf")
+fun showViewIf(view: View, shouldShow: Boolean) {
+    view.visibility = if (shouldShow) View.VISIBLE else View.GONE
+}
+
 @BindingAdapter("showColorIcon")
 fun showColorIcon(button: MaterialButton, @ColorInt colorInt: Int) {
     button.iconTint = ColorStateList.valueOf(colorInt)

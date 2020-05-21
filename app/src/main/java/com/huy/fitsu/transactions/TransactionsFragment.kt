@@ -58,8 +58,10 @@ class TransactionsFragment: Fragment() {
         val adapter = TransactionsAdapter()
         binding.transactionsList.adapter = adapter
         viewModel.transactionsLiveData.observe(viewLifecycleOwner, Observer {
-            it?.let {transactions ->
-                adapter.submitList(transactions)
+            binding.noTransactions = it.isNullOrEmpty()
+
+            if (!it.isNullOrEmpty()) {
+                adapter.submitList(it)
             }
         })
     }

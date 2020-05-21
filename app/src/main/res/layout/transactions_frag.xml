@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="noTransactions"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +16,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/transactions_list"
+            showViewIf="@{!noTransactions}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/layout_margin_extra_large"
@@ -22,6 +26,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/transaction_item" />
+
+        <TextView
+            showViewIf="@{noTransactions}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/no_transactions_warning"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_transaction_fab"
