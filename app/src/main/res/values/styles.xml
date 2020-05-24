@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="materialButtonStyle">@style/Widget.Fitsu.Button</item>
         <!-- Use dark icons on status bar -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
