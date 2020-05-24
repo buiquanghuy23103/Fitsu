@@ -141,6 +141,7 @@ class BudgetsFragment : Fragment() {
 
             // Draw a big hole so that slices are thin
             isDrawHoleEnabled = true
+            setHoleColor(android.R.color.transparent)
             holeRadius = 95f
 
             animateY(1400, Easing.EaseInOutQuad)

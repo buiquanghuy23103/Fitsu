@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryColor">#2196F3</color>
-    <color name="primaryDarkColor">#bbdefb</color>
-    <color name="accentColor">#e2f1fc</color>
-    <color name="primaryTextColor">#2F3949</color>
-    <color name="cardViewBackgroundColor">#f0f0f0</color>
-    <color name="errorTextColor">#830000</color>
+    <color name="primaryColor">#ffffff</color>
+    <color name="primaryDarkColor">#045d56</color>
+    <color name="accentColor">#1eb980</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="cardViewBackgroundColor">#33333d</color>
+    <color name="errorTextColor">#ff6859</color>
 
 
     <color name="white">#FFFFFF</color>
