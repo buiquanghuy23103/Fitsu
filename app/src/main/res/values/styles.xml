@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/accentColor</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <item name="materialButtonStyle">@style/Widget.Fitsu.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Fitsu.Button.FloatingActionButton</item>
         <!-- Use dark icons on status bar -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
     </style>
@@ -42,7 +43,7 @@
 
     <style name="Widget.Fitsu.Button.FloatingActionButton"
         parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="rippleColor">@color/white</item>
+        <item name="tint">@color/white</item>
     </style>
 
     <style name="Widget.Fitsu.Button.Wide"
